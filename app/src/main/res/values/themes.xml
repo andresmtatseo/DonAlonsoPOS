@@ -1,0 +1,40 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.DonAlonsoPOS" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/red</item>
+    </style>
+
+    <style name="Theme.DonAlonsoPOS" parent="Base.Theme.DonAlonsoPOS" />
+
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:colorAccent">@color/red</item> <!-- Cambia el color de los botones -->
+        <item name="android:textColorPrimary">@color/black</item> <!-- Cambia el color del texto -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/CustomButtonPositive</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/CustomButtonNegative</item>
+    </style>
+
+    <style name="CustomButtonPositive" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">@drawable/btn_primary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CustomButtonNegative" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="Theme.DonAlonsoPOS.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.DonAlonsoPOS.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.DonAlonsoPOS.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!--    <style name="SplashScreen" parent="Base.Theme.DonAlonsoPOS">
+            <item name="android:windowBackground">@drawable/logosplashscreen</item>
+        </style>
+        -->
+</resources>

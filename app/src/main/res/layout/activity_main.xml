@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.activity.MainActivity">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="630dp"
+            android:layout_height="320dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/img_imagotipo" />
+
+        <TextView
+            android:id="@+id/tvIniciarSesion"
+            android:layout_width="315dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            android:text="Iniciar Sesión"
+            android:textColor="@color/black"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvUsuario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/tvUsuario"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:text="Usuario"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/etUsuario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvIniciarSesion" />
+
+        <EditText
+            android:id="@+id/etUsuario"
+            android:layout_width="315dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:inputType="text"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvContrasena"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
+
+        <TextView
+            android:id="@+id/tvContrasena"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Contraseña"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/etContrasena"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etUsuario"
+            app:layout_constraintVertical_bias="0.727" />
+
+        <EditText
+            android:id="@+id/etContrasena"
+            android:layout_width="315dp"
+            android:layout_height="48dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvContrasena" />
+
+        <Button
+            android:id="@+id/btnIniciar"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/btn_primary"
+            android:text="Iniciar"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:circularflow_radiusInDP="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.006"
+            app:layout_constraintStart_toEndOf="@+id/btnSalir"
+            app:layout_constraintTop_toBottomOf="@+id/etContrasena" />
+
+        <Button
+            android:id="@+id/btnSalir"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/btn_secundary"
+            android:text="Salir"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.427"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etContrasena" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
