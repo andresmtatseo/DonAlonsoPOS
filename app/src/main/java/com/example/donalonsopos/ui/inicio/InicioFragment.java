@@ -12,20 +12,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.donalonsopos.databinding.FragmentInicioBinding;
 
-public class HomeFragment extends Fragment {
+public class InicioFragment extends Fragment {
 
     private FragmentInicioBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        InicioViewModel inicioViewModel =
+                new ViewModelProvider(this).get(InicioViewModel.class);
 
         binding = FragmentInicioBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        inicioViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

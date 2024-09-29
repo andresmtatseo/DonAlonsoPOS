@@ -3,12 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_inicio">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.donalonsopos.ui.inicio.HomeFragment"
+        android:id="@+id/nav_inicio"
+        android:name="com.example.donalonsopos.ui.inicio.InicioFragment"
         android:label="@string/menu_inicio"
         tools:layout="@layout/fragment_inicio" />
+
+    <fragment
+        android:id="@+id/nav_ventas"
+        android:name="com.example.donalonsopos.ui.ventas.VentasFragment"
+        android:label="@string/menu_ventas"
+        tools:layout="@layout/fragment_ventas" />
+    <fragment
+        android:id="@+id/nav_productos"
+        android:name="com.example.donalonsopos.ui.productos.ProductosFragment"
+        android:label="@string/menu_productos"
+        tools:layout="@layout/fragment_productos" />
+    <fragment
+        android:id="@+id/nav_compras"
+        android:name="com.example.donalonsopos.ui.compras.ComprasFragment"
+        android:label="@string/menu_compras"
+        tools:layout="@layout/fragment_compras" />
+    <fragment
+        android:id="@+id/nav_clientes"
+        android:name="com.example.donalonsopos.ui.clientes.ClientesFragment"
+        android:label="@string/menu_clientes"
+        tools:layout="@layout/fragment_clientes" />
+    <fragment
+        android:id="@+id/nav_proveedores"
+        android:name="com.example.donalonsopos.ui.proveedores.ProveedoresFragment"
+        android:label="@string/menu_proveedores"
+        tools:layout="@layout/fragment_proveedores" />
+    <fragment
+        android:id="@+id/nav_usuarios"
+        android:name="com.example.donalonsopos.ui.usuarios.UsuariosFragment"
+        android:label="@string/menu_usuarios"
+        tools:layout="@layout/fragment_usuarios" />
+    <fragment
+        android:id="@+id/nav_reportes"
+        android:name="com.example.donalonsopos.ui.reportes.ReportesFragment"
+        android:label="@string/menu_reportes"
+        tools:layout="@layout/fragment_reportes" />
+    <fragment
+        android:id="@+id/nav_ayuda"
+        android:name="com.example.donalonsopos.ui.ayuda.AyudaFragment"
+        android:label="@string/menu_ayuda"
+        tools:layout="@layout/fragment_ayuda" />
 
 </navigation>
