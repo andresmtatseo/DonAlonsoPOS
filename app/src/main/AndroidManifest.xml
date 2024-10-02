@@ -16,7 +16,10 @@
             android:name=".ui.MenuLateral"
             android:exported="false"
             android:label="@string/title_activity_menu_lateral"
-            android:theme="@style/Theme.DonAlonsoPOS.NoActionBar" />
+            android:theme="@style/Theme.DonAlonsoPOS.NoActionBar"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize"
+            tools:ignore="DiscouragedApi"/>
         <activity
             android:name=".ui.MainActivity"
             android:screenOrientation="landscape"
