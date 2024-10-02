@@ -51,5 +51,6 @@
         android:name="com.example.donalonsopos.ui.ayuda.AyudaFragment"
         android:label="@string/menu_ayuda"
         tools:layout="@layout/fragment_ayuda" />
+    <action android:id="@+id/nav_cerrar_sesion" />
 
 </navigation>
