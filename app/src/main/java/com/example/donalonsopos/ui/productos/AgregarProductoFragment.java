@@ -67,7 +67,7 @@ public class AgregarProductoFragment extends DialogFragment {
             @Override
             public void onClick(View v) {// 1. Obtener los valores de los campos del formulario
                 // Ejemplo:
-                EditText nombreProducto = view.findViewById(R.id.nombreProducto);
+                EditText nombreProducto = view.findViewById(R.id.etNombreProducto);
                 String nombre = nombreProducto.getText().toString();
                 // ... obtener otros valores del formulario
 
