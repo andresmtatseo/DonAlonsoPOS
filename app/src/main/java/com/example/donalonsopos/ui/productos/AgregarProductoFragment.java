@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -64,6 +65,7 @@ public class AgregarProductoFragment extends DialogFragment {
         // Obtener la referencia al botón
         Button btnGuardar = view.findViewById(R.id.btnGuardar);
         Button btnLimpiar = view.findViewById(R.id.btnLimpiar);
+        ImageButton btnCerrar = view.findViewById(R.id.btnCerrar);
 
         // Configurar el OnClickListener para el botón
         btnGuardar.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +149,13 @@ public class AgregarProductoFragment extends DialogFragment {
                 // Restablecer Spinner a la primera opción (si es necesario)
                 spCategoria.setSelection(0);
             }
+        });
+
+        btnCerrar.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            dismiss();
+        }
         });
 
         return view;

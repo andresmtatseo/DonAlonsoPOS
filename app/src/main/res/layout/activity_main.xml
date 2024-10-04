@@ -88,34 +88,34 @@
 
         <Button
             android:id="@+id/btnIniciar"
-            android:layout_width="150dp"
+            android:layout_width="315dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_primary"
             android:text="Iniciar"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:circularflow_radiusInDP="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnSalir"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.006"
-            app:layout_constraintStart_toEndOf="@+id/btnSalir"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etContrasena" />
 
         <Button
             android:id="@+id/btnSalir"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="150dp"
+            android:layout_width="315dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/btn_secundary"
             android:text="Salir"
             android:textColor="@color/red"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.427"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etContrasena" />
+            app:layout_constraintTop_toBottomOf="@+id/btnIniciar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
