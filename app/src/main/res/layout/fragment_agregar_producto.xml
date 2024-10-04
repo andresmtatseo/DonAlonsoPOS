@@ -13,11 +13,12 @@
         android:id="@+id/tvNombreProducto"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Nombre:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/etNombreProducto"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
 
@@ -25,12 +26,14 @@
         android:id="@+id/etNombreProducto"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
         android:ems="10"
         android:inputType="text"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/tvCategoria"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNombreProducto" />
 
@@ -38,22 +41,22 @@
         android:id="@+id/btnGuardar"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/btn_primary"
         android:text="Guardar"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnLimpiar"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tvPrecio"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Precio:"
         android:textSize="16sp"
@@ -66,7 +69,7 @@
         android:id="@+id/etPrecio"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="numberDecimal"
@@ -80,11 +83,13 @@
         android:id="@+id/tvCategoria"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="64dp"
         android:text="Categoria:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/spCategoria"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etNombreProducto" />
 
@@ -92,9 +97,11 @@
         android:id="@+id/spCategoria"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
         app:layout_constraintBottom_toTopOf="@+id/tvPrecio"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCategoria" />
 
@@ -102,11 +109,13 @@
         android:id="@+id/etDescripcion"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
         android:ems="10"
         android:inputType="text"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescripcion" />
 
@@ -114,11 +123,13 @@
         android:id="@+id/tvDescripcion"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="64dp"
         android:text="Descripcion:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/etDescripcion"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPrecio" />
 
@@ -126,12 +137,15 @@
         android:id="@+id/etCantidadMinima"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
         android:inputType="number"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintBottom_toTopOf="@+id/tvDescripcion"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/etPrecio"
         app:layout_constraintTop_toBottomOf="@+id/tvCantidadMinima" />
 
@@ -139,12 +153,13 @@
         android:id="@+id/tvCantidadMinima"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="64dp"
         android:text="Cantidad Minima:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/etCantidadMinima"
-        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/tvPrecio"
         app:layout_constraintTop_toBottomOf="@+id/spCategoria" />
 
@@ -165,57 +180,51 @@
         android:id="@+id/btnLimpiar"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/btn_secundary"
         android:text="Limpiar"
         android:textColor="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnGuardar"
-        app:layout_constraintStart_toEndOf="@+id/divider2"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="500dp"
+        android:layout_width="300dp"
         android:layout_height="300dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/icono_camara"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/btnTomarFoto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/divider2"
+        app:layout_constraintStart_toEndOf="@+id/tvNombreProducto"
         app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
-        app:layout_constraintStart_toEndOf="@+id/tvNombreProducto"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnTomarFoto"
         android:layout_width="111dp"
         android:layout_height="48dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="Tomar Foto"
-        app:layout_constraintBottom_toTopOf="@+id/btnLimpiar"
         app:layout_constraintEnd_toStartOf="@+id/button5"
-        app:layout_constraintStart_toEndOf="@+id/divider2"
+        app:layout_constraintStart_toEndOf="@+id/etDescripcion"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
         android:id="@+id/button5"
         android:layout_width="173dp"
         android:layout_height="48dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Seleccionar Imagen"
-        app:layout_constraintBottom_toTopOf="@+id/btnGuardar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button4"
+        app:layout_constraintStart_toEndOf="@+id/btnTomarFoto"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
