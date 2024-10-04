@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.donalonsopos.R;
 
@@ -59,31 +61,91 @@ public class AgregarProductoFragment extends DialogFragment {
         // Inflar el layout para este fragmento
         View view = inflater.inflate(R.layout.fragment_agregar_producto, container, false);
 
-        // Obtener la referencia al botón Guardar
+        // Obtener la referencia al botón
         Button btnGuardar = view.findViewById(R.id.btnGuardar);
+        Button btnLimpiar = view.findViewById(R.id.btnLimpiar);
 
         // Configurar el OnClickListener para el botón
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {// 1. Obtener los valores de los campos del formulario
-                // Ejemplo:
-                EditText nombreProducto = view.findViewById(R.id.etNombreProducto);
-                String nombre = nombreProducto.getText().toString();
-                // ... obtener otros valores del formulario
+            public void onClick(View v) {
+                EditText etNombreProducto = view.findViewById(R.id.etNombreProducto);
+                EditText etPrecio = view.findViewById(R.id.etPrecio);
+                EditText etCantidadMinima = view.findViewById(R.id.etCantidadMinima);
+                Spinner spCategoria = view.findViewById(R.id.spCategoria);
 
-                // 2. Validar los datos ingresados
-                // Ejemplo:
+                String nombre = etNombreProducto.getText().toString();
+                String precio = etPrecio.getText().toString();
+                String cantidadMinima = etCantidadMinima.getText().toString();
+                // Obtener la categoría seleccionada del Spinner
+//                String categoria = spCategoria.getSelectedItem().toString();
+
+                // Validar nombre (no vacío)
                 if (nombre.isEmpty()) {
-                    nombreProducto.setError("El nombre del producto es obligatorio");
+                    etNombreProducto.setError("El nombre del producto es obligatorio");
                     return;
                 }
-                // ... otras validaciones
 
-                // 3. Guardar el nuevo producto (en una base de datos, etc.)
-                // ... tu lógica para guardar el producto
+                // Validar precio (no vacío y numérico positivo)
+                if(precio.isEmpty()) {
+                    etPrecio.setError("El precio es obligatorio");
+                    return;
+                }
+                try {
+                    double precioDouble = Double.parseDouble(precio);
+                    if (precioDouble <= 0) {
+                        etPrecio.setError("El precio debe ser mayor que cero");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    etPrecio.setError("El precio debe ser un número válido");
+                    return;
+                }
 
-                // 4. Cerrar el DialogFragment
+                // Validar cantidad mínima (no vacío y numérico positivo)
+                if (cantidadMinima.isEmpty()) {
+                    etCantidadMinima.setError("La cantidad mínima es obligatoria");
+                    return;
+                }
+                try {
+                    int cantidadMinimaInt = Integer.parseInt(cantidadMinima);
+                    if (cantidadMinimaInt <= 0) {
+                        etCantidadMinima.setError("La cantidad mínima debe ser mayor que cero");
+                    }
+                } catch (NumberFormatException e) {
+                    etCantidadMinima.setError("La cantidad mínima debe ser un número válido");
+                }
+
+//                // Validar categoría (novacía) - Asegúrate de que el Spinner tenga al menos una opción
+//                if (categoria.isEmpty()) {
+//                    // Puedes mostrar un mensaje de error de alguna forma,
+//                    // por ejemplo, con un Toast o un Snackbar
+//                    Toast.makeText(getContext(), "Debes seleccionar una categoría", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+
+                // ... continuar con el guardado si las validaciones son correctas ...
+
                 dismiss();
+            }
+        });
+
+        btnLimpiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText etNombreProducto = view.findViewById(R.id.etNombreProducto);
+                EditText etPrecio = view.findViewById(R.id.etPrecio);
+                EditText etCantidadMinima = view.findViewById(R.id.etCantidadMinima);
+                EditText etDescripcion = view.findViewById(R.id.etDescripcion);
+                Spinner spCategoria = view.findViewById(R.id.spCategoria);
+
+                // Limpiar campos EditText
+                etNombreProducto.setText("");etPrecio.setText("");
+                etCantidadMinima.setText("");
+                etDescripcion.setText("");
+
+                // Restablecer Spinner a la primera opción (si es necesario)
+                spCategoria.setSelection(0);
             }
         });
 

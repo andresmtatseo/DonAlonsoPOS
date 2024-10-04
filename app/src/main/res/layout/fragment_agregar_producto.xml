@@ -18,7 +18,7 @@
         android:text="Nombre:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/etNombreProducto"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/ivFotoProducto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
 
@@ -33,7 +33,7 @@
         android:inputType="text"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/tvCategoria"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/ivFotoProducto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNombreProducto" />
 
@@ -89,7 +89,7 @@
         android:text="Categoria:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/spCategoria"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/ivFotoProducto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etNombreProducto" />
 
@@ -101,7 +101,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="64dp"
         app:layout_constraintBottom_toTopOf="@+id/tvPrecio"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/ivFotoProducto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCategoria" />
 
@@ -115,7 +115,7 @@
         android:ems="10"
         android:inputType="text"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/ivFotoProducto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescripcion" />
 
@@ -129,7 +129,7 @@
         android:text="Descripcion:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/etDescripcion"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/ivFotoProducto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPrecio" />
 
@@ -145,7 +145,7 @@
         android:inputType="number"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/tvDescripcion"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/ivFotoProducto"
         app:layout_constraintStart_toEndOf="@+id/etPrecio"
         app:layout_constraintTop_toBottomOf="@+id/tvCantidadMinima" />
 
@@ -159,7 +159,7 @@
         android:text="Cantidad Minima:"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/etCantidadMinima"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/ivFotoProducto"
         app:layout_constraintStart_toEndOf="@+id/tvPrecio"
         app:layout_constraintTop_toBottomOf="@+id/spCategoria" />
 
@@ -193,7 +193,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ivFotoProducto"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginStart="64dp"
@@ -208,23 +208,23 @@
 
     <Button
         android:id="@+id/btnTomarFoto"
-        android:layout_width="111dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="Tomar Foto"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintEnd_toStartOf="@+id/btnSeleccionarImagen"
         app:layout_constraintStart_toEndOf="@+id/etDescripcion"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/ivFotoProducto" />
 
     <Button
-        android:id="@+id/button5"
-        android:layout_width="173dp"
+        android:id="@+id/btnSeleccionarImagen"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Seleccionar Imagen"
         app:layout_constraintStart_toEndOf="@+id/btnTomarFoto"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/ivFotoProducto" />
 </androidx.constraintlayout.widget.ConstraintLayout>
