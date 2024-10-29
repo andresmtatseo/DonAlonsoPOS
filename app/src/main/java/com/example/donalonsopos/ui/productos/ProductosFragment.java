@@ -3,14 +3,21 @@ package com.example.donalonsopos.ui.productos;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.entities.Producto;
+import com.example.donalonsopos.util.AdaptadorCustom;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +25,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  * create an instance of this fragment.
  */
 public class ProductosFragment extends Fragment {
+
+    private RecyclerView lista;
+    private AdaptadorCustom adaptador;
+    private RecyclerView.LayoutManager layoutManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,25 +72,35 @@ public class ProductosFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflar el layout para este fragmento
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_productos, container, false);
 
-        // Obtener la referencia al botón Agregar
         FloatingActionButton btnAgregar = view.findViewById(R.id.btnAgregar);
-
-        // Configurar el OnClickListener para elbotón
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Crear una instancia del DialogFragment
                 AgregarProductoFragment dialog = new AgregarProductoFragment();
-                // Mostrar el DialogFragment
                 dialog.show(getChildFragmentManager(), "agregar_producto");
             }
         });
 
+        ArrayList<Producto> productos = cargarProductos();
+
+        lista = view.findViewById(R.id.lista);
+        lista.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getContext());
+        lista.setLayoutManager(layoutManager);
+
+        adaptador = new AdaptadorCustom(getContext(), productos);
+        lista.setAdapter(adaptador);
+
         return view;
+    }
+
+    private ArrayList<Producto> cargarProductos() {
+        ArrayList<Producto> productos = new ArrayList<>();
+        productos.add(new Producto(55, 6, "Producto 1", 10, 10.55, "Producto 1"));
+        productos.add(new Producto(35, 5, "Producto 2", 100, 105, "Producto 2"));
+        return productos;
     }
 }
