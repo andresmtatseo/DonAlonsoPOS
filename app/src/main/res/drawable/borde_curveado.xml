@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- recycler_view_border.xml -->
+<!-- recycler_view_border.xml -->
+<!-- recycler_view_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Fondo del RecyclerView (opcional) -->
+    <solid android:color="@android:color/transparent" />
+
+    <!-- Contorno del RecyclerView -->
+    <stroke
+        android:width="2dp"
+        android:color="#B0B0B0" />
+
+    <!-- Esquinas redondeadas (opcional) -->
+    <corners android:radius="8dp" />
+
+</shape>
+
+
