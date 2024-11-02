@@ -1,7 +1,9 @@
 package com.example.donalonsopos.data.entities;
 
-public class Producto {
+import java.io.Serializable;
 
+public class Producto implements Serializable {
+    // Atributos
     private int idProducto;
     private int idCategoria;
     private String nombre;
@@ -12,9 +14,8 @@ public class Producto {
     private int cantidadMinima;
     private int isActive;
 
-    // Constructor, getters y setters
+    //Constructores
     public Producto() {
-        // Constructor vacío
     }
 
     public Producto(int idProducto) {
@@ -42,6 +43,7 @@ public class Producto {
         this.isActive = isActive;
     }
 
+    //Metodos
     public int getIdProducto() {
         return idProducto;
     }

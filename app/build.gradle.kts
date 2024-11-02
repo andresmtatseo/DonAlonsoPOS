@@ -36,9 +36,12 @@ android {
 
 dependencies {
 
+    // room database
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
+    // Swipe Refresh Layout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     implementation(libs.appcompat)
     implementation(libs.material)

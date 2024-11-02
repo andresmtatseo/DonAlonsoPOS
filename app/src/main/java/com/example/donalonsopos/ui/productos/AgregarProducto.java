@@ -10,11 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.donalonsopos.R;
 
-public class AgregarProductoFragment extends DialogFragment {
+public class AgregarProducto extends DialogFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +24,7 @@ public class AgregarProductoFragment extends DialogFragment {
     private String mParam1;
     private String mParam2;
 
-    public AgregarProductoFragment() {
+    public AgregarProducto() {
         // Required empty public constructor
     }
 
@@ -38,8 +37,8 @@ public class AgregarProductoFragment extends DialogFragment {
      * @return A new instance of fragment AgregarProductoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AgregarProductoFragment newInstance(String param1, String param2) {
-        AgregarProductoFragment fragment = new AgregarProductoFragment();
+    public static AgregarProducto newInstance(String param1, String param2) {
+        AgregarProducto fragment = new AgregarProducto();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

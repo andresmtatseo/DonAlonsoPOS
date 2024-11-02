@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.productos.AgregarProductoFragment"
+    tools:context=".ui.productos.AgregarProducto"
     tools:layout_editor_absoluteX="-326dp"
     tools:layout_editor_absoluteY="-27dp">
 

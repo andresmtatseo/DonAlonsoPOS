@@ -9,7 +9,29 @@
         android:id="@+id/nav_inicio"
         android:name="com.example.donalonsopos.ui.inicio.InicioFragment"
         android:label="@string/menu_inicio"
-        tools:layout="@layout/fragment_inicio" />
+        tools:layout="@layout/fragment_inicio" >
+        <action
+            android:id="@+id/action_nav_inicio_to_nav_ventas"
+            app:destination="@id/nav_ventas" />
+        <action
+            android:id="@+id/action_nav_inicio_to_nav_clientes"
+            app:destination="@id/nav_clientes" />
+        <action
+            android:id="@+id/action_nav_inicio_to_nav_productos"
+            app:destination="@id/nav_productos" />
+        <action
+            android:id="@+id/action_nav_inicio_to_nav_compras"
+            app:destination="@id/nav_compras" />
+        <action
+            android:id="@+id/action_nav_inicio_to_nav_reportes"
+            app:destination="@id/nav_reportes" />
+        <action
+            android:id="@+id/action_nav_inicio_to_nav_proveedores"
+            app:destination="@id/nav_proveedores" />
+        <action
+            android:id="@+id/action_nav_inicio_to_nav_usuarios"
+            app:destination="@id/nav_usuarios" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_ventas"
@@ -20,7 +42,17 @@
         android:id="@+id/nav_productos"
         android:name="com.example.donalonsopos.ui.productos.ProductosFragment"
         android:label="@string/menu_productos"
-        tools:layout="@layout/fragment_productos" />
+        tools:layout="@layout/fragment_productos" >
+        <action
+            android:id="@+id/action_nav_productos_to_detallesProductoFragment"
+            app:destination="@id/detallesProductoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallesProductoFragment"
+        android:name="com.example.donalonsopos.ui.productos.DetallesProducto"
+        android:label="DetallesProducto">
+        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
+    </fragment>
     <fragment
         android:id="@+id/nav_compras"
         android:name="com.example.donalonsopos.ui.compras.ComprasFragment"
