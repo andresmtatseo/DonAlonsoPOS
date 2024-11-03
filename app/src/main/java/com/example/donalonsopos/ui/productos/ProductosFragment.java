@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.entities.Producto;
@@ -27,6 +28,8 @@ public class ProductosFragment extends Fragment {
     private static final String KEY_PRODUCTO = "producto"; // Clave del Bundle
     private RecyclerView lista;
     private AdaptadorViewProducto adaptador;
+    private ArrayList<Producto> productos;
+    private ArrayList<Producto> productosFiltrados;
 
     public ProductosFragment() {
         // Constructor vacío requerido
@@ -54,9 +57,13 @@ public class ProductosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_productos, container, false);
 
+        productos = cargarProductos();         // Cargar la lista completa
+        productosFiltrados = new ArrayList<>(productos);  // Inicialmente, todos los productos están en productosFiltrados
+
         setupFloatingActionButton(view);
         setupRecyclerView(view);
         setupSwipeRefresh(view);
+        setupSearchView(view);  // Configura el SearchView
 
         return view;
     }
@@ -70,16 +77,14 @@ public class ProductosFragment extends Fragment {
     }
 
     private void setupRecyclerView(View view) {
-        ArrayList<Producto> productos = cargarProductos();
-
         lista = view.findViewById(R.id.lista);
         lista.setHasFixedSize(true);
         lista.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adaptador = new AdaptadorViewProducto(requireContext(), productos, new OnItemClickListener() {
+        adaptador = new AdaptadorViewProducto(requireContext(), productosFiltrados, new OnItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Producto productoSeleccionado = productos.get(position);
+                Producto productoSeleccionado = productosFiltrados.get(position);  // Obtener el producto filtrado
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
                 navController.navigate(R.id.detallesProductoFragment, createBundleWithProducto(productoSeleccionado));
             }
@@ -102,6 +107,39 @@ public class ProductosFragment extends Fragment {
             adaptador.notifyDataSetChanged();
             swipeToRefresh.setRefreshing(false);
         });
+    }
+
+    private void setupSearchView(View view) {
+        SearchView searchView = view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Opcional: puedes manejar aquí cuando se envía el texto
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filtrarProductos(newText);  // Llama al método de filtrado cada vez que cambia el texto
+                return true;
+            }
+        });
+    }
+
+    private void filtrarProductos(String textoBusqueda) {
+        productosFiltrados.clear();
+
+        if (textoBusqueda.isEmpty()) {
+            productosFiltrados.addAll(productos);  // Si el texto está vacío, mostrar todos los productos
+        } else {
+            for (Producto producto : productos) {
+                // Filtra productos cuyo nombre contenga el texto de búsqueda (ignorando mayúsculas/minúsculas)
+                if (producto.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
+                    productosFiltrados.add(producto);
+                }
+            }
+        }
+        adaptador.notifyDataSetChanged();  // Notificar al adaptador sobre los cambios
     }
 
     private Bundle createBundleWithProducto(Producto producto) {
