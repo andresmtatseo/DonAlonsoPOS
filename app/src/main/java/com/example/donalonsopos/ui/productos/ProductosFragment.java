@@ -123,7 +123,7 @@ public class ProductosFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filtrarProductos(newText);  // Llama al método de filtrado cada vez que cambia el texto
+                filtrarProductos(newText);
                 return true;
             }
         });
@@ -165,7 +165,7 @@ public class ProductosFragment extends Fragment {
                 int selectedId = radioGroupFiltros.getCheckedRadioButtonId();
 
                 // Definir el filtro actual y aplicar filtro específico
-                if (selectedId == R.id.rbFiltrarPorId) {
+                if (selectedId == R.id.rbFiltrarPorCedula) {
                     filtroActual = "ID";
                 } else if (selectedId == R.id.rbFiltrarPorNombre) {
                     filtroActual = "Nombre";
@@ -240,6 +240,27 @@ public class ProductosFragment extends Fragment {
         productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
         productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
         productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
+        productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
+        productos.add(new Producto(67, 3, "Pera Verde", 180, 1.50, "imagen_pera.png"));
+        productos.add(new Producto(68, 6, "Queso Gouda", 75, 4.75, "imagen_queso_gouda.png"));
+        productos.add(new Producto(69, 2, "Jugo de Naranja", 100, 2.25, "imagen_jugo_naranja.png"));
+        productos.add(new Producto(70, 7, "Torta de Chocolate", 50, 8.00, "imagen_torta_chocolate.png"));
+        productos.add(new Producto(71, 1, "Café Molido", 120, 5.50, "imagen_cafe_molido.png"));
+        productos.add(new Producto(72, 8, "Helado de Vainilla", 200, 3.00, "imagen_helado_vainilla.png"));
+        productos.add(new Producto(73, 4, "Galletas de Avena", 90, 1.75, "imagen_galletas_avena.png"));
+        productos.add(new Producto(74, 6, "Yogur Natural", 110, 2.50, "imagen_yogur_natural.png"));
+        productos.add(new Producto(75, 3, "Uva Verde", 160, 2.10, "imagen_uva_verde.png"));
+        productos.add(new Producto(76, 9, "Pan Integral", 85, 1.35, "imagen_pan_integral.png"));
+        productos.add(new Producto(77, 10, "Jamón de Pavo", 70, 3.60, "imagen_jamon_pavo.png"));
+        productos.add(new Producto(78, 5, "Zanahoria", 200, 0.95, "imagen_zanahoria.png"));
+        productos.add(new Producto(79, 2, "Refresco de Cola", 250, 1.15, "imagen_refresco_cola.png"));
+        productos.add(new Producto(80, 11, "Huevos (docena)", 300, 2.80, "imagen_huevos.png"));
+        productos.add(new Producto(81, 12, "Leche Descremada", 220, 1.20, "imagen_leche_descremada.png"));
+        productos.add(new Producto(82, 13, "Papas Fritas", 90, 1.50, "imagen_papas_fritas.png"));
+        productos.add(new Producto(83, 14, "Pollo Entero", 60, 6.00, "imagen_pollo_entero.png"));
+        productos.add(new Producto(84, 1, "Té Verde", 100, 1.80, "imagen_te_verde.png"));
+        productos.add(new Producto(85, 3, "Sandía", 190, 3.50, "imagen_sandia.png"));
+
         return productos;
     }
 }
