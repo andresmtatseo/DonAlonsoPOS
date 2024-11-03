@@ -62,7 +62,17 @@
         android:id="@+id/nav_clientes"
         android:name="com.example.donalonsopos.ui.clientes.ClientesFragment"
         android:label="@string/menu_clientes"
-        tools:layout="@layout/fragment_clientes" />
+        tools:layout="@layout/fragment_clientes" >
+        <action
+            android:id="@+id/action_nav_clientes_to_detallesClienteFragment"
+            app:destination="@id/detallesClienteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallesClienteFragment"
+        android:name="com.example.donalonsopos.ui.productos.DetallesProducto"
+        android:label="Detalles del Cliente">
+        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
+    </fragment>
     <fragment
         android:id="@+id/nav_proveedores"
         android:name="com.example.donalonsopos.ui.proveedores.ProveedoresFragment"
