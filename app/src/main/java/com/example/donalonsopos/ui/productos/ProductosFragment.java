@@ -1,6 +1,7 @@
 package com.example.donalonsopos.ui.productos;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -11,7 +12,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.entities.Producto;
@@ -25,11 +30,14 @@ import java.util.ArrayList;
  */
 public class ProductosFragment extends Fragment {
 
-    private static final String KEY_PRODUCTO = "producto"; // Clave del Bundle
+    private static final String KEY_PRODUCTO = "producto";
     private RecyclerView lista;
     private AdaptadorViewProducto adaptador;
     private ArrayList<Producto> productos;
     private ArrayList<Producto> productosFiltrados;
+
+    private String filtroActual = "Nombre"; // Filtro por defecto
+    private int idCategoriaSeleccionada = -1; // Almacena la idCategoría seleccionada
 
     public ProductosFragment() {
         // Constructor vacío requerido
@@ -47,10 +55,6 @@ public class ProductosFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Recuperar argumentos si existen
-        //if (getArguments() != null) {
-            // Puedes recuperar parámetros aquí si es necesario
-       // }
     }
 
     @Override
@@ -63,7 +67,8 @@ public class ProductosFragment extends Fragment {
         setupFloatingActionButton(view);
         setupRecyclerView(view);
         setupSwipeRefresh(view);
-        setupSearchView(view);  // Configura el SearchView
+        setupSearchView(view);
+        setupFilterButton(view);
 
         return view;
     }
@@ -84,7 +89,7 @@ public class ProductosFragment extends Fragment {
         adaptador = new AdaptadorViewProducto(requireContext(), productosFiltrados, new OnItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Producto productoSeleccionado = productosFiltrados.get(position);  // Obtener el producto filtrado
+                Producto productoSeleccionado = productosFiltrados.get(position);
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
                 navController.navigate(R.id.detallesProductoFragment, createBundleWithProducto(productoSeleccionado));
             }
@@ -102,7 +107,6 @@ public class ProductosFragment extends Fragment {
     private void setupSwipeRefresh(View view) {
         SwipeRefreshLayout swipeToRefresh = view.findViewById(R.id.swipeRefreshLayout);
         swipeToRefresh.setOnRefreshListener(() -> {
-            // Simulación de actualización de productos
             Toast.makeText(requireContext(), "Actualizando productos...", Toast.LENGTH_SHORT).show();
             adaptador.notifyDataSetChanged();
             swipeToRefresh.setRefreshing(false);
@@ -114,7 +118,6 @@ public class ProductosFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Opcional: puedes manejar aquí cuando se envía el texto
                 return false;
             }
 
@@ -126,20 +129,103 @@ public class ProductosFragment extends Fragment {
         });
     }
 
+    private void setupFilterButton(View view) {
+        ImageButton ibFiltro = view.findViewById(R.id.ibFiltro);
+        ibFiltro.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Filtrar Productos");
+
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_filtros_productos, null);
+            builder.setView(dialogView);
+
+            RadioGroup radioGroupFiltros = dialogView.findViewById(R.id.radioGroupFiltros);
+            Spinner spinnerCategorias = dialogView.findViewById(R.id.spinnerCategorias);
+
+            // Opciones para el Spinner de categorías
+            ArrayList<String> categorias = new ArrayList<>();
+            categorias.add("Lácteos");
+            categorias.add("Frutas");
+            categorias.add("Helados");
+            categorias.add("Dulces");
+
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, categorias);
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCategorias.setAdapter(spinnerAdapter);
+
+            // Configurar visibilidad del Spinner según la selección del RadioGroup
+            radioGroupFiltros.setOnCheckedChangeListener((group, checkedId) -> {
+                if (checkedId == R.id.rbFiltrarPorCategoria) {
+                    spinnerCategorias.setVisibility(View.VISIBLE);
+                } else {
+                    spinnerCategorias.setVisibility(View.GONE);
+                }
+            });
+
+            builder.setPositiveButton("Aplicar", (dialog, which) -> {
+                int selectedId = radioGroupFiltros.getCheckedRadioButtonId();
+
+                // Definir el filtro actual y aplicar filtro específico
+                if (selectedId == R.id.rbFiltrarPorId) {
+                    filtroActual = "ID";
+                } else if (selectedId == R.id.rbFiltrarPorNombre) {
+                    filtroActual = "Nombre";
+                } else if (selectedId == R.id.rbFiltrarPorCategoria) {
+                    filtroActual = "Categoría";
+                    // Asignar id de categoría según la selección
+                    switch (spinnerCategorias.getSelectedItem().toString()) {
+                        case "Lácteos":
+                            idCategoriaSeleccionada = 1; // Suponiendo idCategoría para Lácteos
+                            break;
+                        case "Frutas":
+                            idCategoriaSeleccionada = 2; // Suponiendo idCategoría para Frutas
+                            break;
+                        case "Helados":
+                            idCategoriaSeleccionada = 3; // Suponiendo idCategoría para Helados
+                            break;
+                        case "Dulces":
+                            idCategoriaSeleccionada = 4; // Suponiendo idCategoría para Dulces
+                            break;
+                        default:
+                            idCategoriaSeleccionada = -1; // No seleccionado
+                    }
+                }
+
+                // Llamar a `filtrarProductos` para aplicar el filtro con el texto actual en el SearchView
+                SearchView searchView = view.findViewById(R.id.searchView);
+                String textoBusqueda = searchView.getQuery().toString();
+                filtrarProductos(textoBusqueda);
+            });
+
+            builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+            builder.create().show();
+        });
+    }
+
     private void filtrarProductos(String textoBusqueda) {
         productosFiltrados.clear();
 
-        if (textoBusqueda.isEmpty()) {
-            productosFiltrados.addAll(productos);  // Si el texto está vacío, mostrar todos los productos
-        } else {
-            for (Producto producto : productos) {
-                // Filtra productos cuyo nombre contenga el texto de búsqueda (ignorando mayúsculas/minúsculas)
-                if (producto.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
-                    productosFiltrados.add(producto);
-                }
+        for (Producto producto : productos) {
+            switch (filtroActual) {
+                case "ID":
+                    if (String.valueOf(producto.getIdProducto()).contains(textoBusqueda)) {
+                        productosFiltrados.add(producto);
+                    }
+                    break;
+                case "Nombre":
+                    if (producto.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
+                        productosFiltrados.add(producto);
+                    }
+                    break;
+                case "Categoría":
+                    if (producto.getIdCategoria() == idCategoriaSeleccionada &&
+                            producto.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
+                        productosFiltrados.add(producto);
+                    }
+                    break;
             }
         }
-        adaptador.notifyDataSetChanged();  // Notificar al adaptador sobre los cambios
+
+        adaptador.notifyDataSetChanged(); // Actualizar el adaptador después de filtrar
     }
 
     private Bundle createBundleWithProducto(Producto producto) {
@@ -150,10 +236,10 @@ public class ProductosFragment extends Fragment {
 
     private ArrayList<Producto> cargarProductos() {
         ArrayList<Producto> productos = new ArrayList<>();
-        productos.add(new Producto(55, 6, "Helado 5L Fresa", 10, 10.55, "Producto 1"));
-        productos.add(new Producto(35, 5, "Helado 5L Mantecado", 100, 105, "Producto 2"));
-        productos.add(new Producto(55, 6, "Helado 5L Chocolate", 10, 10.55, "Producto 1"));
-        productos.add(new Producto(35, 5, "Helado 5L Oreo", 100, 105, "Producto 2"));
+        productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
+        productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
+        productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
+        productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
         return productos;
     }
 }
