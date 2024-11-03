@@ -2,37 +2,37 @@ package com.example.donalonsopos.data.entities;
 
 import java.io.Serializable;
 
-public class Proveedor implements Serializable {
+public class Cliente implements Serializable {
     // Atributos
-    private int idProveedor;
+    private int idCliente;
     private String cedula;
     private String nombre;
+    private String apellido;
     private String direccion;
     private String telefono;
-    private String email;
     private boolean isActive;
 
     // Constructores
-    public Proveedor() {
+    public Cliente() {
     }
 
-    public Proveedor(int idProveedor) {
-        this.idProveedor = idProveedor;
+    public Cliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public Proveedor(int idProveedor, String cedula, String nombre, String direccion, String telefono, String email, boolean isActive) {
-        this.idProveedor = idProveedor;
+    public Cliente(int idCliente, String cedula, String nombre, String apellido, String direccion, String telefono, boolean isActive) {
+        this.idCliente = idCliente;
         this.cedula = cedula;
         this.nombre = nombre;
+        this.apellido = apellido;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.email = email;
         this.isActive = isActive;
     }
 
     // Métodos
-    public int getIdProveedor() {
-        return idProveedor;
+    public int getIdCliente() {
+        return idCliente;
     }
 
 
@@ -52,6 +52,14 @@ public class Proveedor implements Serializable {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public String getDireccion() {
         return direccion;
     }
@@ -66,14 +74,6 @@ public class Proveedor implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public boolean getIsActive() {
