@@ -8,16 +8,35 @@
     android:padding="16dp"
     tools:context=".ui.clientes.DetallesCliente">
 
-    <!-- Título del cliente -->
-    <TextView
-        android:id="@+id/tvTitulo"
+    <!-- Contenedor horizontal para el botón de cerrar y el título -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="DETALLES DEL CLIENTE"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Título del cliente -->
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:text="DETALLES DEL CLIENTE"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <!-- Botón de cerrar en la esquina superior derecha -->
+        <ImageButton
+            android:id="@+id/btnCerrar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/icono_cerrar"
+            android:contentDescription="Cerrar" />
+    </LinearLayout>
 
     <!-- Contenedor vertical para la información del cliente -->
     <LinearLayout
@@ -32,14 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="90dp"
+            android:layout_marginBottom="10dp"
             android:paddingStart="16dp">
 
             <!-- Cedula -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -54,15 +73,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="contenido"
                     android:textSize="30sp" />
             </LinearLayout>
 
             <!-- Nombre -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -76,6 +96,7 @@
                     android:id="@+id/tvNombreContenido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:text="contenido"
                     android:textSize="30sp" />
@@ -83,9 +104,9 @@
 
             <!-- Apellido -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -99,6 +120,7 @@
                     android:id="@+id/tvApellidoContenido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:text="contenido"
                     android:textSize="30sp" />
@@ -106,9 +128,9 @@
 
             <!-- Dirección -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -122,6 +144,7 @@
                     android:id="@+id/tvDireccionContenido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:text="contenido"
                     android:textSize="30sp" />
@@ -129,9 +152,9 @@
 
             <!-- Correo -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -145,6 +168,7 @@
                     android:id="@+id/tvCorreoContenido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:text="contenido"
                     android:textSize="30sp" />
@@ -166,7 +190,7 @@
             android:id="@+id/btnEliminar"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="200dp"
             android:background="@drawable/btn_secundary"
             android:text="Eliminar"
             android:textColor="@color/red" />

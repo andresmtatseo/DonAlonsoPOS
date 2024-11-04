@@ -8,18 +8,35 @@
     android:padding="16dp"
     tools:context=".ui.productos.DetallesProducto">
 
-    <!-- Título del producto -->
-    <TextView
-        android:id="@+id/tvTitulo"
+    <!-- Contenedor horizontal para el botón de cerrar y el título -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="DETALLES DEL PRODUCTO"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <!-- Botón cerrar, alineado al extremo derecho -->
+        <!-- Título del cliente -->
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:text="DETALLES DEL PRODUCTO"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <!-- Botón de cerrar en la esquina superior derecha -->
+        <ImageButton
+            android:id="@+id/btnCerrar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/icono_cerrar"
+            android:contentDescription="Cerrar" />
+    </LinearLayout>
 
     <!-- Contenedor horizontal para la imagen y los textos -->
     <LinearLayout
@@ -38,145 +55,102 @@
             android:paddingStart="16dp">
 
             <!-- Texto de nombre del producto -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <TextView
-                    android:id="@+id/tvNombre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre:"
-                    android:textSize="27sp" />
-
-                <TextView
-                    android:id="@+id/tvNombreContenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="contenido"
-                    android:textSize="27sp" />
-            </LinearLayout>
+                android:text="Nombre:"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/tvNombreContenido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="contenido"
+                android:textSize="25sp" />
 
             <!-- Texto de precio -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvPrecio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <TextView
-                    android:id="@+id/tvPrecio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Precio:"
-                    android:textSize="27sp" />
-
-                <TextView
-                    android:id="@+id/tvPrecioContenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="contenido"
-                    android:textSize="27sp" />
-            </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:text="Precio:"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/tvPrecioContenido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="contenido"
+                android:textSize="25sp" />
 
             <!-- Texto de costo -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvCosto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <TextView
-                    android:id="@+id/tvCosto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Costo:"
-                    android:textSize="27sp" />
-
-                <TextView
-                    android:id="@+id/tvCostoContenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="contenido"
-                    android:textSize="27sp" />
-            </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:text="Costo:"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/tvCostoContenido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="contenido"
+                android:textSize="25sp" />
 
             <!-- Texto de cantidad actual -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvCantidadActual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <TextView
-                    android:id="@+id/tvCantidadActual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cantidad Actual:"
-                    android:textSize="27sp" />
-
-                <TextView
-                    android:id="@+id/tvCantidadActualContenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="contenido"
-                    android:textSize="27sp" />
-            </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:text="Cantidad Actual:"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/tvCantidadActualContenido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="contenido"
+                android:textSize="25sp" />
 
             <!-- Texto de cantidad mínima -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvCantidadMinima"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <TextView
-                    android:id="@+id/tvCantidadMinima"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cantidad Mínima:"
-                    android:textSize="27sp" />
-
-                <TextView
-                    android:id="@+id/tvCantidadMinimaContenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="contenido"
-                    android:textSize="27sp" />
-            </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:text="Cantidad Mínima:"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/tvCantidadMinimaContenido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="contenido"
+                android:textSize="25sp" />
 
             <!-- Texto de descripción -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvDescripcion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp">
-
-                <TextView
-                    android:id="@+id/tvDescripcion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Descripción:"
-                    android:textSize="27sp" />
-
-                <TextView
-                    android:id="@+id/tvDescripcionContenido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:text="contenido"
-                    android:textSize="27sp" />
-            </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:text="Descripción:"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/tvDescripcionContenido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="contenido"
+                android:textSize="25sp" />
         </LinearLayout>
 
-        <!-- Contenedor vertical para los textos, ocupa la mitad derecha -->
+        <!-- Contenedor vertical para la imagen del producto -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
