@@ -18,7 +18,9 @@
     <string name="menu_reportes">Reportes</string>
     <string name="menu_ayuda">Ayuda</string>
     <string name="menu_cerrar_sesion">Cerrar Sesion</string>
-    <string name="Cerrar">Cerrar</string>
+    <string name="cerrar">Cerrar</string>
+
+    <string name="foto_producto">Foto del Producto</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
