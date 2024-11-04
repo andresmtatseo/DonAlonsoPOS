@@ -184,26 +184,26 @@ public class ClientesFragment extends Fragment {
 
     private void cargarClientes() {
         clientes.clear();
-        clientes.add(new Cliente(1, "V-12345678", "Juan", "Pérez", "Calle 1", "1234567890", 1));
-        clientes.add(new Cliente(2, "V-87654321", "Maria", "Gonzalez", "Calle 2", "0987654321", 1));
-        clientes.add(new Cliente(3, "V-22334455", "Carlos", "Ramirez", "Avenida Principal #45", "04141234567", 1));
-        clientes.add(new Cliente(4, "V-33445566", "Ana", "Fernandez", "Calle Bolivar #120", "04147894567", 1));
-        clientes.add(new Cliente(5, "V-44556677", "Luis", "Martinez", "Urbanización La Paz", "04145678901", 1));
-        clientes.add(new Cliente(6, "V-55667788", "Elena", "Sanchez", "Calle Sol #10", "04241236589", 1));
-        clientes.add(new Cliente(7, "V-66778899", "Jorge", "Lopez", "Sector Los Olivos", "04149876543", 1));
-        clientes.add(new Cliente(8, "V-77889900", "Rosa", "Gomez", "Calle Libertad #250", "04141230021", 1));
-        clientes.add(new Cliente(9, "V-88990011", "Pedro", "Garcia", "Avenida Urdaneta #18", "04241567890", 1));
-        clientes.add(new Cliente(10, "V-99001122", "Martha", "Rodriguez", "Calle Fuego #42", "04147654321", 1));
-        clientes.add(new Cliente(11, "V-10111213", "Sofia", "Diaz", "Urbanización El Valle", "04248901234", 1));
-        clientes.add(new Cliente(12, "V-12131415", "Andres", "Moreno", "Calle Central #75", "04146543210", 1));
-        clientes.add(new Cliente(13, "V-13141516", "Lucia", "Perez", "Sector Las Palmas", "04246789012", 1));
-        clientes.add(new Cliente(14, "V-14151617", "Fernando", "Rivas", "Avenida Sucre", "04147890123", 1));
-        clientes.add(new Cliente(15, "V-15161718", "Patricia", "Acosta", "Calle Maracaibo #36", "04248917654", 1));
-        clientes.add(new Cliente(16, "V-16171819", "Javier", "Mejia", "Calle Carabobo", "04141234678", 1));
-        clientes.add(new Cliente(17, "V-17181920", "Alejandra", "Mendoza", "Sector El Paraiso", "04241237895", 1));
-        clientes.add(new Cliente(18, "V-18192021", "Diego", "Torres", "Calle Lara", "04142345678", 1));
-        clientes.add(new Cliente(19, "V-19202122", "Gabriela", "Campos", "Avenida Norte #90", "04241239012", 1));
-        clientes.add(new Cliente(20, "V-20212223", "Victor", "Silva", "Sector El Trigal", "04149875432", 1));
+        clientes.add(new Cliente(1, "V-12345678", "Juan", "Pérez", "Calle 1", "1234567890", true));
+        clientes.add(new Cliente(2, "V-87654321", "Maria", "Gonzalez", "Calle 2", "0987654321", true));
+        clientes.add(new Cliente(3, "V-22334455", "Carlos", "Ramirez", "Avenida Principal #45", "04141234567", true));
+        clientes.add(new Cliente(4, "V-33445566", "Ana", "Fernandez", "Calle Bolivar #120", "04147894567", true));
+        clientes.add(new Cliente(5, "V-44556677", "Luis", "Martinez", "Urbanización La Paz", "04145678901", true));
+        clientes.add(new Cliente(6, "V-55667788", "Elena", "Sanchez", "Calle Sol #10", "04241236589", true));
+        clientes.add(new Cliente(7, "V-66778899", "Jorge", "Lopez", "Sector Los Olivos", "04149876543", true));
+        clientes.add(new Cliente(8, "V-77889900", "Rosa", "Gomez", "Calle Libertad #250", "04141230021", true));
+        clientes.add(new Cliente(9, "V-88990011", "Pedro", "Garcia", "Avenida Urdaneta #18", "04241567890", true));
+        clientes.add(new Cliente(10, "V-99001122", "Martha", "Rodriguez", "Calle Fuego #42", "04147654321", true));
+        clientes.add(new Cliente(11, "V-10111213", "Sofia", "Diaz", "Urbanización El Valle", "04248901234", true));
+        clientes.add(new Cliente(12, "V-12131415", "Andres", "Moreno", "Calle Central #75", "04146543210", true));
+        clientes.add(new Cliente(13, "V-13141516", "Lucia", "Perez", "Sector Las Palmas", "04246789012", true));
+        clientes.add(new Cliente(14, "V-14151617", "Fernando", "Rivas", "Avenida Sucre", "04147890123", true));
+        clientes.add(new Cliente(15, "V-15161718", "Patricia", "Acosta", "Calle Maracaibo #36", "04248917654", true));
+        clientes.add(new Cliente(16, "V-16171819", "Javier", "Mejia", "Calle Carabobo", "04141234678", true));
+        clientes.add(new Cliente(17, "V-17181920", "Alejandra", "Mendoza", "Sector El Paraiso", "04241237895", true));
+        clientes.add(new Cliente(18, "V-18192021", "Diego", "Torres", "Calle Lara", "04142345678", true));
+        clientes.add(new Cliente(19, "V-19202122", "Gabriela", "Campos", "Avenida Norte #90", "04241239012", true));
+        clientes.add(new Cliente(20, "V-20212223", "Victor", "Silva", "Sector El Trigal", "04149875432", true));
         clientesFiltrados.clear();
         clientesFiltrados.addAll(clientes);
     }

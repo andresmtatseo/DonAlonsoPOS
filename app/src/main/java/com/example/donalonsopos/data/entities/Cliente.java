@@ -20,6 +20,17 @@ public class Cliente implements Serializable {
         this.idCliente = idCliente;
     }
 
+    public Cliente(int idCliente, String cedula) {
+        this.idCliente = idCliente;
+        this.cedula = cedula;
+    }
+
+    public Cliente(int idCliente, String cedula, String nombre) {
+        this.idCliente = idCliente;
+        this.cedula = cedula;
+        this.nombre = nombre;
+    }
+
     public Cliente(int idCliente, String cedula, String nombre, String apellido, String direccion, String telefono, boolean isActive) {
         this.idCliente = idCliente;
         this.cedula = cedula;
@@ -34,7 +45,6 @@ public class Cliente implements Serializable {
     public int getIdCliente() {
         return idCliente;
     }
-
 
     public String getCedula() {
         return cedula;

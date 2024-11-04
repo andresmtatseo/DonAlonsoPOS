@@ -36,7 +36,6 @@ public class Compra implements Serializable {
         return idCompra;
     }
 
-
     public int getIdProveedor() {
         return idProveedor;
     }

@@ -11,6 +11,10 @@ public class Categoria implements Serializable {
     public Categoria() {
     }
 
+    public Categoria(int idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
     public Categoria(int idCategoria, String nombre) {
         this.idCategoria = idCategoria;
         this.nombre = nombre;
@@ -20,7 +24,6 @@ public class Categoria implements Serializable {
     public int getIdCategoria() {
         return idCategoria;
     }
-
 
     public String getNombre() {
         return nombre;

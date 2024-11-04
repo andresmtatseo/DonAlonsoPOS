@@ -34,7 +34,6 @@ public class DetallesCompra implements Serializable {
         return idDetallesCompra;
     }
 
-
     public int getIdCompra() {
         return idCompra;
     }
