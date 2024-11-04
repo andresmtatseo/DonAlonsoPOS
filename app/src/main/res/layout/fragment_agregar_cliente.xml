@@ -140,7 +140,7 @@
             android:id="@+id/btnLimpiar"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="200dp"
             android:background="@drawable/btn_secundary"
             android:text="Limpiar"
             android:textColor="@color/red" />
