@@ -189,8 +189,8 @@
                 android:id="@+id/ivFotoProducto"
                 android:layout_width="400dp"
                 android:layout_height="400dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="100dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
                 android:contentDescription="@string/foto_producto"
                 android:src="@drawable/icono_camara" />
         </LinearLayout>
