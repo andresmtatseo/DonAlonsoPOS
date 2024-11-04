@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.entities.Cliente;
+import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 

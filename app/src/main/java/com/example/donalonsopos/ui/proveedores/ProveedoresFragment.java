@@ -20,8 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.entities.Proveedor;
-import com.example.donalonsopos.ui.proveedores.AdaptadorViewProveedor;
+import com.example.donalonsopos.data.DTO.Proveedor;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

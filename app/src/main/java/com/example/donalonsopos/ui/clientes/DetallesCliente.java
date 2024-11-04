@@ -3,12 +3,20 @@ package com.example.donalonsopos.ui.clientes;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DTO.Cliente;
+import com.example.donalonsopos.data.DTO.Producto;
+import com.example.donalonsopos.util.ConfirmDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,33 +25,19 @@ import com.example.donalonsopos.R;
  */
 public class DetallesCliente extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_CLIENTE = "cliente";
+    private ConfirmDialog confirmDialog;
+    private Cliente clienteSeleccionado;
+    private static final String KEY_CLIENTE = "cliente";
 
     public DetallesCliente() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetallesCliente.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetallesCliente newInstance(String param1, String param2) {
+    public static DetallesCliente newInstance(Cliente cliente) {
         DetallesCliente fragment = new DetallesCliente();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_CLIENTE, cliente);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,15 +46,56 @@ public class DetallesCliente extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            clienteSeleccionado = (Cliente) getArguments().getSerializable(ARG_CLIENTE);
         }
+
+        confirmDialog = new ConfirmDialog(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detalles_cliente, container, false);
+        View view = inflater.inflate(R.layout.fragment_detalles_cliente, container, false);
+
+        TextView tvCedulaContenido = view.findViewById(R.id.tvCedulaContenido);
+        TextView tvNombreContenido = view.findViewById(R.id.tvNombreContenido);
+        TextView tvApellidoContenido = view.findViewById(R.id.tvApellidoContenido);
+        TextView tvDireccionContenido = view.findViewById(R.id.tvDireccionContenido);
+
+        tvCedulaContenido.setText(String.valueOf(clienteSeleccionado.getCedula()));
+        tvNombreContenido.setText(clienteSeleccionado.getNombre());
+        tvApellidoContenido.setText(clienteSeleccionado.getApellido());
+        tvDireccionContenido.setText(clienteSeleccionado.getDireccion());
+
+        Button btnEliminar = view.findViewById(R.id.btnEliminar);
+        Button btnEditar = view.findViewById(R.id.btnEditar);
+
+
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+                navController.navigate(R.id.EditarClienteFragment, createBundleWithProducto(clienteSeleccionado));
+            }
+        });
+
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este cliente?", () -> {
+                    Toast.makeText(getContext(), "Se elimino el cliente.", Toast.LENGTH_SHORT);
+                    NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+                    navController.navigate(R.id.nav_clientes);
+                });
+            }
+        });
+
+        return view;
+    }
+
+    private Bundle createBundleWithProducto(Cliente cliente) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_CLIENTE, cliente);
+        return bundle;
     }
 }

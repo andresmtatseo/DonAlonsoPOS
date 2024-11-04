@@ -1,4 +1,4 @@
-package com.example.donalonsopos.data.entities;
+package com.example.donalonsopos.data.DTO;
 
 import java.io.Serializable;
 

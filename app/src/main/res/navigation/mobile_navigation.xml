@@ -54,7 +54,6 @@
         android:id="@+id/detallesProductoFragment"
         android:name="com.example.donalonsopos.ui.productos.DetallesProducto"
         android:label="Detalles del Producto">
-        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
         <action
             android:id="@+id/action_detallesProductoFragment_to_ModificarProductoFragment"
             app:destination="@id/EditarProductoFragment" />
@@ -62,8 +61,7 @@
     <fragment
         android:id="@+id/EditarProductoFragment"
         android:name="com.example.donalonsopos.ui.productos.EditarProducto"
-        android:label="Modificar Producto">
-        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
+        android:label="Editar Producto">
     </fragment>
     <fragment
         android:id="@+id/nav_compras"
@@ -81,10 +79,18 @@
     </fragment>
     <fragment
         android:id="@+id/detallesClienteFragment"
-        android:name="com.example.donalonsopos.ui.productos.DetallesProducto"
+        android:name="com.example.donalonsopos.ui.clientes.DetallesCliente"
         android:label="Detalles del Cliente">
-        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
+        <action
+            android:id="@+id/action_detallesClienteFragment_to_EditarClienteFragment"
+            app:destination="@id/EditarClienteFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/EditarClienteFragment"
+        android:name="com.example.donalonsopos.ui.clientes.EditarCliente"
+        android:label="Detalles del Cliente">
+    </fragment>
+
     <fragment
         android:id="@+id/nav_proveedores"
         android:name="com.example.donalonsopos.ui.proveedores.ProveedoresFragment"
@@ -98,8 +104,16 @@
         android:id="@+id/detallesProveedorFragment"
         android:name="com.example.donalonsopos.ui.proveedores.DetallesProveedor"
         android:label="Detalles del Proveedor">
-        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
+        <action
+            android:id="@+id/action_detallesProveedorFragment_to_EditarProveedorFragment"
+            app:destination="@id/EditarProveedorFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/EditarProveedorFragment"
+        android:name="com.example.donalonsopos.ui.proveedores.EditarProveedor"
+        android:label="Editar Proveedor">
+    </fragment>
+
     <fragment
         android:id="@+id/nav_usuarios"
         android:name="com.example.donalonsopos.ui.usuarios.UsuariosFragment"
@@ -113,7 +127,14 @@
         android:id="@+id/detallesUsuarioFragment"
         android:name="com.example.donalonsopos.ui.usuarios.DetallesUsuario"
         android:label="Detalles del Usuario">
-        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
+        <action
+            android:id="@+id/action_detallesUsuarioFragment_to_EditarUsuarioFragment"
+            app:destination="@id/EditarUsuarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/EditarUsuarioFragment"
+        android:name="com.example.donalonsopos.ui.usuarios.EditarUsuario"
+        android:label="Editar Usuario">
     </fragment>
     <fragment
         android:id="@+id/nav_reportes"

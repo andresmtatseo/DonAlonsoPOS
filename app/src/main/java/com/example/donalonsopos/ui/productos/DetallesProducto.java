@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.entities.Producto;
+import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.util.ConfirmDialog;
 
 public class DetallesProducto extends Fragment {
@@ -27,13 +27,6 @@ public class DetallesProducto extends Fragment {
         // Constructor vacío requerido
     }
 
-    /**
-     * Método factory para crear una nueva instancia de DetallesProducto,
-     * pasando el objeto Producto como argumento.
-     *
-     * @param producto El producto a mostrar en los detalles.
-     * @return Una nueva instancia del fragment DetallesProducto.
-     */
     public static DetallesProducto newInstance(Producto producto) {
         DetallesProducto fragment = new DetallesProducto();
         Bundle args = new Bundle();
@@ -56,8 +49,6 @@ public class DetallesProducto extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detalles_producto, container, false);
 
-        // Aquí puedes acceder a `productoSeleccionado` para mostrar sus detalles en la interfaz
-        // Ejemplo: actualizar un TextView con el nombre del producto, etc.
         TextView tvNombreContenido = view.findViewById(R.id.tvNombreContenido);
         TextView tvPrecioContenido = view.findViewById(R.id.tvPrecioContenido);
         //TextView tvCostoContenido = view.findViewById(R.id.tvCostoContenido);

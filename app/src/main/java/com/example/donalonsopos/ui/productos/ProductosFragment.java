@@ -19,7 +19,7 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.entities.Producto;
+import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
