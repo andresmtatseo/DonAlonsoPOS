@@ -1,4 +1,4 @@
-package com.example.donalonsopos.ui.clientes;
+package com.example.donalonsopos.ui.proveedores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.entities.Cliente;
+import com.example.donalonsopos.data.entities.Proveedor;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 
 import java.util.List;
 
-public class AdaptadorViewCliente extends RecyclerView.Adapter<AdaptadorViewCliente.ViewHolder> {
+public class AdaptadorViewProveedor extends RecyclerView.Adapter<AdaptadorViewProveedor.ViewHolder> {
 
     private final Context context;
-    private final List<Cliente> clientes;
+    private final List<Proveedor> proveedores;
     private final OnItemClickListener listener;
     private final OnItemLongClickListener longListener;
 
-    public AdaptadorViewCliente(Context context, List<Cliente> clientes, OnItemClickListener listener, OnItemLongClickListener longClickListener) {
+    public AdaptadorViewProveedor(Context context, List<Proveedor> proveedores, OnItemClickListener listener, OnItemLongClickListener longClickListener) {
         this.context = context;
-        this.clientes = clientes;
+        this.proveedores = proveedores;
         this.listener = listener;
         this.longListener = longClickListener;
     }
@@ -33,55 +33,52 @@ public class AdaptadorViewCliente extends RecyclerView.Adapter<AdaptadorViewClie
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.template_cliente, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.template_proveedor, parent, false);
         return new ViewHolder(view, listener, longListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Cliente cliente = clientes.get(position);
-        if (cliente != null) {
-            holder.bind(cliente);
+        Proveedor proveedor = proveedores.get(position);
+        if (proveedor != null) {
+            holder.bind(proveedor);
         }
     }
 
     @Override
     public int getItemCount() {
-        return clientes.size();
+        return proveedores.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        //private final TextView idCliente;
         private final TextView cedula;
         private final TextView nombre;
-        private final TextView apellido;
         //private final TextView direccion;
         private final TextView telefono;
+        private final TextView email;
         private final OnItemClickListener listener;
         private final OnItemLongClickListener longListener;
 
         public ViewHolder(@NonNull View itemView, OnItemClickListener listener, OnItemLongClickListener longClickListener) {
             super(itemView);
-            //this.idCliente = itemView.findViewById(R.id.tvIdCliente);
             this.cedula = itemView.findViewById(R.id.tvCedulaRif);
             this.nombre = itemView.findViewById(R.id.tvNombre);
-            this.apellido = itemView.findViewById(R.id.tvEmail);
             //this.direccion = itemView.findViewById(R.id.tvDireccion);
             this.telefono = itemView.findViewById(R.id.tvTelefono);
+            this.email = itemView.findViewById(R.id.tvEmail);
             this.listener = listener;
             this.longListener = longClickListener;
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
 
-        public void bind(Cliente cliente) {
-            //idCliente.setText("ID: " + cliente.getIdCliente());
-            cedula.setText("Cédula: " + cliente.getCedula());
-            nombre.setText("Nombre: " + cliente.getNombre());
-            apellido.setText("Apellido: " + cliente.getApellido());
-            //direccion.setText("Dirección: " + cliente.getDireccion());
-            telefono.setText("Teléfono: " + cliente.getTelefono());
+        public void bind(Proveedor proveedor) {
+            cedula.setText("Cédula/RIF: " + proveedor.getCedula());
+            nombre.setText("Nombre: " + proveedor.getNombre());
+            //direccion.setText("Dirección: " + proveedor.getDireccion());
+            telefono.setText("Teléfono: " + proveedor.getTelefono());
+            email.setText("Email: " + proveedor.getEmail());
         }
 
         @Override

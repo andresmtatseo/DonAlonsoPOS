@@ -31,8 +31,8 @@ import java.util.List;
 public class ClientesFragment extends Fragment {
 
     private static final String KEY_CLIENTE = "cliente";
-    private static final String FILTRO_CEDULA = "Cedula";
-    private static final String FILTRO_NOMBRECOMPLETO = "Nombre Completo";
+    private static final String FILTRO_CEDULA = "cedula";
+    private static final String FILTRO_NOMBRECOMPLETO = "nombre completo";
 
     private RecyclerView lista;
     private AdaptadorViewCliente adaptador;
