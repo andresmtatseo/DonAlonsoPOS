@@ -51,14 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="90dp"
+            android:layout_marginBottom="10dp"
             android:paddingStart="16dp">
 
             <!-- Cedula -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -73,15 +73,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="contenido"
                     android:textSize="30sp" />
             </LinearLayout>
 
             <!-- Nombre -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -95,6 +96,7 @@
                     android:id="@+id/tvNombreContenido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:text="contenido"
                     android:textSize="30sp" />
@@ -102,9 +104,9 @@
 
             <!-- Apellido -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -118,6 +120,7 @@
                     android:id="@+id/tvApellidoContenido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:text="contenido"
                     android:textSize="30sp" />
@@ -125,9 +128,9 @@
 
             <!-- Dirección -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -141,6 +144,7 @@
                     android:id="@+id/tvDireccionContenido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:text="contenido"
                     android:textSize="30sp" />
@@ -148,9 +152,9 @@
 
             <!-- Correo -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -164,6 +168,7 @@
                     android:id="@+id/tvCorreoContenido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     android:text="contenido"
                     android:textSize="30sp" />
@@ -185,7 +190,7 @@
             android:id="@+id/btnEliminar"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="200dp"
             android:background="@drawable/btn_secundary"
             android:text="Eliminar"
             android:textColor="@color/red" />
