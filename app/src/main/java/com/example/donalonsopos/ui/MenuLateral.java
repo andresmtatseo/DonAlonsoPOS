@@ -56,6 +56,7 @@ public class MenuLateral extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+
         // Inicializar confirmDialog
         confirmDialog = new ConfirmDialog(this);
     }
@@ -76,8 +77,10 @@ public class MenuLateral extends AppCompatActivity {
 
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Toast.makeText(this, "Item seleccionado: " + id, Toast.LENGTH_SHORT).show();
 
         if (id == R.id.nav_cerrar_sesion) {
+            Toast.makeText(this, "Cerrar Sesión", Toast.LENGTH_SHORT).show();
             mostrarConfirmacionSalir();
             return true;
         }
@@ -89,11 +92,11 @@ public class MenuLateral extends AppCompatActivity {
 
     // Llamar al popup de confirmación
     private void mostrarConfirmacionSalir() {
-        Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
         confirmDialog.showConfirmationDialog(
                 "Confirmación",
-                "¿Estás seguro de que cerrar sesion?",
+                "¿Estás seguro de que quieres salir?",
                 this::finish  // Cerrar la actividad si el usuario confirma
         );
     }
+
 }

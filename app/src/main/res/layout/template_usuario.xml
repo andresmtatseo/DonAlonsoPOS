@@ -18,6 +18,15 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tvRol"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="Rol:"
+        android:textSize="18sp" />
+
+    <TextView
         android:id="@+id/tvNombre"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -36,11 +45,12 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/tvRol"
+        android:id="@+id/tvEstado"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:text="Telefono:"
-        android:textSize="18sp" />
+        android:text="Estado:"
+        android:textSize="18sp" />/>
+
 </LinearLayout>

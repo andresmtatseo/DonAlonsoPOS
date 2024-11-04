@@ -62,11 +62,11 @@ public class AdaptadorViewProveedor extends RecyclerView.Adapter<AdaptadorViewPr
 
         public ViewHolder(@NonNull View itemView, OnItemClickListener listener, OnItemLongClickListener longClickListener) {
             super(itemView);
-            this.cedula = itemView.findViewById(R.id.tvCedulaRif);
+            this.cedula = itemView.findViewById(R.id.tvCedula);
             this.nombre = itemView.findViewById(R.id.tvNombre);
             //this.direccion = itemView.findViewById(R.id.tvDireccion);
-            this.telefono = itemView.findViewById(R.id.tvTelefono);
-            this.email = itemView.findViewById(R.id.tvEmail);
+            this.telefono = itemView.findViewById(R.id.tvRol);
+            this.email = itemView.findViewById(R.id.tvApellido);
             this.listener = listener;
             this.longListener = longClickListener;
             itemView.setOnClickListener(this);

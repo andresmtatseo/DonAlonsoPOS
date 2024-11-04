@@ -50,7 +50,7 @@
     <fragment
         android:id="@+id/detallesProductoFragment"
         android:name="com.example.donalonsopos.ui.productos.DetallesProducto"
-        android:label="DetallesProducto">
+        android:label="Detalles del Producto">
         <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
     </fragment>
     <fragment
@@ -85,14 +85,24 @@
     <fragment
         android:id="@+id/detallesProveedorFragment"
         android:name="com.example.donalonsopos.ui.proveedores.DetallesProveedor"
-        android:label="DetallesProducto">
+        android:label="Detalles del Proveedor">
         <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
     </fragment>
     <fragment
         android:id="@+id/nav_usuarios"
         android:name="com.example.donalonsopos.ui.usuarios.UsuariosFragment"
         android:label="@string/menu_usuarios"
-        tools:layout="@layout/fragment_usuarios" />
+        tools:layout="@layout/fragment_usuarios" >
+        <action
+            android:id="@+id/action_nav_usuarios_to_detallesUsuarioFragment"
+            app:destination="@id/detallesUsuarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallesUsuarioFragment"
+        android:name="com.example.donalonsopos.ui.usuarios.DetallesUsuario"
+        android:label="Detalles del Usuario">
+        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
+    </fragment>
     <fragment
         android:id="@+id/nav_reportes"
         android:name="com.example.donalonsopos.ui.reportes.ReportesFragment"

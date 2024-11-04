@@ -2,8 +2,7 @@ package com.example.donalonsopos.ui.usuarios;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
+import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,11 @@ import android.view.ViewGroup;
 import com.example.donalonsopos.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link } subclass.
  * Use the {@link AgregarUsuario#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AgregarUsuario extends Fragment {
+public class AgregarUsuario extends DialogFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

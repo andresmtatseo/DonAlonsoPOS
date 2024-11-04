@@ -8,7 +8,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/tvCedulaRif"
+        android:id="@+id/tvCedula"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -27,7 +27,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/tvTelefono"
+        android:id="@+id/tvRol"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -36,7 +36,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/tvEmail"
+        android:id="@+id/tvApellido"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"

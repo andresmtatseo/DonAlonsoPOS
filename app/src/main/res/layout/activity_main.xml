@@ -13,7 +13,7 @@
         tools:context=".ui.activity.MainActivity">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/ivFoto"
             android:layout_width="630dp"
             android:layout_height="320dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tvUsuario"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/ivFoto" />
 
         <TextView
             android:id="@+id/tvUsuario"
