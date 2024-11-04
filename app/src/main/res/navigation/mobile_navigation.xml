@@ -55,6 +55,15 @@
         android:name="com.example.donalonsopos.ui.productos.DetallesProducto"
         android:label="Detalles del Producto">
         <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
+        <action
+            android:id="@+id/action_detallesProductoFragment_to_ModificarProductoFragment"
+            app:destination="@id/EditarProductoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/EditarProductoFragment"
+        android:name="com.example.donalonsopos.ui.productos.EditarProducto"
+        android:label="Modificar Producto">
+        <!-- Puedes agregar acciones, argumentos o destinos relacionados aquí -->
     </fragment>
     <fragment
         android:id="@+id/nav_compras"
