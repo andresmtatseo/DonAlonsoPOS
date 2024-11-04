@@ -1,5 +1,6 @@
 package com.example.donalonsopos.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +34,6 @@ import com.example.donalonsopos.util.ConfirmDialog;
 public class MenuLateral extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    // Inicializar confirmDialog
     private ConfirmDialog confirmDialog;
 
     @Override
@@ -46,24 +46,20 @@ public class MenuLateral extends AppCompatActivity {
         setSupportActionBar(binding.appBarMenuLateral.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_inicio)
+                R.id.nav_inicio) // Puedes agregar más elementos si es necesario
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_menu_lateral);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-        // Inicializar confirmDialog
         confirmDialog = new ConfirmDialog(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_lateral, menu);
         return true;
     }
@@ -75,28 +71,29 @@ public class MenuLateral extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Toast.makeText(this, "Item seleccionado: " + id, Toast.LENGTH_SHORT).show();
 
         if (id == R.id.nav_cerrar_sesion) {
-            Toast.makeText(this, "Cerrar Sesión", Toast.LENGTH_SHORT).show();
             mostrarConfirmacionSalir();
             return true;
         }
 
-        // Deja que NavigationUI maneje la navegación a otros destinos
         return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.nav_host_fragment_content_menu_lateral));
     }
 
-
-    // Llamar al popup de confirmación
     private void mostrarConfirmacionSalir() {
         confirmDialog.showConfirmationDialog(
                 "Confirmación",
-                "¿Estás seguro de que quieres salir?",
-                this::finish  // Cerrar la actividad si el usuario confirma
+                "¿Estás seguro de que quieres cerrar sesión?",
+                this::cerrarSesion
         );
     }
 
+    private void cerrarSesion() {
+        Intent intent = new Intent(MenuLateral.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Limpiar la pila de actividades
+        startActivity(intent);
+        finish(); // Finaliza la actividad actual
+    }
 }
