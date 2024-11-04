@@ -8,16 +8,35 @@
     android:padding="16dp"
     tools:context=".ui.usuarios.DetallesUsuario">
 
-    <!-- Título del cliente -->
-    <TextView
-        android:id="@+id/tvTitulo"
+    <!-- Contenedor horizontal para el botón de cerrar y el título -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="DETALLES DEL USUARIO"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Título del cliente -->
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:text="DETALLES DEL PROVEEDOR"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <!-- Botón de cerrar en la esquina superior derecha -->
+        <ImageButton
+            android:id="@+id/btnCerrar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/icono_cerrar"
+            android:contentDescription="Cerrar" />
+    </LinearLayout>
 
     <!-- Contenedor vertical para la información del cliente -->
     <LinearLayout
