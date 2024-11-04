@@ -1,122 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/ivFoto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="25dp"
+        app:srcCompat="@drawable/img_imagotipo" />
+
+    <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".ui.activity.MainActivity">
-
-        <ImageView
-            android:id="@+id/ivFoto"
-            android:layout_width="630dp"
-            android:layout_height="320dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/img_imagotipo" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        android:padding="25dp">
 
         <TextView
             android:id="@+id/tvIniciarSesion"
-            android:layout_width="315dp"
+            android:layout_width="match_parent"
             android:layout_height="65dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="8dp"
             android:text="Iniciar Sesión"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="48sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tvUsuario"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivFoto" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvUsuario"
-            android:layout_width="315dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Usuario"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/etUsuario"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvIniciarSesion" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etUsuario"
-            android:layout_width="315dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
             android:inputType="text"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvContrasena"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tvContrasena"
-            android:layout_width="315dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Contraseña"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/etContrasena"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etUsuario"
-            app:layout_constraintVertical_bias="0.727" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etContrasena"
-            android:layout_width="315dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:ems="10"
             android:inputType="textPassword"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvContrasena" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnIniciar"
-            android:layout_width="315dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/btn_primary"
             android:text="Iniciar"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            app:circularflow_radiusInDP="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnSalir"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etContrasena" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/btnSalir"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="315dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
             android:background="@drawable/btn_secundary"
             android:text="Salir"
             android:textColor="@color/red"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnIniciar" />
+            android:textSize="14sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-</ScrollView>
+</LinearLayout>
