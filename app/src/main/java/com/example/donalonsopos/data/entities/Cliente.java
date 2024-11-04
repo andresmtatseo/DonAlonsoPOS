@@ -3,50 +3,24 @@ package com.example.donalonsopos.data.entities;
 import java.io.Serializable;
 
 public class Cliente implements Serializable {
-
-    //Atributos
+    // Atributos
     private int idCliente;
     private String cedula;
     private String nombre;
     private String apellido;
     private String direccion;
     private String telefono;
-    private int isActive;
+    private boolean isActive;
 
-    //Constructor
+    // Constructores
     public Cliente() {
-
     }
 
     public Cliente(int idCliente) {
         this.idCliente = idCliente;
     }
 
-    public Cliente(int idCliente, String cedula, String nombre, String apellido) {
-        this.idCliente = idCliente;
-        this.cedula = cedula;
-        this.nombre = nombre;
-        this.apellido = apellido;
-    }
-
-    public Cliente(int idCliente, String cedula, String nombre, String apellido, String direccion) {
-        this.idCliente = idCliente;
-        this.cedula = cedula;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.direccion = direccion;
-    }
-
-    public Cliente(int idCliente, String cedula, String nombre, String apellido, String direccion, String telefono) {
-        this.cedula = cedula;
-        this.idCliente = idCliente;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.direccion = direccion;
-        this.telefono = telefono;
-    }
-
-    public Cliente(int idCliente, String cedula, String nombre, String apellido, String direccion, String telefono, int isActive) {
+    public Cliente(int idCliente, String cedula, String nombre, String apellido, String direccion, String telefono, boolean isActive) {
         this.idCliente = idCliente;
         this.cedula = cedula;
         this.nombre = nombre;
@@ -56,9 +30,11 @@ public class Cliente implements Serializable {
         this.isActive = isActive;
     }
 
+    // Métodos
     public int getIdCliente() {
         return idCliente;
     }
+
 
     public String getCedula() {
         return cedula;
@@ -100,24 +76,11 @@ public class Cliente implements Serializable {
         this.telefono = telefono;
     }
 
-    public int getIsActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(int isActive) {
+    public void setIsActive(boolean isActive) {
         this.isActive = isActive;
-    }
-
-    @Override
-    public String toString() {
-        return "Cliente{" +
-                "idCliente=" + idCliente +
-                ", cedula='" + cedula + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", direccion='" + direccion + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", isActive=" + isActive +
-                '}';
     }
 }
