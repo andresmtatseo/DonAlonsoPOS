@@ -28,6 +28,14 @@
             android:textStyle="bold" />
 
         <!-- Botón de cerrar en la esquina superior derecha -->
+        <ImageButton
+            android:id="@+id/btnCerrar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/icono_cerrar"
+            android:contentDescription="Cerrar" />
     </LinearLayout>
 
     <!-- Contenedor horizontal para la imagen y los textos -->
