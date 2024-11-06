@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Cliente;
-import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.util.ConfirmDialog;
 
 /**

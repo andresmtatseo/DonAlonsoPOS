@@ -1,4 +1,4 @@
-package com.example.donalonsopos.DB;
+package com.example.donalonsopos.data.DB;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,6 +1,6 @@
-package com.example.donalonsopos.DAO;
+package com.example.donalonsopos.data.DAO;
 
-import com.example.donalonsopos.Model.Compra;
+import com.example.donalonsopos.data.DTO.Compra;
 import java.util.List;
 
 public interface CompraDao {

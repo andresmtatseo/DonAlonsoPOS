@@ -1,6 +1,6 @@
-package com.example.donalonsopos.DAO;
+package com.example.donalonsopos.data.DAO;
 
-import com.example.donalonsopos.Model.Proveedor;
+import com.example.donalonsopos.data.DTO.Proveedor;
 import java.util.List;
 
 public interface ProveedorDao {
