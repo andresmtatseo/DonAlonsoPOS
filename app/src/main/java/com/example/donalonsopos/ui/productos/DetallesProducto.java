@@ -79,9 +79,9 @@ public class DetallesProducto extends Fragment {
             @Override
             public void onClick(View view) {
                 confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este producto?", () -> {
-                    Toast.makeText(getContext(), "Se elimino el producto.", Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(), "Se elimino el producto.", Toast.LENGTH_SHORT).show();
                     NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
-                    navController.navigate(R.id.nav_productos);
+                    navController.popBackStack();
                 });
             }
         });
