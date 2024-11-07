@@ -28,14 +28,6 @@
             android:textStyle="bold" />
 
         <!-- Botón de cerrar en la esquina superior derecha -->
-        <ImageButton
-            android:id="@+id/btnCerrar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/icono_cerrar"
-            android:contentDescription="Cerrar" />
     </LinearLayout>
 
     <!-- Contenedor vertical para la información del usuario -->
@@ -50,41 +42,41 @@
             android:id="@+id/tvNombreUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Nombre de Usuario:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etNombreUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese nombre de usuario"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <!-- Cédula -->
         <TextView
             android:id="@+id/tvCedula"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Cédula:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etCedula"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese cédula"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <!-- Rol -->
         <TextView
             android:id="@+id/tvRol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Rol:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <Spinner
             android:id="@+id/spinnerRol"
@@ -97,32 +89,32 @@
             android:id="@+id/tvNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Nombre:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese nombre"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <!-- Apellido -->
         <TextView
             android:id="@+id/tvApellido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Apellido:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etApellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese apellido"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
     </LinearLayout>
 
     <!-- Contenedor de botones -->

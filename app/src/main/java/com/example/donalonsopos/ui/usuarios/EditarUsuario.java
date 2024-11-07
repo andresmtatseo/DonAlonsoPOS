@@ -1,66 +1,100 @@
 package com.example.donalonsopos.ui.usuarios;
 
+import static com.example.donalonsopos.ui.usuarios.UsuariosFragment.KEY_USUARIO;
+
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DTO.Usuario;
+import com.example.donalonsopos.util.Utils;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditarUsuario#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EditarUsuario extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Usuario usuarioSeleccionado;
+    private EditText etNombreUsuario, etCedula, etNombre, etApellido;
+    private Spinner spinnerRol;
+    private Button btnActualizar;
 
     public EditarUsuario() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditarUsuario.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditarUsuario newInstance(String param1, String param2) {
-        EditarUsuario fragment = new EditarUsuario();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        // Constructor vacío requerido
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            usuarioSeleccionado = (Usuario) getArguments().getSerializable(KEY_USUARIO);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_editar_usuario, container, false);
+        View view = inflater.inflate(R.layout.fragment_editar_usuario, container, false);
+
+        // Inicialización de vistas
+        etNombreUsuario = view.findViewById(R.id.etNombreUsuario);
+        etCedula = view.findViewById(R.id.etCedula);
+        etNombre = view.findViewById(R.id.etNombre);
+        etApellido = view.findViewById(R.id.etApellido);
+        spinnerRol = view.findViewById(R.id.spinnerRol);
+        btnActualizar = view.findViewById(R.id.btnGuardar);
+
+        // Cargar datos del usuario
+        if (usuarioSeleccionado != null) {
+            etNombreUsuario.setText(usuarioSeleccionado.getUsername());
+            etCedula.setText(String.valueOf(usuarioSeleccionado.getCedula()));
+            etNombre.setText(usuarioSeleccionado.getNombre());
+            etApellido.setText(usuarioSeleccionado.getApellido());
+
+            // Si el rol del usuario no está seleccionado, elige un valor por defecto
+            // Esto se debe implementar según el contexto de los roles
+            // spinnerRol.setSelection(getRolPosition(usuarioSeleccionado.getRol()));
+        }
+
+        // Configurar el botón de actualización
+        btnActualizar.setOnClickListener(v -> validarYActualizarUsuario());
+
+        return view;
+    }
+
+    private void validarYActualizarUsuario() {
+        String nombreUsuario = etNombreUsuario.getText().toString().trim();
+        String cedula = etCedula.getText().toString().trim();
+        String nombre = etNombre.getText().toString().trim();
+        String apellido = etApellido.getText().toString().trim();
+        int rol = spinnerRol.getSelectedItemPosition();
+
+        // Validaciones de campos obligatorios
+        if (!Utils.validateRequiredField(etNombreUsuario, "El nombre de usuario es obligatorio") ||
+                !Utils.validateRequiredField(etCedula, "La cédula es obligatoria") ||
+                !Utils.validateRequiredField(etNombre, "El nombre es obligatorio") ||
+                !Utils.validateRequiredField(etApellido, "El apellido es obligatorio")) {
+            return;
+        }
+
+        // Validación de la cédula: debe ser un número mayor que cero
+        if (!Utils.validatePositiveNumberField(etCedula, "La cédula debe ser un número mayor que cero")) {
+            return;
+        }
+
+        // Si no hay errores, actualizamos el usuario
+        usuarioSeleccionado.setUsername(nombreUsuario);
+        usuarioSeleccionado.setCedula(cedula);
+        usuarioSeleccionado.setNombre(nombre);
+        usuarioSeleccionado.setApellido(apellido);
+        usuarioSeleccionado.setRol(rol);
+
+        Toast.makeText(getContext(), "Usuario actualizado con éxito", Toast.LENGTH_SHORT).show();
+        requireActivity().onBackPressed();
     }
 }

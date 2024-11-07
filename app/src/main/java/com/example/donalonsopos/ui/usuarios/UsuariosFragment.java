@@ -3,12 +3,6 @@ package com.example.donalonsopos.ui.usuarios;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,49 +11,57 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Usuario;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass for displaying users.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class UsuariosFragment extends Fragment {
 
-    private static final String KEY_USUARIO = "usuario";
-    private RecyclerView lista;
-    private AdaptadorViewUsuario adaptador;
-    private ArrayList<Usuario> usuarios;
-    private ArrayList<Usuario> usuariosFiltrados;
+    public static final String KEY_USUARIO = "usuario";
 
-    private String filtroActual = "Nombre"; // Filtro por defecto
-    private int rolSeleccionado = -1; // Rol seleccionado para filtrar
+    private static final String FILTRO_CEDULA = "Cedula";
+    private static final String FILTRO_NOMBRECOMPLETO = "Nombre y Apellido";
+    private static final String FILTRO_ROL = "Rol";
+    private String filtroActual = FILTRO_CEDULA;
+    private int rolSeleccionado = -1;
+
+    private RecyclerView lista;
+    private TextView tvFiltro;
+    private ImageButton ibFiltro;
+    private AdaptadorViewUsuario adaptador;
+    private List<Usuario> usuarios = new ArrayList<>();
+    private List<Usuario> usuariosFiltrados = new ArrayList<>();
 
     public UsuariosFragment() {
         // Constructor vacío requerido
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_usuarios, container, false);
-
-        usuarios = cargarUsuarios();         // Cargar la lista completa
-        usuariosFiltrados = new ArrayList<>(usuarios);  // Inicialmente, todos los usuarios están en usuariosFiltrados
 
         setupFloatingActionButton(view);
         setupRecyclerView(view);
         setupSwipeRefresh(view);
         setupSearchView(view);
         setupFilterButton(view);
+
+        cargarUsuarios();
 
         return view;
     }
@@ -98,9 +100,10 @@ public class UsuariosFragment extends Fragment {
     private void setupSwipeRefresh(View view) {
         SwipeRefreshLayout swipeToRefresh = view.findViewById(R.id.swipeRefreshLayout);
         swipeToRefresh.setOnRefreshListener(() -> {
-            Toast.makeText(requireContext(), "Actualizando usuarios...", Toast.LENGTH_SHORT).show();
+            cargarUsuarios();
             adaptador.notifyDataSetChanged();
             swipeToRefresh.setRefreshing(false);
+            Toast.makeText(requireContext(), "Usuarios actualizados", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -121,7 +124,10 @@ public class UsuariosFragment extends Fragment {
     }
 
     private void setupFilterButton(View view) {
-        ImageButton ibFiltro = view.findViewById(R.id.ibFiltro);
+        ibFiltro = view.findViewById(R.id.ibFiltro);
+        tvFiltro = view.findViewById(R.id.tvFiltro);
+        tvFiltro.setText("Por " + filtroActual);
+
         ibFiltro.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("Filtrar Usuarios");
@@ -132,7 +138,6 @@ public class UsuariosFragment extends Fragment {
             RadioGroup radioGroupFiltros = dialogView.findViewById(R.id.radioGroupFiltros);
             Spinner spinnerRoles = dialogView.findViewById(R.id.spinnerRoles);
 
-            // Opciones para el Spinner de roles
             ArrayList<String> roles = new ArrayList<>();
             roles.add("Administrador");
             roles.add("Encargado");
@@ -142,7 +147,6 @@ public class UsuariosFragment extends Fragment {
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerRoles.setAdapter(spinnerAdapter);
 
-            // Configurar visibilidad del Spinner según la selección del RadioGroup
             radioGroupFiltros.setOnCheckedChangeListener((group, checkedId) -> {
                 if (checkedId == R.id.rbFiltrarPorRol) {
                     spinnerRoles.setVisibility(View.VISIBLE);
@@ -154,32 +158,28 @@ public class UsuariosFragment extends Fragment {
             builder.setPositiveButton("Aplicar", (dialog, which) -> {
                 int selectedId = radioGroupFiltros.getCheckedRadioButtonId();
 
-                // Definir el filtro actual y aplicar filtro específico
                 if (selectedId == R.id.rbFiltrarPorCedula) {
-                    filtroActual = "ID";
+                    filtroActual = FILTRO_CEDULA;
                 } else if (selectedId == R.id.rbFiltrarPorNombre) {
-                    filtroActual = "Nombre";
+                    filtroActual = FILTRO_NOMBRECOMPLETO;
                 } else if (selectedId == R.id.rbFiltrarPorRol) {
-                    filtroActual = "Rol";
-                    // Asignar id de categoría según la selección
+                    filtroActual = FILTRO_ROL;
                     switch (spinnerRoles.getSelectedItem().toString()) {
                         case "Administrador":
-                            rolSeleccionado = 1; // Suponiendo idCategoría para Lácteos
+                            rolSeleccionado = 1;
                             break;
                         case "Encargado":
-                            rolSeleccionado = 2; // Suponiendo idCategoría para Frutas
+                            rolSeleccionado = 2;
                             break;
                         case "Vendedor":
-                            rolSeleccionado = 3; // Suponiendo idCategoría para Helados
+                            rolSeleccionado = 3;
                             break;
                         default:
-                            rolSeleccionado = -1; // No seleccionado
+                            rolSeleccionado = -1;
                     }
                 }
-
-                // Llamar a `filtrarUsuarios` para aplicar el filtro con el texto actual en el SearchView
-                SearchView searchView = view.findViewById(R.id.searchView);
-                String textoBusqueda = searchView.getQuery().toString();
+                tvFiltro.setText("Por " + filtroActual);
+                String textoBusqueda = ((SearchView) view.findViewById(R.id.searchView)).getQuery().toString();
                 filtrarUsuarios(textoBusqueda);
             });
 
@@ -190,39 +190,34 @@ public class UsuariosFragment extends Fragment {
 
     private void filtrarUsuarios(String textoBusqueda) {
         usuariosFiltrados.clear();
+        String query = textoBusqueda.toLowerCase().trim(); // Limpiar espacios
 
         for (Usuario usuario : usuarios) {
             switch (filtroActual) {
-                case "ID":
-                    if (String.valueOf(usuario.getIdUsuario()).contains(textoBusqueda)) {
+                case FILTRO_CEDULA:
+                    String cedula = usuario.getCedula().toLowerCase();
+                    if (cedula.contains(query)) {
                         usuariosFiltrados.add(usuario);
                     }
                     break;
-                case "Nombre":
-                    if (usuario.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
+                case FILTRO_NOMBRECOMPLETO:
+                    String nombreCompleto = (usuario.getNombre() + " " + usuario.getApellido()).toLowerCase();
+                    if (nombreCompleto.contains(query)) {
                         usuariosFiltrados.add(usuario);
                     }
                     break;
-                case "Rol":
-                    if (usuario.getRol() == rolSeleccionado &&
-                            usuario.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
+                case FILTRO_ROL:
+                    if (usuario.getRol() == rolSeleccionado && usuario.getNombre().toLowerCase().contains(query)) {
                         usuariosFiltrados.add(usuario);
                     }
                     break;
             }
         }
-
-        adaptador.notifyDataSetChanged(); // Actualizar el adaptador después de filtrar
+        adaptador.notifyDataSetChanged();
     }
 
-    private Bundle createBundleWithUsuario(Usuario usuario) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_USUARIO, usuario);
-        return bundle;
-    }
-
-    private ArrayList<Usuario> cargarUsuarios() {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
+    private void cargarUsuarios() {
+        usuarios.clear();
         usuarios.add(new Usuario(1, "admin", "1234", 1, "V-11112222", "Andres", "Moreno", true));
         usuarios.add(new Usuario(2, "jane", "5678", 2, "V-33334444", "Jane", "Doe", true));
         usuarios.add(new Usuario(3, "amendez", "abcd", 1, "V-55556666", "Ana", "Mendez", true));
@@ -246,6 +241,13 @@ public class UsuariosFragment extends Fragment {
         usuarios.add(new Usuario(21, "eramirez", "xyz123", 2, "V-38394041", "Elena", "Ramirez", true));
         usuarios.add(new Usuario(22, "agomez", "welcome", 1, "V-41424344", "Andres", "Gomez", true));
         usuarios.add(new Usuario(23, "lruiz", "p4ssword", 2, "V-45464748", "Lucia", "Ruiz", true));
-        return usuarios;
+        usuariosFiltrados.clear();
+        usuariosFiltrados.addAll(usuarios);
+    }
+
+    private Bundle createBundleWithUsuario(Usuario usuario) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_USUARIO, usuario);
+        return bundle;
     }
 }
