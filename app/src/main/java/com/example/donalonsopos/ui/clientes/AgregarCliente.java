@@ -1,65 +1,90 @@
 package com.example.donalonsopos.ui.clientes;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.DialogFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.util.Utils;
 
 public class AgregarCliente extends DialogFragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private EditText etCedula, etNombre, etApellido, etTelefono, etDireccion;
+    private Button btnGuardar, btnLimpiar;
+    private ImageButton btnCerrar;
 
     public AgregarCliente() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AgregarCliente.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AgregarCliente newInstance(String param1, String param2) {
-        AgregarCliente fragment = new AgregarCliente();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        // Constructor público requerido
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_agregar_cliente, container, false);
 
-
+        initializeViews(view);
+        setupListeners();
 
         return view;
+    }
+
+    private void initializeViews(View view) {
+        etCedula = view.findViewById(R.id.etCedula);
+        etNombre = view.findViewById(R.id.etNombre);
+        etApellido = view.findViewById(R.id.etApellido);
+        etTelefono = view.findViewById(R.id.etTelefono);
+        etDireccion = view.findViewById(R.id.etDireccion);
+        btnGuardar = view.findViewById(R.id.btnGuardar);
+        btnLimpiar = view.findViewById(R.id.btnLimpiar);
+        btnCerrar = view.findViewById(R.id.btnCerrar);
+    }
+
+    private void setupListeners() {
+        btnGuardar.setOnClickListener(v -> guardarCliente());
+        btnLimpiar.setOnClickListener(v -> limpiarCampos());
+        btnCerrar.setOnClickListener(v -> dismiss());
+    }
+
+    private void guardarCliente() {
+        String cedula = etCedula.getText().toString().trim();
+        String nombre = etNombre.getText().toString().trim();
+        String apellido = etApellido.getText().toString().trim();
+        String telefono = etTelefono.getText().toString().trim();
+        String direccion = etDireccion.getText().toString().trim();
+
+        if (!Utils.validateRequiredField(etCedula, "La cédula es obligatoria") ||
+                !Utils.validateRequiredField(etNombre, "El nombre es obligatorio") ||
+                !Utils.validateRequiredField(etApellido, "El apellido es obligatorio")) {
+            return;
+        }
+
+        if (!Utils.validatePositiveNumberField(etCedula, "La cédula debe ser un número mayor que cero")) {
+            return;
+        }
+
+        if (!telefono.isEmpty() && !Utils.validatePhoneNumberField(etTelefono, "El teléfono no es válido")) {
+            return;
+        }
+
+        if (!direccion.isEmpty() && !Utils.validateAddressField(etDireccion, "La dirección no es válida")) {
+            return;
+        }
+
+        // Lógica para guardar el cliente
+        Toast.makeText(getContext(), "Cliente registrado con éxito", Toast.LENGTH_SHORT).show();
+        dismiss();  // Cerrar el formulario o realizar alguna acción de salida
+    }
+
+
+    private void limpiarCampos() {
+        etCedula.setText("");
+        etNombre.setText("");
+        etApellido.setText("");
+        etTelefono.setText("");
+        etDireccion.setText("");
     }
 }

@@ -59,7 +59,7 @@ public class EditarProducto extends Fragment {
         }
 
         // Configurar el botón de actualización
-        Button btnActualizar = view.findViewById(R.id.btnActualizar);
+        Button btnActualizar = view.findViewById(R.id.btnActulizar);
         btnActualizar.setOnClickListener(v -> validarYActualizarProducto());
 
         return view;

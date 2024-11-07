@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,11 +31,12 @@ import java.util.List;
 
 public class ClientesFragment extends Fragment {
 
-    private static final String KEY_CLIENTE = "cliente";
+    public static final String KEY_CLIENTE = "cliente";
     private static final String FILTRO_CEDULA = "cedula";
-    private static final String FILTRO_NOMBRECOMPLETO = "nombre completo";
+    private static final String FILTRO_NOMBRECOMPLETO = "nombre";
 
     private RecyclerView lista;
+    private TextView tvFiltro;
     private AdaptadorViewCliente adaptador;
     private List<Cliente> clientes = new ArrayList<>();
     private List<Cliente> clientesFiltrados = new ArrayList<>();
@@ -133,6 +135,9 @@ public class ClientesFragment extends Fragment {
 
     private void setupFilterButton(View view) {
         ImageButton ibFiltro = view.findViewById(R.id.ibFiltro);
+        tvFiltro = view.findViewById(R.id.tvFiltro);
+        tvFiltro.setText("Por " + filtroActual);
+
         ibFiltro.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("Filtrar Clientes");
@@ -150,7 +155,7 @@ public class ClientesFragment extends Fragment {
                 } else if (selectedId == R.id.rbFiltrarPorNombreApellido) {
                     filtroActual = FILTRO_NOMBRECOMPLETO;
                 }
-
+                tvFiltro.setText("Por " + filtroActual);
                 SearchView searchView = view.findViewById(R.id.searchView);
                 filterClientes(searchView.getQuery().toString());
             });
@@ -162,17 +167,23 @@ public class ClientesFragment extends Fragment {
 
     private void filterClientes(String textoBusqueda) {
         clientesFiltrados.clear();
-        String query = textoBusqueda.toLowerCase();
+        String query = textoBusqueda.toLowerCase().trim();  // Limpiar espacios en blanco extra
 
         for (Cliente cliente : clientes) {
             switch (filtroActual) {
                 case FILTRO_CEDULA:
-                    if (String.valueOf(cliente.getCedula()).contains(query)) {
+                    // Buscar la cédula sin importar el prefijo (V-, J-, etc.)
+                    String cedula = cliente.getCedula().toLowerCase();
+                    if (cedula.contains(query)) {
                         clientesFiltrados.add(cliente);
                     }
                     break;
                 case FILTRO_NOMBRECOMPLETO:
-                    if (cliente.getNombre().toLowerCase().contains(query) || cliente.getApellido().toLowerCase().contains(query) ) {
+                    // Combina nombre y apellido en una sola cadena
+                    String nombreCompleto = (cliente.getNombre() + " " + cliente.getApellido()).toLowerCase();
+
+                    // Verifica si la búsqueda contiene la cadena del nombre completo
+                    if (nombreCompleto.contains(query)) {
                         clientesFiltrados.add(cliente);
                     }
                     break;
