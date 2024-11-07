@@ -3,12 +3,14 @@ package com.example.donalonsopos.ui.productos;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,58 +19,52 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass for displaying products.
+ * Fragmento para mostrar la lista de productos con opciones de filtro y búsqueda.
  */
 public class ProductosFragment extends Fragment {
 
-    private static final String KEY_PRODUCTO = "producto";
-    private RecyclerView lista;
-    private AdaptadorViewProducto adaptador;
-    private ArrayList<Producto> productos;
-    private ArrayList<Producto> productosFiltrados;
+    public static final String KEY_PRODUCTO = "producto";
 
-    private String filtroActual = "Nombre"; // Filtro por defecto
-    private int idCategoriaSeleccionada = -1; // Almacena la idCategoría seleccionada
+    private static final String FILTRO_ID = "ID";
+    private static final String FILTRO_NOMBRE = "Nombre";
+    private static final String FILTRO_CATEGORIA = "Categoría";
+    private String filtroActual = FILTRO_NOMBRE;
+
+    private RecyclerView lista;
+    private TextView tvFiltro;
+    private ImageButton ibFiltro;
+    private AdaptadorViewProducto adaptador;
+    private ArrayList<Producto> productos = new ArrayList<>();
+    private ArrayList<Producto> productosFiltrados = new ArrayList<>();
+    private int idCategoriaSeleccionada = -1;
 
     public ProductosFragment() {
         // Constructor vacío requerido
-    }
-
-    public static ProductosFragment newInstance(String param1, String param2) {
-        ProductosFragment fragment = new ProductosFragment();
-        Bundle args = new Bundle();
-        args.putString("ARG_PARAM1", param1);
-        args.putString("ARG_PARAM2", param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_productos, container, false);
 
-        productos = cargarProductos();         // Cargar la lista completa
-        productosFiltrados = new ArrayList<>(productos);  // Inicialmente, todos los productos están en productosFiltrados
-
         setupFloatingActionButton(view);
         setupRecyclerView(view);
         setupSwipeRefresh(view);
         setupSearchView(view);
         setupFilterButton(view);
+
+        cargarProductos();
 
         return view;
     }
@@ -108,6 +104,7 @@ public class ProductosFragment extends Fragment {
         SwipeRefreshLayout swipeToRefresh = view.findViewById(R.id.swipeRefreshLayout);
         swipeToRefresh.setOnRefreshListener(() -> {
             Toast.makeText(requireContext(), "Actualizando productos...", Toast.LENGTH_SHORT).show();
+            cargarProductos();  // Recargar los productos desde el origen de datos
             adaptador.notifyDataSetChanged();
             swipeToRefresh.setRefreshing(false);
         });
@@ -130,7 +127,10 @@ public class ProductosFragment extends Fragment {
     }
 
     private void setupFilterButton(View view) {
-        ImageButton ibFiltro = view.findViewById(R.id.ibFiltro);
+        ibFiltro = view.findViewById(R.id.ibFiltro);
+        tvFiltro = view.findViewById(R.id.tvFiltro);
+        tvFiltro.setText("Por " + filtroActual);
+
         ibFiltro.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("Filtrar Productos");
@@ -166,31 +166,31 @@ public class ProductosFragment extends Fragment {
 
                 // Definir el filtro actual y aplicar filtro específico
                 if (selectedId == R.id.rbFiltrarPorCedula) {
-                    filtroActual = "ID";
+                    filtroActual = FILTRO_ID;
                 } else if (selectedId == R.id.rbFiltrarPorNombre) {
-                    filtroActual = "Nombre";
+                    filtroActual = FILTRO_NOMBRE;
                 } else if (selectedId == R.id.rbFiltrarPorCategoria) {
-                    filtroActual = "Categoría";
+                    filtroActual = FILTRO_CATEGORIA;
                     // Asignar id de categoría según la selección
                     switch (spinnerCategorias.getSelectedItem().toString()) {
                         case "Lácteos":
-                            idCategoriaSeleccionada = 1; // Suponiendo idCategoría para Lácteos
+                            idCategoriaSeleccionada = 1;
                             break;
                         case "Frutas":
-                            idCategoriaSeleccionada = 2; // Suponiendo idCategoría para Frutas
+                            idCategoriaSeleccionada = 2;
                             break;
                         case "Helados":
-                            idCategoriaSeleccionada = 3; // Suponiendo idCategoría para Helados
+                            idCategoriaSeleccionada = 3;
                             break;
                         case "Dulces":
-                            idCategoriaSeleccionada = 4; // Suponiendo idCategoría para Dulces
+                            idCategoriaSeleccionada = 4;
                             break;
                         default:
-                            idCategoriaSeleccionada = -1; // No seleccionado
+                            idCategoriaSeleccionada = -1;
                     }
                 }
 
-                // Llamar a `filtrarProductos` para aplicar el filtro con el texto actual en el SearchView
+                tvFiltro.setText("Por " + filtroActual);
                 SearchView searchView = view.findViewById(R.id.searchView);
                 String textoBusqueda = searchView.getQuery().toString();
                 filtrarProductos(textoBusqueda);
@@ -206,17 +206,17 @@ public class ProductosFragment extends Fragment {
 
         for (Producto producto : productos) {
             switch (filtroActual) {
-                case "ID":
+                case FILTRO_ID:
                     if (String.valueOf(producto.getIdProducto()).contains(textoBusqueda)) {
                         productosFiltrados.add(producto);
                     }
                     break;
-                case "Nombre":
+                case FILTRO_NOMBRE:
                     if (producto.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
                         productosFiltrados.add(producto);
                     }
                     break;
-                case "Categoría":
+                case FILTRO_CATEGORIA:
                     if (producto.getIdCategoria() == idCategoriaSeleccionada &&
                             producto.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
                         productosFiltrados.add(producto);
@@ -228,39 +228,24 @@ public class ProductosFragment extends Fragment {
         adaptador.notifyDataSetChanged(); // Actualizar el adaptador después de filtrar
     }
 
-    private Bundle createBundleWithProducto(Producto producto) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_PRODUCTO, producto);
-        return bundle;
-    }
-
     private ArrayList<Producto> cargarProductos() {
-        ArrayList<Producto> productos = new ArrayList<>();
+        productos.clear();
         productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
         productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
         productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
         productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
         productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
-        productos.add(new Producto(67, 3, "Pera Verde", 180, 1.50, "imagen_pera.png"));
-        productos.add(new Producto(68, 6, "Queso Gouda", 75, 4.75, "imagen_queso_gouda.png"));
-        productos.add(new Producto(69, 2, "Jugo de Naranja", 100, 2.25, "imagen_jugo_naranja.png"));
-        productos.add(new Producto(70, 7, "Torta de Chocolate", 50, 8.00, "imagen_torta_chocolate.png"));
-        productos.add(new Producto(71, 1, "Café Molido", 120, 5.50, "imagen_cafe_molido.png"));
-        productos.add(new Producto(72, 8, "Helado de Vainilla", 200, 3.00, "imagen_helado_vainilla.png"));
-        productos.add(new Producto(73, 4, "Galletas de Avena", 90, 1.75, "imagen_galletas_avena.png"));
-        productos.add(new Producto(74, 6, "Yogur Natural", 110, 2.50, "imagen_yogur_natural.png"));
-        productos.add(new Producto(75, 3, "Uva Verde", 160, 2.10, "imagen_uva_verde.png"));
-        productos.add(new Producto(76, 9, "Pan Integral", 85, 1.35, "imagen_pan_integral.png"));
-        productos.add(new Producto(77, 10, "Jamón de Pavo", 70, 3.60, "imagen_jamon_pavo.png"));
-        productos.add(new Producto(78, 5, "Zanahoria", 200, 0.95, "imagen_zanahoria.png"));
-        productos.add(new Producto(79, 2, "Refresco de Cola", 250, 1.15, "imagen_refresco_cola.png"));
-        productos.add(new Producto(80, 11, "Huevos (docena)", 300, 2.80, "imagen_huevos.png"));
-        productos.add(new Producto(81, 12, "Leche Descremada", 220, 1.20, "imagen_leche_descremada.png"));
-        productos.add(new Producto(82, 13, "Papas Fritas", 90, 1.50, "imagen_papas_fritas.png"));
-        productos.add(new Producto(83, 14, "Pollo Entero", 60, 6.00, "imagen_pollo_entero.png"));
-        productos.add(new Producto(84, 1, "Té Verde", 100, 1.80, "imagen_te_verde.png"));
-        productos.add(new Producto(85, 3, "Sandía", 190, 3.50, "imagen_sandia.png"));
+        // (Agrega más productos según necesidad)
+
+        productosFiltrados.clear();
+        productosFiltrados.addAll(productos);
 
         return productos;
+    }
+
+    private Bundle createBundleWithProducto(Producto producto) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_PRODUCTO, producto);
+        return bundle;
     }
 }

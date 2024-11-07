@@ -1,5 +1,7 @@
 package com.example.donalonsopos.ui.productos;
 
+import static com.example.donalonsopos.ui.productos.ProductosFragment.KEY_PRODUCTO;
+
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -18,10 +20,10 @@ import com.example.donalonsopos.util.ConfirmDialog;
 
 public class DetallesProducto extends Fragment {
 
-    private static final String ARG_PRODUCTO = "producto";  // Define el nuevo parámetro
     private ConfirmDialog confirmDialog;
-    private Producto productoSeleccionado;  // Variable para almacenar el producto
-    private static final String KEY_PRODUCTO = "producto";
+    private Producto productoSeleccionado;
+    private TextView tvNombreContenido, tvPrecioContenido, tvCantidadActualContenido, tvCantidadMinimaContenido, tvDescripcionContenido;
+    private Button btnEditar, btnEliminar;
 
     public DetallesProducto() {
         // Constructor vacío requerido
@@ -30,7 +32,7 @@ public class DetallesProducto extends Fragment {
     public static DetallesProducto newInstance(Producto producto) {
         DetallesProducto fragment = new DetallesProducto();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PRODUCTO, producto);  // Añadir el producto al Bundle
+        args.putSerializable(KEY_PRODUCTO, producto);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,55 +41,65 @@ public class DetallesProducto extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            productoSeleccionado = (Producto) getArguments().getSerializable(ARG_PRODUCTO);  // Recupera el producto
+            productoSeleccionado = (Producto) getArguments().getSerializable(KEY_PRODUCTO);
         }
-
-        confirmDialog = new ConfirmDialog(getContext());
+        confirmDialog = new ConfirmDialog(requireContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detalles_producto, container, false);
 
-        TextView tvNombreContenido = view.findViewById(R.id.tvNombreContenido);
-        TextView tvPrecioContenido = view.findViewById(R.id.tvPrecioContenido);
-        //TextView tvCostoContenido = view.findViewById(R.id.tvCostoContenido);
-        TextView tvCantidadActualContenido = view.findViewById(R.id.tvCantidadActualContenido);
-        TextView tvCantidadMinimaContenido = view.findViewById(R.id.tvCantidadMinimaContenido);
-        TextView tvDescripcionContenido = view.findViewById(R.id.tvDescripcionContenido);
+        if (productoSeleccionado == null) {
+            Toast.makeText(getContext(), "No se ha seleccionado un producto.", Toast.LENGTH_SHORT).show();
+            requireActivity().onBackPressed();
+            return view;
+        }
+
+        initializeViews(view);
+        displayProductDetails();
+
+        return view;
+    }
+
+    private void initializeViews(View view) {
+        tvNombreContenido = view.findViewById(R.id.tvNombreContenido);
+        tvPrecioContenido = view.findViewById(R.id.tvPrecioContenido);
+        tvCantidadActualContenido = view.findViewById(R.id.tvCantidadActualContenido);
+        tvCantidadMinimaContenido = view.findViewById(R.id.tvCantidadMinimaContenido);
+        tvDescripcionContenido = view.findViewById(R.id.tvDescripcionContenido);
+        btnEditar = view.findViewById(R.id.btnEditar);
+        btnEliminar = view.findViewById(R.id.btnEliminar);
+
+        btnEditar.setOnClickListener(v -> navigateToEditProduct());
+        btnEliminar.setOnClickListener(v -> showDeleteConfirmationDialog());
+    }
+
+    private void displayProductDetails() {
+        if (productoSeleccionado == null) return;
 
         tvNombreContenido.setText(productoSeleccionado.getNombre());
         tvPrecioContenido.setText(String.valueOf(productoSeleccionado.getPrecio()));
-        //tvCostoContenido.setText(String.valueOf(productoSeleccionado.getCosto()));
         tvCantidadActualContenido.setText(String.valueOf(productoSeleccionado.getCantidadActual()));
         tvCantidadMinimaContenido.setText(String.valueOf(productoSeleccionado.getCantidadMinima()));
-        tvDescripcionContenido.setText(productoSeleccionado.getDescripcion());
+        tvDescripcionContenido.setText(
+                productoSeleccionado.getDescripcion() == null || productoSeleccionado.getDescripcion().isEmpty()
+                        ? "Sin descripción"
+                        : productoSeleccionado.getDescripcion()
+        );
+    }
 
-        Button btnEliminar = view.findViewById(R.id.btnEliminar);
-        Button btnEditar = view.findViewById(R.id.btnEditar);
+    private void navigateToEditProduct() {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+        navController.navigate(R.id.EditarProductoFragment, createBundleWithProducto(productoSeleccionado));
+    }
 
-
-        btnEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
-                navController.navigate(R.id.EditarProductoFragment, createBundleWithProducto(productoSeleccionado));
-            }
+    private void showDeleteConfirmationDialog() {
+        confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este producto?", () -> {
+            Toast.makeText(getContext(), "Producto eliminado con éxito", Toast.LENGTH_SHORT).show();
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+            navController.popBackStack();
         });
-
-        btnEliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este producto?", () -> {
-                    Toast.makeText(getContext(), "Se elimino el producto.", Toast.LENGTH_SHORT).show();
-                    NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
-                    navController.popBackStack();
-                });
-            }
-        });
-
-
-        return view;
     }
 
     private Bundle createBundleWithProducto(Producto producto) {

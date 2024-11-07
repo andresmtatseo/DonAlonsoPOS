@@ -52,9 +52,14 @@ public class DetallesCliente extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detalles_cliente, container, false);
+
+        // Verificación de cliente seleccionado
         if (clienteSeleccionado == null) {
             Toast.makeText(getContext(), "No se ha seleccionado un cliente.", Toast.LENGTH_SHORT).show();
-            requireActivity().onBackPressed();
+
+            // Navegación segura hacia atrás usando NavController
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+            navController.popBackStack();
             return view;
         }
 
@@ -103,6 +108,8 @@ public class DetallesCliente extends Fragment {
     private void mostrarDialogoConfirmacionEliminar() {
         confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este cliente?", () -> {
             Toast.makeText(getContext(), "Cliente eliminado con éxito", Toast.LENGTH_SHORT).show();
+
+            // Navegación segura hacia atrás usando NavController después de confirmar la eliminación
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
             navController.popBackStack();
         });

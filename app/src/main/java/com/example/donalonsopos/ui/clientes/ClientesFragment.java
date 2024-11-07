@@ -32,26 +32,20 @@ import java.util.List;
 public class ClientesFragment extends Fragment {
 
     public static final String KEY_CLIENTE = "cliente";
+
     private static final String FILTRO_CEDULA = "cedula";
     private static final String FILTRO_NOMBRECOMPLETO = "nombre";
+    private String filtroActual = FILTRO_CEDULA;
 
     private RecyclerView lista;
     private TextView tvFiltro;
+    private ImageButton ibFiltro;
     private AdaptadorViewCliente adaptador;
     private List<Cliente> clientes = new ArrayList<>();
     private List<Cliente> clientesFiltrados = new ArrayList<>();
 
-    private String filtroActual = FILTRO_CEDULA;
+    public ClientesFragment() {
 
-    public ClientesFragment() { }
-
-    public static ClientesFragment newInstance(String param1, String param2) {
-        ClientesFragment fragment = new ClientesFragment();
-        Bundle args = new Bundle();
-        args.putString("ARG_PARAM1", param1);
-        args.putString("ARG_PARAM2", param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -126,7 +120,7 @@ public class ClientesFragment extends Fragment {
                     clientesFiltrados.addAll(clientes); // Restaurar lista completa si la búsqueda está vacía
                     adaptador.notifyDataSetChanged();
                 } else {
-                    filterClientes(newText);
+                    filtrarClientes(newText);
                 }
                 return true;
             }
@@ -134,7 +128,7 @@ public class ClientesFragment extends Fragment {
     }
 
     private void setupFilterButton(View view) {
-        ImageButton ibFiltro = view.findViewById(R.id.ibFiltro);
+        ibFiltro = view.findViewById(R.id.ibFiltro);
         tvFiltro = view.findViewById(R.id.tvFiltro);
         tvFiltro.setText("Por " + filtroActual);
 
@@ -157,7 +151,7 @@ public class ClientesFragment extends Fragment {
                 }
                 tvFiltro.setText("Por " + filtroActual);
                 SearchView searchView = view.findViewById(R.id.searchView);
-                filterClientes(searchView.getQuery().toString());
+                filtrarClientes(searchView.getQuery().toString());
             });
 
             builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
@@ -165,7 +159,7 @@ public class ClientesFragment extends Fragment {
         });
     }
 
-    private void filterClientes(String textoBusqueda) {
+    private void filtrarClientes(String textoBusqueda) {
         clientesFiltrados.clear();
         String query = textoBusqueda.toLowerCase().trim();  // Limpiar espacios en blanco extra
 

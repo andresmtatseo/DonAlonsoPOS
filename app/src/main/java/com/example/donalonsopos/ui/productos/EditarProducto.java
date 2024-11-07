@@ -11,7 +11,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.donalonsopos.R;
@@ -23,10 +22,11 @@ public class EditarProducto extends Fragment {
     private Producto producto;
 
     private EditText etNombreProducto, etPrecio, etDescripcion, etCantidadMinima;
+    private Button btnActualizar;
     private Spinner spCategoria;
 
     public EditarProducto() {
-        // Required empty public constructor
+        // Constructor vacío requerido
     }
 
     @Override
@@ -49,30 +49,30 @@ public class EditarProducto extends Fragment {
         etCantidadMinima = view.findViewById(R.id.etCantidadMinima);
         spCategoria = view.findViewById(R.id.spCategoria);
 
-        // Verificar y cargar los datos del producto en los campos
+        // Cargar datos del producto si existen
         if (producto != null) {
             etNombreProducto.setText(producto.getNombre());
             etPrecio.setText(String.valueOf(producto.getPrecio()));
             etDescripcion.setText(producto.getDescripcion());
             etCantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
-            // Configura el spinner spCategoria aquí, si tienes un adaptador para categorías
+            // Configurar spCategoria si tienes un adaptador de categorías
         }
 
         // Configurar el botón de actualización
-        Button btnActualizar = view.findViewById(R.id.btnActulizar);
+        btnActualizar = view.findViewById(R.id.btnActualizarProducto);
         btnActualizar.setOnClickListener(v -> validarYActualizarProducto());
 
         return view;
     }
 
-    // Método para validar los campos y actualizar el producto
+    // Método para validar campos y actualizar el producto
     private void validarYActualizarProducto() {
         String nombre = etNombreProducto.getText().toString().trim();
         String precioStr = etPrecio.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
         String cantidadMinimaStr = etCantidadMinima.getText().toString().trim();
 
-        // Validar campos vacíos
+        // Validar campos vacíos obligatorios
         if (TextUtils.isEmpty(nombre)) {
             etNombreProducto.setError("El nombre es requerido");
             etNombreProducto.requestFocus();
@@ -81,11 +81,6 @@ public class EditarProducto extends Fragment {
         if (TextUtils.isEmpty(precioStr)) {
             etPrecio.setError("El precio es requerido");
             etPrecio.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(descripcion)) {
-            etDescripcion.setError("La descripción es requerida");
-            etDescripcion.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(cantidadMinimaStr)) {
@@ -105,17 +100,15 @@ public class EditarProducto extends Fragment {
             return;
         }
 
-        // Si todas las validaciones pasan, puedes actualizar el producto
+        // Actualizar el producto
         producto.setNombre(nombre);
         producto.setPrecio(precio);
-        producto.setDescripcion(descripcion);
+        producto.setDescripcion(descripcion);  // Descripción opcional, actualizada solo si se proporciona
         producto.setCantidadMinima(cantidadMinima);
-
-        // Aquí puedes llamar a tu lógica para actualizar el producto, como guardarlo en la base de datos
 
         Toast.makeText(getContext(), "Producto actualizado correctamente", Toast.LENGTH_SHORT).show();
 
-        // Volver a la pantalla anterior o realizar otra acción
+        // Regresar a la pantalla anterior o realizar otra acción
         requireActivity().onBackPressed();
     }
 }
