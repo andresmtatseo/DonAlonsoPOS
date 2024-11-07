@@ -42,80 +42,80 @@
             android:id="@+id/tvCedula"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Cédula:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etCedula"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese cédula"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <!-- Teléfono -->
         <TextView
             android:id="@+id/tvTelefono"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Teléfono:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese teléfono"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <!-- Nombre -->
         <TextView
             android:id="@+id/tvNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Nombre:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese nombre"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <!-- Apellido -->
         <TextView
             android:id="@+id/tvApellido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Apellido:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etApellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese apellido"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <!-- Dirección -->
         <TextView
             android:id="@+id/tvDireccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Dirección:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese dirección"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
     </LinearLayout>
 
     <!-- Contenedor de botones -->

@@ -50,9 +50,9 @@
             android:id="@+id/tvCedula"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cédula:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:text="Cédula/RIF:"
+            android:textSize="28sp" />
 
         <EditText
             android:id="@+id/etCedula"

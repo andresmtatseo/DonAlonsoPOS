@@ -1,5 +1,7 @@
 package com.example.donalonsopos.util;
 
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.widget.EditText;
 
 public class Utils {
@@ -45,6 +47,22 @@ public class Utils {
             editText.setError(errorMessage);
             return false;
         }
+        return true;
+    }
+
+    public static boolean validateEmailField(EditText emailField, String errorMessage) {
+        String email = emailField.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            emailField.setError(errorMessage);
+            return false;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailField.setError(errorMessage);
+            return false;
+        }
+
         return true;
     }
 

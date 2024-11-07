@@ -45,22 +45,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre:"
-                android:textSize="25sp" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/etNombreProducto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textSize="25sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/tvCategoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Categoria:"
-                android:textSize="25sp"
-                android:layout_marginTop="16dp" />
+                android:textSize="24sp" />
 
             <Spinner
                 android:id="@+id/spCategoria"
@@ -71,46 +71,46 @@
                 android:id="@+id/tvPrecio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Precio:"
-                android:textSize="25sp"
-                android:layout_marginTop="16dp" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/etPrecio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:textSize="20sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/tvCantidadMinima"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Cantidad Minima:"
-                android:textSize="25sp"
-                android:layout_marginTop="16dp" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/etCantidadMinima"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:textSize="25sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/tvDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Descripcion:"
-                android:textSize="25sp"
-                android:layout_marginTop="16dp" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/etDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textSize="25sp" />
+                android:textSize="24sp" />
         </LinearLayout>
 
         <!-- Imagen del Producto y Botones de Imagen -->
