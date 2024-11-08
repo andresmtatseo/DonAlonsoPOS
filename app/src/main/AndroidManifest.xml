@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -11,21 +11,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DonAlonsoPOS"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".ui.compras.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.compras.EditarCompra"
+            android:exported="false" />
+        <activity
+            android:name=".ui.compras.DetallesCompra"
+            android:exported="false" />
         <activity
             android:name=".ui.MenuLateral"
+            android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="@string/title_activity_menu_lateral"
-            android:theme="@style/Theme.DonAlonsoPOS.NoActionBar"
             android:screenOrientation="landscape"
-            android:configChanges="orientation|screenSize"
-            tools:ignore="DiscouragedApi"/>
+            android:theme="@style/Theme.DonAlonsoPOS.NoActionBar"
+            tools:ignore="DiscouragedApi" />
         <activity
             android:name=".ui.MainActivity"
-            android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize"
             android:exported="true"
-            tools:ignore="DiscouragedApi">
+            android:screenOrientation="landscape"
+            tools:ignore="DiscouragedApi" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
