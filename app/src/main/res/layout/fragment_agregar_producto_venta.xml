@@ -68,20 +68,12 @@
 
                 </LinearLayout>
 
-                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                    android:id="@+id/swipeRefreshLayout"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lista"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/lista"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/borde_curveado" />
-
-                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    android:layout_margin="10dp"
+                    android:background="@drawable/borde_curveado" />
 
             </LinearLayout>
 

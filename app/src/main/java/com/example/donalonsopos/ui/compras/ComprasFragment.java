@@ -66,8 +66,8 @@ public class ComprasFragment extends Fragment {
     private void setupFloatingActionButton(View view) {
         FloatingActionButton btnAgregar = view.findViewById(R.id.btnAgregar);
         btnAgregar.setOnClickListener(v -> {
-            AgregarCompra dialog = new AgregarCompra();
-            dialog.show(getChildFragmentManager(), "agregar_compra");
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+            navController.navigate(R.id.agregarCompraFragment);
         });
     }
 

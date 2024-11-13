@@ -3,64 +3,108 @@ package com.example.donalonsopos.ui.ventas;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.donalonsopos.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AgregarVenta#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AgregarVenta extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private EditText etCedulaCliente, etNumeroComprobante;
+    private Spinner spTipoCedula, spMetodoPago;
+    private ImageButton ibBuscar;
+    private TextView tvNombreClienteContenido, tvApellidoClienteContenido, tvDireccionClienteContenido, tvTotalVentaContenido;
+    private RecyclerView rvProductosSeleccionados;
+    private Button btnConfirmar, btnLimpiar;
 
     public AgregarVenta() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AgregarVenta.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AgregarVenta newInstance(String param1, String param2) {
-        AgregarVenta fragment = new AgregarVenta();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_agregar_venta, container, false);
+        View view = inflater.inflate(R.layout.fragment_agregar_venta, container, false);
+
+        setupFloatingActionButton(view);
+        initializeViews(view);
+        setupListeners();
+        return view;
+    }
+
+    private void setupFloatingActionButton(View view) {
+        FloatingActionButton btnAgregar = view.findViewById(R.id.btnAgregarProducto);
+        btnAgregar.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+            navController.navigate(R.id.agregarProductoVentaFragment);
+        });
+    }
+
+    private void initializeViews(View view) {
+        etCedulaCliente = view.findViewById(R.id.etCedulaProveedor);
+        etNumeroComprobante = view.findViewById(R.id.etNumeroComprobante);
+        spTipoCedula = view.findViewById(R.id.spTipoCedula);
+        spMetodoPago = view.findViewById(R.id.spMetodoPago);
+        ibBuscar = view.findViewById(R.id.ibBuscar);
+        tvNombreClienteContenido = view.findViewById(R.id.tvNombreProveedorContenido);
+        tvApellidoClienteContenido = view.findViewById(R.id.tvApellidoClienteContenido);
+        tvDireccionClienteContenido = view.findViewById(R.id.tvDireccionProveedorContenido);
+        tvTotalVentaContenido = view.findViewById(R.id.tvTotalVentaContenido);
+        rvProductosSeleccionados = view.findViewById(R.id.rvProductosSeleccionados);
+        btnConfirmar = view.findViewById(R.id.btnConfirmar);
+        btnLimpiar = view.findViewById(R.id.btnLimpiar);
+    }
+
+    private void setupListeners() {
+        btnConfirmar.setOnClickListener(v -> guardarVenta());
+        btnLimpiar.setOnClickListener(v -> limpiarCampos());
+    }
+
+    private void guardarVenta() {
+        String cedula = etCedulaCliente.getText().toString().trim();
+        String numeroComprobante = etNumeroComprobante.getText().toString().trim();
+        String tipoCedula = spTipoCedula.getSelectedItem() != null ? spTipoCedula.getSelectedItem().toString().trim() : "";
+        String metodoPago = spMetodoPago.getSelectedItem() != null ? spMetodoPago.getSelectedItem().toString().trim() : "";
+
+        // productos seleccionados
+        if (cedula.isEmpty() || numeroComprobante.isEmpty() || tipoCedula.isEmpty() || metodoPago.isEmpty()) {
+            Toast.makeText(getContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (rvProductosSeleccionados.getAdapter() == null || rvProductosSeleccionados.getAdapter().getItemCount() == 0) {
+            Toast.makeText(getContext(), "Por favor, seleccione al menos un producto", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Aquí agregamos la lógica para guardar el producto (en base de datos o en memoria)
+        Toast.makeText(getContext(), "Compra guardada correctamente", Toast.LENGTH_SHORT).show();
+        limpiarCampos();
+    }
+
+    private void limpiarCampos() {
+        etCedulaCliente.setText("");
+        etNumeroComprobante.setText("");
+        spTipoCedula.setSelection(0);
+        spMetodoPago.setSelection(0);
+        tvNombreClienteContenido.setText("");
+        tvApellidoClienteContenido.setText("");
+        tvDireccionClienteContenido.setText("");
+        tvTotalVentaContenido.setText("");
+        rvProductosSeleccionados.setAdapter(null);
+
     }
 }

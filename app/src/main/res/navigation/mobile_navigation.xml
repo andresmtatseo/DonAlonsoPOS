@@ -52,18 +52,15 @@
         android:id="@+id/detallesVentaFragment"
         android:name="com.example.donalonsopos.ui.ventas.DetallesVenta"
         android:label="Detalles de la Venta" >
-        <action
-            android:id="@+id/action_detallesVentaFragment_to_EditarVentaFragment"
-            app:destination="@id/EditarVentaFragment" />
     </fragment>
     <fragment
         android:id="@+id/agregarVentaFragment"
         android:name="com.example.donalonsopos.ui.ventas.AgregarVenta"
         android:label="Agregar Venta" />
     <fragment
-        android:id="@+id/EditarVentaFragment"
-        android:name="com.example.donalonsopos.ui.ventas.EditarVenta"
-        android:label="Detalles de la Venta" />
+        android:id="@+id/agregarProductoVentaFragment"
+        android:name="com.example.donalonsopos.ui.ventas.AgregarProductoVenta"
+        android:label="Agregar Productos a la Venta" />
     <fragment
         android:id="@+id/nav_productos"
         android:name="com.example.donalonsopos.ui.productos.ProductosFragment"
@@ -94,19 +91,23 @@
         <action
             android:id="@+id/action_nav_compras_to_detallesCompraFragment"
             app:destination="@id/detallesCompraFragment" />
+        <action
+            android:id="@+id/action_nav_compras_to_agregarCompraFragment"
+            app:destination="@id/agregarCompraFragment" />
     </fragment>
     <fragment
         android:id="@+id/detallesCompraFragment"
         android:name="com.example.donalonsopos.ui.compras.DetallesCompra"
         android:label="Detalles de la Compra">
-        <action
-            android:id="@+id/action_detallesCompraFragment_to_EditarCompraFragment"
-            app:destination="@id/EditarCompraFragment" />
     </fragment>
     <fragment
-        android:id="@+id/EditarCompraFragment"
-        android:name="com.example.donalonsopos.ui.compras.EditarCompra"
-        android:label="Detalles de la Compra"/>
+        android:id="@+id/agregarCompraFragment"
+        android:name="com.example.donalonsopos.ui.compras.AgregarCompra"
+        android:label="Agregar Compra" >
+        <action
+            android:id="@+id/action_agregarCompraFragment_to_agregarProductoVentaFragment"
+            app:destination="@id/agregarProductoVentaFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_clientes"
         android:name="com.example.donalonsopos.ui.clientes.ClientesFragment"

@@ -189,8 +189,10 @@ public class VentasFragment extends Fragment {
 
     private void cargarVentas() {
         ventas.clear();
-//        ventas.add(new Venta(1, "12345678", new Date(), "Efectivo", "V001", 3000.00f, true));
-//        ventas.add(new Venta(2, "87654321", new Date(), "Tarjeta", "V002", 4500.00f, true));
+        ventas.add(new Venta(1, 5, 8, new Date(), "Efectivo", 3068484, new Date(), 100));
+        ventas.add(new Venta(2, 1, 4, new Date(), "Tarjeta", 0, new Date(), 100));
+        ventas.add(new Venta(3, 2, 3, new Date(), "Efectivo", 0, new Date(), 100));
+        ventas.add(new Venta(4, 3, 2, new Date(), "Efectivo", 0, new Date(), 100));
         ventasFiltradas.clear();
         ventasFiltradas.addAll(ventas);
     }

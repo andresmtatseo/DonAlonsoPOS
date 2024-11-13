@@ -31,13 +31,20 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="hello_blank_fragment">En construccion</string>
-    
-    <string-array name="tipo_cedula"> 
-        <item>V</item> 
-        <item>P</item> 
+
+    <string-array name="tipo_cedula">
+        <item>V</item>
+        <item>P</item>
         <item>E</item>
         <item>J</item>
         <item>G</item>
+    </string-array>
+
+    <string-array name="metodo_pago">
+        <item>Efectivo</item>
+        <item>Tarjeta</item>
+        <item>Pago Movil</item>
+        <item>Zelle</item>
     </string-array>
 
 </resources>

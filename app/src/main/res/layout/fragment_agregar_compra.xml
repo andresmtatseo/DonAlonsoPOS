@@ -24,7 +24,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cedula del Proveedor:"
+                android:text="Cedula/RIF del Proveedor:"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -34,14 +34,14 @@
                 android:orientation="horizontal">
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/spTipoCedula"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:entries="@array/tipo_cedula"
                     android:padding="10dp" />
 
                 <EditText
-                    android:id="@+id/editTextNumber"
+                    android:id="@+id/etCedulaProveedor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -49,11 +49,51 @@
                     android:inputType="number" />
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/ibBuscar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:src="@drawable/icono_buscar" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMetodoPago"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Metodo de Pago:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spMetodoPago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:entries="@array/metodo_pago"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/etNumeroComprobante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Numero del Comprobante"
+                    android:inputType="number" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -87,8 +127,8 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/textViewContenidoNombre"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvNombreProveedorContenido"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="Contenido"
@@ -109,8 +149,8 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/textViewContenidoTelefono"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvTelefonoProveedorContenido"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="Contenido"
@@ -131,8 +171,8 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/textViewContenidoDireccion"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvDireccionProveedorContenido"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="Contenido"
@@ -174,19 +214,20 @@
                 android:layout_margin="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvProductosSeleccionados"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/borde_curveado" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnAgregar2"
+                android:id="@+id/btnAgregarProducto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="45sp"
                 android:clickable="true"
-                android:contentDescription="Boton para Agregar Cliente"
+                android:contentDescription="Boton para Agregar Productos"
                 android:src="@drawable/icono_anadir"
                 app:backgroundTint="@color/red" />
 
@@ -204,7 +245,26 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnLimpiar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_secundary"
+                android:text="Limpiar"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:orientation="horizontal">
 
@@ -219,11 +279,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/tvTotalContenido"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:text="Cantidad"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -236,12 +296,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btnConfirmar"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_primary"
-                android:text="Pagar"
+                android:text="Confirmar"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
