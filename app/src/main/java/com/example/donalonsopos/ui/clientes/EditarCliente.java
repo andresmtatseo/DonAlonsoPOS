@@ -40,7 +40,7 @@ public class EditarCliente extends Fragment {
         View view = inflater.inflate(R.layout.fragment_editar_cliente, container, false);
 
         // Inicialización de vistas
-        etCedula = view.findViewById(R.id.etCedula);
+        etCedula = view.findViewById(R.id.etCedulaCliente);
         etNombre = view.findViewById(R.id.etNombre);
         etApellido = view.findViewById(R.id.etApellido);
         etTelefono = view.findViewById(R.id.etTelefono);

@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivImagen"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
         android:layout_weight="0"
         app:srcCompat="@drawable/icono_producto_sin_foto" />
 
@@ -107,6 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
         android:layout_weight="0"
         android:background="@drawable/btn_secundary"
         android:gravity="center_horizontal"
@@ -126,7 +127,6 @@
             android:id="@+id/tvCantidad"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="0"

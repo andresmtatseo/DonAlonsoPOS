@@ -70,7 +70,7 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/etCedula"
+            android:id="@+id/etCedulaCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese cédula"

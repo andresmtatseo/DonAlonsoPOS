@@ -41,7 +41,7 @@
                     android:padding="10dp" />
 
                 <EditText
-                    android:id="@+id/etCedula"
+                    android:id="@+id/etCedulaCliente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -33,7 +33,7 @@ public class AgregarCliente extends DialogFragment {
     }
 
     private void initializeViews(View view) {
-        etCedula = view.findViewById(R.id.etCedula);
+        etCedula = view.findViewById(R.id.etCedulaCliente);
         etNombre = view.findViewById(R.id.etNombre);
         etApellido = view.findViewById(R.id.etApellido);
         etTelefono = view.findViewById(R.id.etTelefono);

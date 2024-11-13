@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.util.ConfirmDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -29,6 +30,7 @@ public class AgregarVenta extends Fragment {
     private TextView tvNombreClienteContenido, tvApellidoClienteContenido, tvDireccionClienteContenido, tvTotalVentaContenido;
     private RecyclerView rvProductosSeleccionados;
     private Button btnConfirmar, btnLimpiar;
+    private ConfirmDialog confirmDialog;
 
     public AgregarVenta() {
         // Required empty public constructor
@@ -42,6 +44,8 @@ public class AgregarVenta extends Fragment {
         setupFloatingActionButton(view);
         initializeViews(view);
         setupListeners();
+
+        confirmDialog = new ConfirmDialog(requireContext());
         return view;
     }
 
@@ -54,23 +58,30 @@ public class AgregarVenta extends Fragment {
     }
 
     private void initializeViews(View view) {
-        etCedulaCliente = view.findViewById(R.id.etCedulaProveedor);
+        etCedulaCliente = view.findViewById(R.id.etCedulaCliente);
         etNumeroComprobante = view.findViewById(R.id.etNumeroComprobante);
         spTipoCedula = view.findViewById(R.id.spTipoCedula);
         spMetodoPago = view.findViewById(R.id.spMetodoPago);
         ibBuscar = view.findViewById(R.id.ibBuscar);
-        tvNombreClienteContenido = view.findViewById(R.id.tvNombreProveedorContenido);
+        tvNombreClienteContenido = view.findViewById(R.id.tvNombreClienteContenido);
         tvApellidoClienteContenido = view.findViewById(R.id.tvApellidoClienteContenido);
-        tvDireccionClienteContenido = view.findViewById(R.id.tvDireccionProveedorContenido);
+        tvDireccionClienteContenido = view.findViewById(R.id.tvDireccionClienteContenido);
         tvTotalVentaContenido = view.findViewById(R.id.tvTotalVentaContenido);
         rvProductosSeleccionados = view.findViewById(R.id.rvProductosSeleccionados);
+        ibBuscar = view.findViewById(R.id.ibBuscar);
         btnConfirmar = view.findViewById(R.id.btnConfirmar);
         btnLimpiar = view.findViewById(R.id.btnLimpiar);
     }
 
     private void setupListeners() {
+        ibBuscar.setOnClickListener(v -> buscarCliente());
         btnConfirmar.setOnClickListener(v -> guardarVenta());
         btnLimpiar.setOnClickListener(v -> limpiarCampos());
+    }
+
+    private void buscarCliente() {
+        String cedulaCliente = String.valueOf(etCedulaCliente.getText());
+
     }
 
     private void guardarVenta() {
@@ -91,8 +102,15 @@ public class AgregarVenta extends Fragment {
         }
 
         // Aquí agregamos la lógica para guardar el producto (en base de datos o en memoria)
-        Toast.makeText(getContext(), "Compra guardada correctamente", Toast.LENGTH_SHORT).show();
-        limpiarCampos();
+        Toast.makeText(getContext(), "Venta guardada correctamente", Toast.LENGTH_SHORT).show();
+        showDeleteConfirmationDialog();
+    }
+
+    private void showDeleteConfirmationDialog() {
+        confirmDialog.showConfirmationDialog("Limpiar", "¿Estás seguro de limpiar todo el contenido?", () -> {
+            Toast.makeText(getContext(), "Los campos fueron limpiados", Toast.LENGTH_SHORT).show();
+            limpiarCampos();
+        });
     }
 
     private void limpiarCampos() {

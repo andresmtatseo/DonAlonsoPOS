@@ -40,7 +40,7 @@ public class EditarProveedor extends Fragment {
         View view = inflater.inflate(R.layout.fragment_editar_proveedor, container, false);
 
         // Inicialización de vistas
-        etCedula = view.findViewById(R.id.etCedula);
+        etCedula = view.findViewById(R.id.etCedulaCliente);
         etNombre = view.findViewById(R.id.etNombre);
         etTelefono = view.findViewById(R.id.etTelefono);
         etDireccion = view.findViewById(R.id.etDireccion);

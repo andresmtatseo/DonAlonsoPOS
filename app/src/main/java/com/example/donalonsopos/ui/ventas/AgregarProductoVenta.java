@@ -72,7 +72,7 @@ public class AgregarProductoVenta extends Fragment {
     private void setupRecyclerView(View view) {
         lista = view.findViewById(R.id.lista);
         lista.setHasFixedSize(true);
-        lista.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        lista.setLayoutManager(new GridLayoutManager(getContext(), 6));
 
         adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, new OnItemClickListener() {
             @Override
@@ -215,7 +215,16 @@ public class AgregarProductoVenta extends Fragment {
         productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
         productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
         productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
-        // (Agrega más productos según necesidad)
+        productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
+        productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
+        productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
+        productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
+        productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
+        productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
+        productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
+        productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
+        productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
+        productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
 
         productosFiltrados.clear();
         productosFiltrados.addAll(productos);

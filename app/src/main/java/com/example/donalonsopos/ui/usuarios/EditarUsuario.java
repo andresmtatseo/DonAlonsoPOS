@@ -43,7 +43,7 @@ public class EditarUsuario extends Fragment {
 
         // Inicialización de vistas
         etNombreUsuario = view.findViewById(R.id.etNombreUsuario);
-        etCedula = view.findViewById(R.id.etCedula);
+        etCedula = view.findViewById(R.id.etCedulaCliente);
         etNombre = view.findViewById(R.id.etNombre);
         etApellido = view.findViewById(R.id.etApellido);
         spinnerRol = view.findViewById(R.id.spinnerRol);
