@@ -1,12 +1,11 @@
 package com.example.donalonsopos.ui.ventas;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +15,16 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.util.ConfirmDialog;
+import com.example.donalonsopos.util.OnItemClickListener;
+import com.example.donalonsopos.util.OnItemLongClickListener;
+import com.example.donalonsopos.util.ProductoConCantidad;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class AgregarVenta extends Fragment {
 
@@ -28,6 +32,7 @@ public class AgregarVenta extends Fragment {
     private Spinner spTipoCedula, spMetodoPago;
     private ImageButton ibBuscar;
     private TextView tvNombreClienteContenido, tvApellidoClienteContenido, tvDireccionClienteContenido, tvTotalVentaContenido;
+    private AdaptadorViewProductoSeleccionado adaptador;
     private RecyclerView rvProductosSeleccionados;
     private Button btnConfirmar, btnLimpiar;
     private ConfirmDialog confirmDialog;
@@ -43,19 +48,58 @@ public class AgregarVenta extends Fragment {
 
         setupFloatingActionButton(view);
         initializeViews(view);
+        setupRecyclerView(view);
         setupListeners();
 
         confirmDialog = new ConfirmDialog(requireContext());
+
         return view;
     }
+
+    private void setupRecyclerView(View view) {
+        rvProductosSeleccionados.setHasFixedSize(true);
+        rvProductosSeleccionados.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Obtener los productos seleccionados con cantidades desde el Bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            List<ProductoConCantidad> productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
+            if (productosSeleccionados != null && !productosSeleccionados.isEmpty()) {
+                // Asignar los productos seleccionados al RecyclerView
+                adaptador = new AdaptadorViewProductoSeleccionado(requireContext(), productosSeleccionados);
+                rvProductosSeleccionados.setAdapter(adaptador);
+
+                // Calcular el total de la venta
+                double totalVenta = 0;
+                for (ProductoConCantidad producto : productosSeleccionados) {
+                    totalVenta += producto.getProducto().getPrecio() * producto.getCantidad();
+                }
+                tvTotalVentaContenido.setText("Total: $" + String.format("%.2f", totalVenta));
+            }
+        }
+    }
+
 
     private void setupFloatingActionButton(View view) {
         FloatingActionButton btnAgregar = view.findViewById(R.id.btnAgregarProducto);
         btnAgregar.setOnClickListener(v -> {
+            // Obtener el bundle actual con los productos seleccionados
+            Bundle bundle = getArguments();
+            List<ProductoConCantidad> productosSeleccionados = null;
+            if (bundle != null) {
+                productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
+            }
+
+            // Crear un nuevo bundle para pasar los productos al siguiente fragmento
+            Bundle nuevoBundle = new Bundle();
+            nuevoBundle.putSerializable("productosSeleccionados", (ArrayList<ProductoConCantidad>) productosSeleccionados);
+
+            // Navegar al fragmento AgregarProductoVenta y pasar el bundle
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
-            navController.navigate(R.id.agregarProductoVentaFragment);
+            navController.navigate(R.id.agregarProductoVentaFragment, nuevoBundle);
         });
     }
+
 
     private void initializeViews(View view) {
         etCedulaCliente = view.findViewById(R.id.etCedulaCliente);
@@ -76,12 +120,11 @@ public class AgregarVenta extends Fragment {
     private void setupListeners() {
         ibBuscar.setOnClickListener(v -> buscarCliente());
         btnConfirmar.setOnClickListener(v -> guardarVenta());
-        btnLimpiar.setOnClickListener(v -> limpiarCampos());
+        btnLimpiar.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
 
     private void buscarCliente() {
         String cedulaCliente = String.valueOf(etCedulaCliente.getText());
-
     }
 
     private void guardarVenta() {
@@ -103,7 +146,7 @@ public class AgregarVenta extends Fragment {
 
         // Aquí agregamos la lógica para guardar el producto (en base de datos o en memoria)
         Toast.makeText(getContext(), "Venta guardada correctamente", Toast.LENGTH_SHORT).show();
-        showDeleteConfirmationDialog();
+        limpiarCampos();
     }
 
     private void showDeleteConfirmationDialog() {
@@ -123,6 +166,5 @@ public class AgregarVenta extends Fragment {
         tvDireccionClienteContenido.setText("");
         tvTotalVentaContenido.setText("");
         rvProductosSeleccionados.setAdapter(null);
-
     }
 }

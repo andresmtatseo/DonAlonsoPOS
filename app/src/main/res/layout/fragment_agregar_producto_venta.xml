@@ -91,7 +91,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnQuitarProductos"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginHorizontal="40dp"
@@ -103,7 +103,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnContinuar"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginHorizontal="40dp"

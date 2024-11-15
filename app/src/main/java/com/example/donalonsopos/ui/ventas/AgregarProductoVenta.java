@@ -1,39 +1,30 @@
 package com.example.donalonsopos.ui.ventas;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Producto;
-import com.example.donalonsopos.ui.productos.AdaptadorViewProducto;
-import com.example.donalonsopos.ui.productos.AgregarProducto;
-import com.example.donalonsopos.util.OnItemClickListener;
-import com.example.donalonsopos.util.OnItemLongClickListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import com.example.donalonsopos.util.ProductoConCantidad;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 public class AgregarProductoVenta extends Fragment {
 
@@ -47,9 +38,11 @@ public class AgregarProductoVenta extends Fragment {
     private RecyclerView lista;
     private TextView tvFiltro;
     private ImageButton ibFiltro;
+    private Button btnQuitarProductos, btnContinuar;
     private AdaptadorViewProductoVenta adaptador;
     private ArrayList<Producto> productos = new ArrayList<>();
     private ArrayList<Producto> productosFiltrados = new ArrayList<>();
+    private ArrayList<ProductoConCantidad> productosSeleccionados = new ArrayList<>(); // Lista de productos con cantidad seleccionada
     private int idCategoriaSeleccionada = -1;
 
     public AgregarProductoVenta() {
@@ -60,13 +53,36 @@ public class AgregarProductoVenta extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_agregar_producto_venta, container, false);
 
+        initializeViews(view);
+        setupListeners();
         setupRecyclerView(view);
         setupSearchView(view);
         setupFilterButton(view);
 
         cargarProductos();
 
+        // Recibir los productos seleccionados del Bundle (si existen)
+        if (getArguments() != null) {
+            List<ProductoConCantidad> productosRecibidos = (List<ProductoConCantidad>) getArguments().getSerializable("productosSeleccionados");
+            if (productosRecibidos != null) {
+                productosSeleccionados.addAll(productosRecibidos); // Agregar los productos ya seleccionados
+            }
+        }
+
+        // Actualizar el adaptador con los productos seleccionados
+        adaptador.notifyDataSetChanged();
+
         return view;
+    }
+
+    private void initializeViews(View view) {
+        btnContinuar = view.findViewById(R.id.btnContinuar);
+        btnQuitarProductos = view.findViewById(R.id.btnQuitarProductos);
+    }
+
+    private void setupListeners() {
+        btnContinuar.setOnClickListener(v -> guardarVenta(v));
+        btnQuitarProductos.setOnClickListener(v -> quitarProductos());
     }
 
     private void setupRecyclerView(View view) {
@@ -74,18 +90,8 @@ public class AgregarProductoVenta extends Fragment {
         lista.setHasFixedSize(true);
         lista.setLayoutManager(new GridLayoutManager(getContext(), 6));
 
-        adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, new OnItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Producto productoSeleccionado = productosFiltrados.get(position);
-                Toast.makeText(requireContext(), "Producto seleccionado: " + productoSeleccionado.getNombre(), Toast.LENGTH_SHORT).show();
-            }
-        }, new OnItemLongClickListener() {
-            @Override
-            public void onLongClick(View view, int position) {
-                Toast.makeText(requireContext(), "Click largo", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Configurar el adaptador para mostrar los productos
+        adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, productosSeleccionados);
 
         lista.setAdapter(adaptador);
     }
@@ -208,6 +214,55 @@ public class AgregarProductoVenta extends Fragment {
         adaptador.notifyDataSetChanged(); // Actualizar el adaptador después de filtrar
     }
 
+    private void guardarVenta(View v) {
+        // Obtener el HashMap con las cantidades seleccionadas
+        HashMap<Integer, Integer> cantidadesSeleccionadas = adaptador.getCantidadesSeleccionadas();
+
+        // Lista para almacenar los productos seleccionados con cantidades mayores a 0
+        List<ProductoConCantidad> productosSeleccionados = new ArrayList<>();
+
+        // Crear un mapa para la búsqueda rápida de productos por idProducto
+        Map<Integer, Producto> productosPorId = new HashMap<>();
+        for (Producto producto : productos) {
+            productosPorId.put(producto.getIdProducto(), producto);
+        }
+
+        // Recorrer el HashMap y agregar los productos con cantidad seleccionada mayor a 0
+        for (Map.Entry<Integer, Integer> entry : cantidadesSeleccionadas.entrySet()) {
+            int idProducto = entry.getKey(); // idProducto
+            int cantidad = entry.getValue(); // Cantidad seleccionada
+
+            if (cantidad > 0) {
+                // Buscar el producto por su idProducto
+                Producto producto = productosPorId.get(idProducto);
+                if (producto != null) {
+                    // Crear un objeto ProductoConCantidad y agregarlo a la lista
+                    productosSeleccionados.add(new ProductoConCantidad(producto, cantidad));
+                }
+            }
+        }
+
+        // Agregar los productos seleccionados a la lista anterior
+        productosSeleccionados.addAll(this.productosSeleccionados);
+
+        // Pasar los productos seleccionados con sus cantidades al siguiente fragmento
+        Bundle nuevoBundle = new Bundle();
+        nuevoBundle.putSerializable("productosSeleccionados", new ArrayList<>(productosSeleccionados));
+
+        // Navegar al siguiente fragmento (AgregarVenta) pasando el nuevo bundle con los productos
+        NavController navController = Navigation.findNavController(v);
+        navController.popBackStack();
+        navController.navigate(R.id.agregarVentaFragment, nuevoBundle);
+    }
+
+    private void quitarProductos() {
+        HashMap<Integer, Integer> productosSeleccionados = adaptador.getCantidadesSeleccionadas();
+        productosSeleccionados.clear();  // Limpiar la lista de seleccionados
+        adaptador.notifyDataSetChanged();  // Notificar al adaptador que se actualizó
+        Toast.makeText(getContext(), "Productos eliminados correctamente", Toast.LENGTH_SHORT).show();
+
+    }
+
     private ArrayList<Producto> cargarProductos() {
         productos.clear();
         productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
@@ -232,9 +287,4 @@ public class AgregarProductoVenta extends Fragment {
         return productos;
     }
 
-    private Bundle createBundleWithProducto(Producto producto) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_PRODUCTO, producto);
-        return bundle;
-    }
 }

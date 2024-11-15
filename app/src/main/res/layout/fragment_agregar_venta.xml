@@ -209,18 +209,11 @@
             android:layout_marginVertical="10dp"
             android:layout_weight="0">
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefreshLayout"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProductosSeleccionados"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvProductosSeleccionados"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/borde_curveado" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                android:background="@drawable/borde_curveado" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnAgregarProducto"
