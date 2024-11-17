@@ -9,31 +9,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Filtrar por:"
-        android:textStyle="bold" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:textSize="30sp"/>
 
     <RadioGroup
-        android:id="@+id/radioGroupFiltros"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/radioGroupOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
         <RadioButton
-            android:id="@+id/rbFiltrarPorIdVenta"
+            android:id="@+id/rbOption2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ID Venta" />
+            android:layout_marginTop="16dp"
+            android:text="ID Venta"
+            android:textSize="30sp" />
 
         <RadioButton
-            android:id="@+id/rbFiltrarPorIdCedula"
+            android:id="@+id/rbOption1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cedula/RIF Cliente" />
+            android:layout_marginTop="16dp"
+            android:text="Cedula/Rif Cliente"
+            android:textSize="30sp" />
 
         <RadioButton
-            android:id="@+id/rbFiltrarPorFecha"
-            android:layout_width="match_parent"
+            android:id="@+id/rbOption3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fecha" />
+            android:layout_marginTop="16dp"
+            android:text="Fecha"
+            android:textSize="30sp" />
 
     </RadioGroup>
+
+    <Button
+        android:id="@+id/btnGenerarReporte"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Generar Reporte"
+        android:background="@drawable/btn_primary"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>
