@@ -9,44 +9,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Filtrar por:"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold"
-        android:textSize="30sp"/>
+        android:textStyle="bold" />
 
     <RadioGroup
-        android:id="@+id/radioGroupOptions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:id="@+id/radioGroupFiltros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <RadioButton
-            android:id="@+id/rbOption1"
+            android:id="@+id/rbFiltrarPorCedula"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:layout_marginTop="16dp"
             android:text="Cedula" />
 
         <RadioButton
-            android:id="@+id/rbOption2"
-            android:layout_width="wrap_content"
+            android:id="@+id/rbFiltrarPorNombreApellido"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:layout_marginTop="16dp"
             android:text="Nombre y Apellido" />
 
     </RadioGroup>
-
-    <Button
-        android:id="@+id/btnGenerarReporte"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Generar Reporte"
-        android:background="@drawable/btn_primary"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
 
 </LinearLayout>
