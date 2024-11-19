@@ -47,4 +47,15 @@
         <item>Zelle</item>
     </string-array>
 
+    <string-array name="categoria_producto">
+        <item>Helados</item>
+        <item>Toppings</item>
+        <item>Bebidas</item>
+        <item>Postres Especiales</item>
+        <item>Helados para Llevar</item>
+        <item>Promociones</item>
+        <item>Postres Congelados</item>
+    </string-array>
+
+
 </resources>
