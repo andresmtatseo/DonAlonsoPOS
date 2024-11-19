@@ -20,6 +20,10 @@ public class Cliente implements Serializable {
         this.idCliente = idCliente;
     }
 
+    public Cliente(String cedula) {
+        this.cedula = cedula;
+    }
+
     public Cliente(int idCliente, String cedula) {
         this.idCliente = idCliente;
         this.cedula = cedula;

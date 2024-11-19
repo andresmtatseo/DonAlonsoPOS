@@ -1,21 +1,27 @@
 package com.example.donalonsopos.ui.ventas;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.util.ConfirmDialog;
 import com.example.donalonsopos.util.OnItemClickListener;
@@ -82,23 +88,67 @@ public class AgregarVenta extends Fragment {
 
     private void setupFloatingActionButton(View view) {
         FloatingActionButton btnAgregar = view.findViewById(R.id.btnAgregarProducto);
+
+        // Evento clic para agregar productos
         btnAgregar.setOnClickListener(v -> {
-            // Obtener el bundle actual con los productos seleccionados
+            // Obtener el bundle actual con los productos seleccionados y datos de la venta
             Bundle bundle = getArguments();
             List<ProductoConCantidad> productosSeleccionados = null;
+            Venta venta = null;
+            Cliente cliente = null;
+
+            // Recuperar los datos del bundle si existen
             if (bundle != null) {
                 productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
+                venta = (Venta) bundle.getSerializable("venta");
+                cliente = (Cliente) bundle.getSerializable("cliente");
             }
 
-            // Crear un nuevo bundle para pasar los productos al siguiente fragmento
-            Bundle nuevoBundle = new Bundle();
-            nuevoBundle.putSerializable("productosSeleccionados", (ArrayList<ProductoConCantidad>) productosSeleccionados);
+            // Inicializar productos seleccionados si es nulo
+            if (productosSeleccionados == null) {
+                productosSeleccionados = new ArrayList<>();
+            }
 
-            // Navegar al fragmento AgregarProductoVenta y pasar el bundle
+            // Si no hay una venta previa, crear una nueva
+            if (venta == null) {
+                String tipoCedula = spTipoCedula.getSelectedItem() != null
+                        ? spTipoCedula.getSelectedItem().toString().trim()
+                        : "";
+                String cedula = etCedulaCliente.getText().toString().trim();
+                String cedulaCompleta = tipoCedula + "-" + cedula;
+
+                // Simulo la búsqueda del id del cliente
+                int id = 5;
+                String metodoPago = spMetodoPago.getSelectedItem() != null
+                        ? spMetodoPago.getSelectedItem().toString().trim()
+                        : "";
+
+                int numeroComprobante;
+                try {
+                    numeroComprobante = Integer.parseInt(etNumeroComprobante.getText().toString().trim());
+                } catch (NumberFormatException e) {
+                    etNumeroComprobante.setError("Ingrese un número válido");
+                    numeroComprobante = 0; // Valor por defecto si ocurre un error
+                }
+
+                cliente = new Cliente(id, cedulaCompleta);
+                venta = new Venta(cliente.getIdCliente(), metodoPago, numeroComprobante);
+            }
+
+            // Crear un nuevo bundle para pasar los datos al siguiente fragmento
+            Bundle nuevoBundle = new Bundle();
+
+            // Asegurarnos de pasar correctamente los productos seleccionados
+            nuevoBundle.putSerializable("productosSeleccionados", new ArrayList<>(productosSeleccionados));
+            nuevoBundle.putSerializable("venta", venta);
+            nuevoBundle.putSerializable("cliente", cliente);
+
+            // Navegar al fragmento AgregarProductoVenta y pasar el nuevo bundle
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
             navController.navigate(R.id.agregarProductoVentaFragment, nuevoBundle);
         });
     }
+
 
 
     private void initializeViews(View view) {
@@ -112,9 +162,83 @@ public class AgregarVenta extends Fragment {
         tvDireccionClienteContenido = view.findViewById(R.id.tvDireccionClienteContenido);
         tvTotalVentaContenido = view.findViewById(R.id.tvTotalVentaContenido);
         rvProductosSeleccionados = view.findViewById(R.id.rvProductosSeleccionados);
-        ibBuscar = view.findViewById(R.id.ibBuscar);
         btnConfirmar = view.findViewById(R.id.btnConfirmar);
         btnLimpiar = view.findViewById(R.id.btnLimpiar);
+
+        // Recuperar datos del bundle si existen
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Cliente cliente = (Cliente) bundle.getSerializable("cliente");
+            Venta venta = (Venta) bundle.getSerializable("venta");
+
+            if (cliente != null) {
+                // Dividir la cédula en tipo y número si corresponde
+                String[] cedulaPartes = cliente.getCedula().split("-", 2);
+                if (cedulaPartes.length == 2) {
+                    String tipoCedula = cedulaPartes[0];
+                    String numeroCedula = cedulaPartes[1];
+                    setSpinnerSelection(spTipoCedula, tipoCedula, R.array.tipo_cedula); // Establecer el tipo de cédula
+                    etCedulaCliente.setText(numeroCedula); // Establecer el número de cédula
+                }
+                // Mostrar información del cliente
+                tvNombreClienteContenido.setText(cliente.getNombre());
+                tvApellidoClienteContenido.setText(cliente.getApellido());
+                tvDireccionClienteContenido.setText(cliente.getDireccion());
+            }
+
+            if (venta != null) {
+                // Configurar método de pago y número de comprobante
+                setSpinnerSelection(spMetodoPago, venta.getMetodoPago(), R.array.metodo_pago); // Establecer el método de pago
+                etNumeroComprobante.setText(String.valueOf(venta.getNumeroTransaccion()));
+
+                // Mostrar el campo de comprobante solo si aplica
+                if (venta.getMetodoPago().equals("Pago Movil") || venta.getMetodoPago().equals("Zelle")) {
+                    etNumeroComprobante.setEnabled(true);
+                    etNumeroComprobante.setVisibility(View.VISIBLE);
+                } else {
+                    etNumeroComprobante.setEnabled(false);
+                    etNumeroComprobante.setVisibility(View.GONE);
+                }
+            }
+        }
+
+        // Configuración del spinner de método de pago
+        spMetodoPago.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String metodoPagoSeleccionado = parentView.getItemAtPosition(position).toString();
+                if (metodoPagoSeleccionado.equals("Pago Movil") || metodoPagoSeleccionado.equals("Zelle")) {
+                    etNumeroComprobante.setEnabled(true);
+                    etNumeroComprobante.setVisibility(View.VISIBLE);
+                } else {
+                    etNumeroComprobante.setEnabled(false);
+                    etNumeroComprobante.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Si no se selecciona nada, se puede establecer el primer valor o realizar alguna otra acción
+                spMetodoPago.setSelection(0);
+            }
+        });
+    }
+
+    // Método auxiliar para seleccionar un valor en un Spinner desde un arreglo
+    private void setSpinnerSelection(Spinner spinner, String value, int arrayResId) {
+        // Cargar los datos del arreglo
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(), arrayResId, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        // Buscar la posición del valor a seleccionar
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if (adapter.getItem(i).toString().equals(value)) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
     }
 
     private void setupListeners() {
@@ -130,17 +254,37 @@ public class AgregarVenta extends Fragment {
     private void guardarVenta() {
         String cedula = etCedulaCliente.getText().toString().trim();
         String numeroComprobante = etNumeroComprobante.getText().toString().trim();
-        String tipoCedula = spTipoCedula.getSelectedItem() != null ? spTipoCedula.getSelectedItem().toString().trim() : "";
-        String metodoPago = spMetodoPago.getSelectedItem() != null ? spMetodoPago.getSelectedItem().toString().trim() : "";
+        String tipoCedula = spTipoCedula.getSelectedItem() != null
+                ? spTipoCedula.getSelectedItem().toString().trim()
+                : "";
+        String metodoPago = spMetodoPago.getSelectedItem() != null
+                ? spMetodoPago.getSelectedItem().toString().trim()
+                : "";
 
-        // productos seleccionados
-        if (cedula.isEmpty() || numeroComprobante.isEmpty() || tipoCedula.isEmpty() || metodoPago.isEmpty()) {
-            Toast.makeText(getContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
-            return;
+        boolean hayError = false;
+
+        if (cedula.isEmpty()) {
+            etCedulaCliente.setError("Este campo es obligatorio");
+            hayError = true;
+        } else {
+            etCedulaCliente.setError(null);
+        }
+
+        if (etNumeroComprobante.isEnabled() && etNumeroComprobante.getVisibility() == View.VISIBLE) {
+            if (numeroComprobante.isEmpty()) {
+                etNumeroComprobante.setError("Este campo es obligatorio");
+                hayError = true;
+            } else {
+                etNumeroComprobante.setError(null); //
+            }
         }
 
         if (rvProductosSeleccionados.getAdapter() == null || rvProductosSeleccionados.getAdapter().getItemCount() == 0) {
             Toast.makeText(getContext(), "Por favor, seleccione al menos un producto", Toast.LENGTH_SHORT).show();
+            hayError = true;
+        }
+
+        if (hayError) {
             return;
         }
 
@@ -165,6 +309,9 @@ public class AgregarVenta extends Fragment {
         tvApellidoClienteContenido.setText("");
         tvDireccionClienteContenido.setText("");
         tvTotalVentaContenido.setText("");
-        rvProductosSeleccionados.setAdapter(null);
+        if (rvProductosSeleccionados.getAdapter() != null) {
+            rvProductosSeleccionados.setAdapter(null);
+        }
+        setArguments(null);
     }
 }

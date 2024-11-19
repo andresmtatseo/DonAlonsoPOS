@@ -1,6 +1,7 @@
 package com.example.donalonsopos.ui.ventas;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.util.ProductoConCantidad;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,13 +31,21 @@ public class AdaptadorViewProductoVenta extends RecyclerView.Adapter<AdaptadorVi
     public AdaptadorViewProductoVenta(Context context, List<Producto> productos, List<ProductoConCantidad> productosSeleccionados) {
         this.context = context;
         this.productos = productos;
-        this.productosSeleccionados = productosSeleccionados;
+        this.productosSeleccionados = productosSeleccionados != null ? productosSeleccionados : new ArrayList<>();
 
         // Inicializar el HashMap con las cantidades de los productos seleccionados previamente
-        for (ProductoConCantidad productoConCantidad : productosSeleccionados) {
-            cantidadesSeleccionadas.put(productoConCantidad.getProducto().getIdProducto(), productoConCantidad.getCantidad());
+        for (ProductoConCantidad productoConCantidad : this.productosSeleccionados) {
+            if (productoConCantidad.getProducto() != null) {
+                cantidadesSeleccionadas.put(
+                        productoConCantidad.getProducto().getIdProducto(),
+                        productoConCantidad.getCantidad()
+                );
+            }
         }
+
+        Log.d("Adaptador", "Productos seleccionados cargados: " + cantidadesSeleccionadas.toString());
     }
+
 
     @NonNull
     @Override
@@ -70,7 +80,7 @@ public class AdaptadorViewProductoVenta extends RecyclerView.Adapter<AdaptadorVi
             super(itemView);
             idProducto = itemView.findViewById(R.id.tvIdProductoContenido);
             idCategoria = itemView.findViewById(R.id.tvCaregoriaContenido);
-            nombre = itemView.findViewById(R.id.tvNombreContenido);
+            nombre = itemView.findViewById(R.id.tvNombre);
             precio = itemView.findViewById(R.id.tvPrecioContenido);
             imagen = itemView.findViewById(R.id.ivImagen);
             btnIncrementar = itemView.findViewById(R.id.btnIncrementar);
@@ -84,19 +94,17 @@ public class AdaptadorViewProductoVenta extends RecyclerView.Adapter<AdaptadorVi
             idCategoria.setText(String.valueOf(producto.getIdCategoria()));
             nombre.setText(producto.getNombre());
             precio.setText(String.format("%.2f", producto.getPrecio()));
-            imagen.setImageResource(R.drawable.icono_producto_sin_foto); // Usa Glide o Picasso si lo prefieres
+            imagen.setImageResource(R.drawable.icono_producto_sin_foto);
 
-            // Obtener la cantidad seleccionada o inicializar en 0 usando idProducto
-            final int[] cantidadSeleccionada = {cantidadesSeleccionadas.getOrDefault(id, 0)};
-            tvCantidad.setText(String.valueOf(cantidadSeleccionada[0]));
+            // Configurar la cantidad inicial desde el HashMap
+            tvCantidad.setText(String.valueOf(cantidadesSeleccionadas.getOrDefault(id, 0)));
 
             // Incrementar cantidad
             btnIncrementar.setOnClickListener(v -> {
-                cantidadSeleccionada[0] = cantidadesSeleccionadas.getOrDefault(id, 0);
-                if (cantidadSeleccionada[0] < producto.getCantidadActual()) {
-                    cantidadSeleccionada[0]++; // Incrementamos la cantidad
-                    cantidadesSeleccionadas.put(id, cantidadSeleccionada[0]); // Actualizamos el HashMap
-                    tvCantidad.setText(String.valueOf(cantidadSeleccionada[0])); // Actualizamos el TextView
+                int cantidadActual = cantidadesSeleccionadas.getOrDefault(id, 0);
+                if (cantidadActual < producto.getCantidadActual()) {
+                    cantidadesSeleccionadas.put(id, ++cantidadActual); // Incrementamos y actualizamos el HashMap
+                    tvCantidad.setText(String.valueOf(cantidadActual));
                 } else {
                     Toast.makeText(context, "No puedes seleccionar más de la cantidad disponible", Toast.LENGTH_SHORT).show();
                 }
@@ -104,16 +112,16 @@ public class AdaptadorViewProductoVenta extends RecyclerView.Adapter<AdaptadorVi
 
             // Decrementar cantidad
             btnDecrementar.setOnClickListener(v -> {
-                cantidadSeleccionada[0] = cantidadesSeleccionadas.getOrDefault(id, 0);
-                if (cantidadSeleccionada[0] > 0) {
-                    cantidadSeleccionada[0]--; // Decrementamos la cantidad
-                    cantidadesSeleccionadas.put(id, cantidadSeleccionada[0]); // Actualizamos el HashMap
-                    tvCantidad.setText(String.valueOf(cantidadSeleccionada[0])); // Actualizamos el TextView
+                int cantidadActual = cantidadesSeleccionadas.getOrDefault(id, 0);
+                if (cantidadActual > 0) {
+                    cantidadesSeleccionadas.put(id, --cantidadActual); // Decrementamos y actualizamos el HashMap
+                    tvCantidad.setText(String.valueOf(cantidadActual));
                 } else {
                     Toast.makeText(context, "La cantidad no puede ser menor a 0", Toast.LENGTH_SHORT).show();
                 }
             });
         }
+
     }
 
     // Método para obtener la cantidad seleccionada de un producto por su id

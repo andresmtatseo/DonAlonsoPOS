@@ -19,6 +19,12 @@ public class Venta implements Serializable {
     public Venta() {
     }
 
+    public Venta(int idCliente, String metodoPago, int numeroTransaccion) {
+        this.idCliente = idCliente;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+    }
+
     public Venta(int idVenta) {
         this.idVenta = idVenta;
     }

@@ -28,4 +28,16 @@ public class ProductoConCantidad implements Serializable {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+
+    public void incrementarCantidad() {
+        if (cantidad < producto.getCantidadActual()) {  // Asegúrate de que no supere el stock
+            cantidad++;
+        }
+    }
+
+    public void decrementarCantidad() {
+        if (cantidad > 0) {
+            cantidad--;
+        }
+    }
 }

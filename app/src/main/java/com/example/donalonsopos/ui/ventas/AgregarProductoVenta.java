@@ -19,7 +19,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Producto;
+import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.util.ProductoConCantidad;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +46,8 @@ public class AgregarProductoVenta extends Fragment {
     private ArrayList<Producto> productosFiltrados = new ArrayList<>();
     private ArrayList<ProductoConCantidad> productosSeleccionados = new ArrayList<>(); // Lista de productos con cantidad seleccionada
     private int idCategoriaSeleccionada = -1;
+    private Venta venta;
+    private Cliente cliente;
 
     public AgregarProductoVenta() {
         // Required empty public constructor
@@ -53,24 +57,22 @@ public class AgregarProductoVenta extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_agregar_producto_venta, container, false);
 
-        initializeViews(view);
-        setupListeners();
-        setupRecyclerView(view);
-        setupSearchView(view);
-        setupFilterButton(view);
-
-        cargarProductos();
-
-        // Recibir los productos seleccionados del Bundle (si existen)
         if (getArguments() != null) {
             List<ProductoConCantidad> productosRecibidos = (List<ProductoConCantidad>) getArguments().getSerializable("productosSeleccionados");
             if (productosRecibidos != null) {
                 productosSeleccionados.addAll(productosRecibidos); // Agregar los productos ya seleccionados
             }
+
+            venta = (Venta) getArguments().getSerializable("venta");
+            cliente = (Cliente) getArguments().getSerializable("cliente");
         }
 
-        // Actualizar el adaptador con los productos seleccionados
-        adaptador.notifyDataSetChanged();
+        initializeViews(view);
+        setupListeners();
+        setupRecyclerView(view);
+        setupSearchView(view);
+        setupFilterButton(view);
+        cargarProductos();
 
         return view;
     }
@@ -81,7 +83,7 @@ public class AgregarProductoVenta extends Fragment {
     }
 
     private void setupListeners() {
-        btnContinuar.setOnClickListener(v -> guardarVenta(v));
+        btnContinuar.setOnClickListener(v -> continuarVenta(v));
         btnQuitarProductos.setOnClickListener(v -> quitarProductos());
     }
 
@@ -89,10 +91,7 @@ public class AgregarProductoVenta extends Fragment {
         lista = view.findViewById(R.id.lista);
         lista.setHasFixedSize(true);
         lista.setLayoutManager(new GridLayoutManager(getContext(), 6));
-
-        // Configurar el adaptador para mostrar los productos
         adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, productosSeleccionados);
-
         lista.setAdapter(adaptador);
     }
 
@@ -214,8 +213,8 @@ public class AgregarProductoVenta extends Fragment {
         adaptador.notifyDataSetChanged(); // Actualizar el adaptador después de filtrar
     }
 
-    private void guardarVenta(View v) {
-        // Obtener el HashMap con las cantidades seleccionadas
+    private void continuarVenta(View v) {
+        // Obtener las cantidades seleccionadas desde el adaptador
         HashMap<Integer, Integer> cantidadesSeleccionadas = adaptador.getCantidadesSeleccionadas();
 
         // Lista para almacenar los productos seleccionados con cantidades mayores a 0
@@ -229,31 +228,35 @@ public class AgregarProductoVenta extends Fragment {
 
         // Recorrer el HashMap y agregar los productos con cantidad seleccionada mayor a 0
         for (Map.Entry<Integer, Integer> entry : cantidadesSeleccionadas.entrySet()) {
-            int idProducto = entry.getKey(); // idProducto
-            int cantidad = entry.getValue(); // Cantidad seleccionada
+            int idProducto = entry.getKey();
+            int cantidad = entry.getValue();
 
             if (cantidad > 0) {
-                // Buscar el producto por su idProducto
                 Producto producto = productosPorId.get(idProducto);
                 if (producto != null) {
-                    // Crear un objeto ProductoConCantidad y agregarlo a la lista
                     productosSeleccionados.add(new ProductoConCantidad(producto, cantidad));
                 }
             }
         }
 
-        // Agregar los productos seleccionados a la lista anterior
-        productosSeleccionados.addAll(this.productosSeleccionados);
+        // Limpiar la lista de productos seleccionados previa, si ya existe
+        this.productosSeleccionados.clear();  // Eliminar productos seleccionados anteriores
 
-        // Pasar los productos seleccionados con sus cantidades al siguiente fragmento
+        // Agregar los nuevos productos seleccionados a la lista
+        this.productosSeleccionados.addAll(productosSeleccionados);
+
+        // Pasa los productos seleccionados al siguiente fragmento
         Bundle nuevoBundle = new Bundle();
         nuevoBundle.putSerializable("productosSeleccionados", new ArrayList<>(productosSeleccionados));
+        nuevoBundle.putSerializable("venta", venta);
+        nuevoBundle.putSerializable("cliente", cliente);
 
-        // Navegar al siguiente fragmento (AgregarVenta) pasando el nuevo bundle con los productos
+        // Navegar al siguiente fragmento
         NavController navController = Navigation.findNavController(v);
         navController.popBackStack();
         navController.navigate(R.id.agregarVentaFragment, nuevoBundle);
     }
+
 
     private void quitarProductos() {
         HashMap<Integer, Integer> productosSeleccionados = adaptador.getCantidadesSeleccionadas();

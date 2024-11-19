@@ -63,9 +63,9 @@ public class AdaptadorViewProductoSeleccionado extends RecyclerView.Adapter<Adap
             int cantidad = productoConCantidad.getCantidad();
 
             tvNombreProducto.setText(producto.getNombre());
-            tvCantidadSeleccionada.setText("Cantidad: " + cantidad);
-            tvPrecioUnitario.setText("Precio: $" + String.format("%.2f", producto.getPrecio()));
-            tvTotalProducto.setText("Total: $" + String.format("%.2f", producto.getPrecio() * cantidad));
+            tvCantidadSeleccionada.setText(String.valueOf(cantidad));
+            tvPrecioUnitario.setText("$" + String.format("%.2f", producto.getPrecio()));
+            tvTotalProducto.setText("$" + String.format("%.2f", producto.getPrecio() * cantidad));
         }
     }
 }
