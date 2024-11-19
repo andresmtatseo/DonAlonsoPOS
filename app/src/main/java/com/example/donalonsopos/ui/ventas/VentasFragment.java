@@ -195,6 +195,7 @@ public class VentasFragment extends Fragment {
         ventas.add(new Venta(4, 3, 2, new Date(), "Efectivo", 0, new Date(), 100));
         ventasFiltradas.clear();
         ventasFiltradas.addAll(ventas);
+        adaptador.notifyDataSetChanged();
     }
 
     private Bundle createBundleWithVenta(Venta venta) {
