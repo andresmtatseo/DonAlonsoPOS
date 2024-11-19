@@ -5,10 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.reportes.ReportesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Spinner
+        android:id="@+id/spinner_r"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="33dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnGenerarReporte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generar" />
 
 </FrameLayout>
