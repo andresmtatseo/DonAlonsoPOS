@@ -56,7 +56,11 @@
     <fragment
         android:id="@+id/agregarVentaFragment"
         android:name="com.example.donalonsopos.ui.ventas.AgregarVenta"
-        android:label="Agregar Venta" />
+        android:label="Agregar Venta" >
+        <action
+            android:id="@+id/action_agregarVentaFragment_to_agregarProductoVentaFragment"
+            app:destination="@id/agregarProductoVentaFragment" />
+    </fragment>
     <fragment
         android:id="@+id/agregarProductoVentaFragment"
         android:name="com.example.donalonsopos.ui.ventas.AgregarProductoVenta"
@@ -103,11 +107,7 @@
     <fragment
         android:id="@+id/agregarCompraFragment"
         android:name="com.example.donalonsopos.ui.compras.AgregarCompra"
-        android:label="Agregar Compra" >
-        <action
-            android:id="@+id/action_agregarCompraFragment_to_agregarProductoVentaFragment"
-            app:destination="@id/agregarProductoVentaFragment" />
-    </fragment>
+        android:label="Agregar Compra" />
     <fragment
         android:id="@+id/nav_clientes"
         android:name="com.example.donalonsopos.ui.clientes.ClientesFragment"

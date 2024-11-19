@@ -2,6 +2,7 @@ package com.example.donalonsopos.ui.ventas;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -61,6 +62,7 @@ public class AgregarVenta extends Fragment {
 
         return view;
     }
+
 
     private void setupRecyclerView(View view) {
         rvProductosSeleccionados.setHasFixedSize(true);
