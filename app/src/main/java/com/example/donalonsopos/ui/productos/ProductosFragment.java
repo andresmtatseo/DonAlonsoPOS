@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +31,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-/**
- * Fragmento para mostrar la lista de productos con opciones de filtro y búsqueda.
- */
 public class ProductosFragment extends Fragment {
 
     public static final String KEY_PRODUCTO = "producto";
@@ -63,6 +61,7 @@ public class ProductosFragment extends Fragment {
         setupSwipeRefresh(view);
         setupSearchView(view);
         setupFilterButton(view);
+        setupSpinnerCategorias(view);
 
         cargarProductos();
 
@@ -141,14 +140,7 @@ public class ProductosFragment extends Fragment {
             RadioGroup radioGroupFiltros = dialogView.findViewById(R.id.radioGroupFiltros);
             Spinner spinnerCategorias = dialogView.findViewById(R.id.spinnerCategorias);
 
-            // Opciones para el Spinner de categorías
-            ArrayList<String> categorias = new ArrayList<>();
-            categorias.add("Lácteos");
-            categorias.add("Frutas");
-            categorias.add("Helados");
-            categorias.add("Dulces");
-
-            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, categorias);
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerCategorias.setAdapter(spinnerAdapter);
 
@@ -172,7 +164,8 @@ public class ProductosFragment extends Fragment {
                 } else if (selectedId == R.id.rbFiltrarPorCategoria) {
                     filtroActual = FILTRO_CATEGORIA;
                     // Asignar id de categoría según la selección
-                    switch (spinnerCategorias.getSelectedItem().toString()) {
+                    String categoriaSeleccionada = spinnerCategorias.getSelectedItem().toString();
+                    switch (categoriaSeleccionada) {
                         case "Lácteos":
                             idCategoriaSeleccionada = 1;
                             break;
@@ -199,6 +192,29 @@ public class ProductosFragment extends Fragment {
             builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
             builder.create().show();
         });
+    }
+
+    private void setupSpinnerCategorias(View view) {
+        // Usar dialogView para encontrar el Spinner dentro del diálogo
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_filtros_productos, null);
+        Spinner spinnerCategorias = dialogView.findViewById(R.id.spinnerCategorias);
+        if (spinnerCategorias == null) {
+            Log.e("ProductosFragment", "El Spinner es null en setupSpinnerCategorias.");
+            return;
+        }
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategorias.setAdapter(spinnerAdapter);
+    }
+
+    private ArrayList<String> cargarCategorias() {
+        ArrayList<String> categorias = new ArrayList<>();
+        categorias.add("Lácteos");
+        categorias.add("Frutas");
+        categorias.add("Helados");
+        categorias.add("Dulces");
+        return categorias;
     }
 
     private void filtrarProductos(String textoBusqueda) {
@@ -234,11 +250,10 @@ public class ProductosFragment extends Fragment {
         productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
         productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
         productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
-        productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
-        // (Agrega más productos según necesidad)
 
-        productosFiltrados.clear();
+        // Llenar el RecyclerView con todos los productos
         productosFiltrados.addAll(productos);
+        adaptador.notifyDataSetChanged();
 
         return productos;
     }

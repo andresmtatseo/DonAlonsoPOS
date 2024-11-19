@@ -30,4 +30,26 @@
 
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/tvFechaInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/borde_curveado"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Desde"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvFechaFin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/borde_curveado"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Hasta"
+        android:visibility="gone" />
+
 </LinearLayout>
