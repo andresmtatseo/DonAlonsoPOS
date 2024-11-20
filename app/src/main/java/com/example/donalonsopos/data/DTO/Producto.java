@@ -8,35 +8,35 @@ public class Producto implements Serializable {
     private int idCategoria;
     private String nombre;
     private double precio;
-    private String imagen;
+    private String imagenURL;
     private String descripcion;
     private int cantidadActual;
     private int cantidadMinima;
     private int isActive;
 
     //Constructores
-    public Producto() {
+    public Producto(int anInt, int cursorInt, String string, float aFloat, String cursorString, String s, int i, int anInt1) {
     }
 
     public Producto(int idProducto) {
         this.idProducto = idProducto;
     }
 
-    public Producto(int idProducto, int idCategoria, String nombre, int cantidadActual, double precio, String imagen) {
+    public Producto(int idProducto, int idCategoria, String nombre, int cantidadActual, double precio, String imagenURL) {
         this.idProducto = idProducto;
         this.idCategoria = idCategoria;
         this.nombre = nombre;
         this.cantidadActual = cantidadActual;
         this.precio = precio;
-        this.imagen = imagen;
+        this.imagenURL = imagenURL;
     }
 
-    public Producto(int idProducto, int idCategoria, String nombre, double precio, String imagen, String descripcion, int cantidadActual, int cantidadMinima, int isActive) {
+    public Producto(int idProducto, int idCategoria, String nombre, double precio, String imagenURL, String descripcion, int cantidadActual, int cantidadMinima, int isActive) {
         this.idProducto = idProducto;
         this.idCategoria = idCategoria;
         this.nombre = nombre;
         this.precio = precio;
-        this.imagen = imagen;
+        this.imagenURL = imagenURL;
         this.descripcion = descripcion;
         this.cantidadActual = cantidadActual;
         this.cantidadMinima = cantidadMinima;
@@ -72,12 +72,12 @@ public class Producto implements Serializable {
         this.precio = precio;
     }
 
-    public String getImagen() {
-        return imagen;
+    public String getImagenURL() {
+        return imagenURL;
     }
 
     public void setImagen(String imagen) {
-        this.imagen = imagen;
+        this.imagenURL = imagen;
     }
 
     public String getDescripcion() {

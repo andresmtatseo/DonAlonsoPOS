@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filtrar por:"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupFiltros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rbFiltrarPorIdProveedor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID Proveedor" />
+
+        <RadioButton
+            android:id="@+id/rbFiltrarPorFecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvFechaInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/borde_curveado"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Desde"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvFechaFin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/borde_curveado"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Hasta"
+        android:visibility="gone" />
+
+</LinearLayout>

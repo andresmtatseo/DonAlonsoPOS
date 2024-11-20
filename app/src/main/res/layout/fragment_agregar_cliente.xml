@@ -54,12 +54,27 @@
             android:textSize="28sp"
             android:layout_marginTop="16dp" />
 
-        <EditText
-            android:id="@+id/etCedula"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingrese cédula"
-            android:textSize="28sp" />
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spTipoCedula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:entries="@array/tipo_cedula"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/etCedulaCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Ingrese cédula"
+                android:textSize="28sp" />
+        </LinearLayout>
 
         <!-- Teléfono -->
 
@@ -130,7 +145,7 @@
     <!-- Contenedor de botones -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:gravity="center"
@@ -139,20 +154,24 @@
         <!-- Botón de limpiar -->
         <Button
             android:id="@+id/btnLimpiar"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="200dp"
+            android:layout_weight="1"
             android:background="@drawable/btn_secundary"
             android:text="Limpiar"
-            android:textColor="@color/red" />
+            android:textColor="@color/red"
+            android:textSize="20sp" />
 
         <!-- Botón de guardar -->
         <Button
             android:id="@+id/btnGuardar"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/btn_primary"
             android:text="Guardar"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>

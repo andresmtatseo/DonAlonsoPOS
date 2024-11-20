@@ -13,7 +13,7 @@ public class Proveedor implements Serializable {
     private boolean isActive;
 
     // Constructores
-    public Proveedor() {
+    public Proveedor(int anInt, String string, String cursorString, String s, String string1, String cursorString1) {
     }
 
     public Proveedor(int idProveedor) {

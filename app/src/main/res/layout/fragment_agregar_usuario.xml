@@ -25,7 +25,14 @@
             android:text="REGISTRAR USUARIO"
             android:textAlignment="center"
             android:textSize="34sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/btnCerrar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/icono_cerrar"
+            android:contentDescription="Cerrar"/>
 
         <!-- Botón de cerrar en la esquina superior derecha -->
     </LinearLayout>
@@ -63,7 +70,7 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/etCedula"
+            android:id="@+id/etCedulaCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese cédula"

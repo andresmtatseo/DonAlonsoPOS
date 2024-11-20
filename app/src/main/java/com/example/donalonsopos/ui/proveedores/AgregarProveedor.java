@@ -35,7 +35,7 @@ public class AgregarProveedor extends DialogFragment {
     }
 
     private void initializeViews(View view) {
-        etRif = view.findViewById(R.id.etCedula);
+        etRif = view.findViewById(R.id.etCedulaCliente);
         etNombre = view.findViewById(R.id.etNombre);
         etTelefono = view.findViewById(R.id.etTelefono);
         etDireccion = view.findViewById(R.id.etDireccion);

@@ -46,12 +46,27 @@
             android:text="Cédula:"
             android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/etCedula"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese cédula"
-            android:textSize="24sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spTipoCedula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:entries="@array/tipo_cedula"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/etCedulaCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Ingrese cédula"
+                android:textSize="24sp" />
+        </LinearLayout>
 
         <!-- Teléfono -->
         <TextView

@@ -16,11 +16,73 @@ public class Venta implements Serializable {
     private boolean isActive;
 
     // Constructores
-    public Venta() {
+    public Venta(int anInt, int cursorInt, int idCliente, String string, String cursorString, int numeroTransaccion, String s, float aFloat) {
+    }
+
+    public Venta(int idCliente, String metodoPago, int numeroTransaccion) {
+        this.idCliente = idCliente;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
     }
 
     public Venta(int idVenta) {
         this.idVenta = idVenta;
+    }
+
+    public Venta(int idVenta, int idUsuario) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+    }
+
+    public Venta(int idVenta, int idUsuario, int idCliente) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+    }
+
+    public Venta(int idUsuario, int idVenta, int idCliente, Date fechaVenta) {
+        this.idUsuario = idUsuario;
+        this.idVenta = idVenta;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+    }
+
+    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+    }
+
+    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago, int numeroTransaccion) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+    }
+
+    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago, int numeroTransaccion, Date fechaPago) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+        this.fechaPago = fechaPago;
+    }
+
+    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago, int numeroTransaccion, Date fechaPago, float total) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+        this.fechaPago = fechaPago;
+        this.total = total;
     }
 
     public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago, int numeroTransaccion, Date fechaPago, float total, boolean isActive) {

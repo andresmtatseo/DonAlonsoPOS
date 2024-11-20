@@ -112,17 +112,21 @@ public class DBManager {
     private SQLiteDatabase _basededatos;
 
     public DBManager(Context context) {
-        _conexion= new DBConexion(context);
+        _conexion = new DBConexion(context);
     }
 
-    public DBManager open() throws SQLException{
+    public DBManager open() throws SQLException {
         _basededatos = _conexion.getWritableDatabase();
         return this;
     }
 
-    public void close(){
+    public void close() {
         _conexion.close();
     }
 
+    // Getter para acceder a la base de datos
+    public SQLiteDatabase getDatabase() {
+        return _basededatos;
+    }
 
 }

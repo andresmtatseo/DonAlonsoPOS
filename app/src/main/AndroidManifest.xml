@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos para cámara y almacenamiento -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,19 +18,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DonAlonsoPOS"
         tools:targetApi="31">
+
+        <!-- Actividades y demás configuraciones de la aplicación -->
+        <activity
+            android:name=".ui.compras.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.compras.EditarCompra"
+            android:exported="false" />
+        <activity
+            android:name=".ui.compras.DetallesCompra"
+            android:exported="false" />
         <activity
             android:name=".ui.MenuLateral"
+            android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="@string/title_activity_menu_lateral"
-            android:theme="@style/Theme.DonAlonsoPOS.NoActionBar"
             android:screenOrientation="landscape"
-            android:configChanges="orientation|screenSize"
-            tools:ignore="DiscouragedApi"/>
+            android:theme="@style/Theme.DonAlonsoPOS.NoActionBar"
+            tools:ignore="DiscouragedApi" />
         <activity
             android:name=".ui.MainActivity"
-            android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize"
             android:exported="true"
+            android:screenOrientation="landscape"
             tools:ignore="DiscouragedApi">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

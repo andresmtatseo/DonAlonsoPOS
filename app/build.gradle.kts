@@ -43,6 +43,8 @@ dependencies {
     // Swipe Refresh Layout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
+    implementation("com.itextpdf:itext7-core:7.1.17")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
