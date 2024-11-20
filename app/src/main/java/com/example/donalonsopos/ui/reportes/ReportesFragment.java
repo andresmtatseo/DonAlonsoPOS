@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.donalonsopos.R;
-import com.itextpdf.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,69 +48,28 @@ public class ReportesFragment extends AppCompatActivity {
         // Configurar el comportamiento del Spinner
 
         seleccion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Ocultar todos los filtros
-                filterDate.setVisibility(View.GONE);
-                filterProduct.setVisibility(View.GONE);
-                filterClient.setVisibility(View.GONE); // Mostrar el filtro correspondiente
+            @Override
 
-             String selected = parent.getItemAtPosition(position).toString();
-             switch (selected) {
-                 case "Clientes": filterClient.setVisibility(View.VISIBLE); break;
-                 case "Productos": filterProduct.setVisibility(View.VISIBLE); break;
-                 case "Ventas": filterDate.setVisibility(View.VISIBLE); break; }
-            }
-            @Override public void onNothingSelected(AdapterView<?> parent) { // No hacer nada
-
-            } });
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = parent.getItemAtPosition(position).toString();
+                switch (selected) {
+                    case "Clientes": showDialog(new DialogFiltrosClientesFragment());
+                    break;
+                    case "Productos": // Muestra el diálogo para productos showDialog(new DialogFiltrosProductosFragment()); break;
+                    case "Ventas": // Muestra el diálogo para ventas showDialog(new DialogFiltrosVentasFragment()); break; } }
 
         // Configurar el botón para generar el reporte
-        btnGenerarReporte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Verificar y solicitar permisos en tiempo de ejecución
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(ReportesFragment.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_DENIED) {
-                        ActivityCompat.requestPermissions(ReportesFragment.this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-                    } else {
-                        generatePdf();
-                    }
-                } else {
-                    generatePdf();
-                }
-            }
-        });
-    }
 
-    private void generatePdf() {
-        // Obtener la selección del spinner
-        String select = seleccion.getSelectedItem().toString();
 
-        // Crear el documento PDF
-        try {
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/report.pdf";
-            PdfWriter writer = new PdfWriter(new FileOutputStream(new File(path)));
-            PdfDocument pdfDoc = new PdfDocument(writer);
-            Document document = new Document(pdfDoc);
-            document.add(new Paragraph("Reporte de: " + seleccion));
-            // Aquí puedes agregar más contenido al PDF según lo necesites
-            document.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                generatePdf();
             }
         }
+
+            private void showDialog(DialogFiltrosClientesFragment dialogFiltrosClientesFragment) {
+            }
+
+            @Override public void onNothingSelected(AdapterView<?> parent) { // No hacer nada
+                } });
     }
 
 }
