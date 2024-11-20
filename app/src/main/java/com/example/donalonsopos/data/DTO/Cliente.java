@@ -1,12 +1,31 @@
 package com.example.donalonsopos.data.DTO;
 
-public class Cliente {
+import java.io.Serializable;
+
+public class Cliente implements Serializable {
     private int idCliente;
     private String cedula;
     private String nombre;
     private String apellido;
     private String direccion;
     private String telefono;
+
+    public Cliente() {
+
+    }
+
+    public Cliente(int idCliente, String cedula) {
+        this.idCliente = idCliente;
+        this.cedula = cedula;
+    }
+
+    public Cliente(String cedula, String nombre, String apellido, String direccion, String telefono) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.direccion = direccion;
+        this.telefono = telefono;
+    }
 
     public Cliente(int idCliente, String cedula, String nombre, String apellido, String direccion, String telefono) {
         this.idCliente = idCliente;
@@ -19,10 +38,6 @@ public class Cliente {
 
     public int getIdCliente() {
         return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
     }
 
     public String getCedula() {

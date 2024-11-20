@@ -1,6 +1,7 @@
 package com.example.donalonsopos.ui.clientes;
 
 import static com.example.donalonsopos.ui.clientes.ClientesFragment.KEY_CLIENTE;
+import static com.example.donalonsopos.util.Utils.setSpinnerSelection;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ClienteDao;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.util.Utils;
 
@@ -20,6 +23,7 @@ public class EditarCliente extends Fragment {
 
     private Cliente clienteSeleccionado;
     private EditText etCedula, etNombre, etApellido, etTelefono, etDireccion;
+    private Spinner spTipoCedula;
     private Button btnActualizar;
 
     public EditarCliente() {
@@ -40,6 +44,7 @@ public class EditarCliente extends Fragment {
         View view = inflater.inflate(R.layout.fragment_editar_cliente, container, false);
 
         // Inicialización de vistas
+        spTipoCedula = view.findViewById(R.id.spTipoCedula);
         etCedula = view.findViewById(R.id.etCedulaCliente);
         etNombre = view.findViewById(R.id.etNombre);
         etApellido = view.findViewById(R.id.etApellido);
@@ -49,7 +54,14 @@ public class EditarCliente extends Fragment {
 
         // Cargar datos del cliente
         if (clienteSeleccionado != null) {
-            etCedula.setText(String.valueOf(clienteSeleccionado.getCedula()));
+            // Dividir la cédula en tipo y número
+            String[] cedulaPartes = clienteSeleccionado.getCedula().split("-", 2);
+            if (cedulaPartes.length == 2) {
+                String tipoCedula = cedulaPartes[0];
+                String numeroCedula = cedulaPartes[1];
+                setSpinnerSelection(requireContext(), spTipoCedula, tipoCedula, R.array.tipo_cedula);
+                etCedula.setText(numeroCedula);
+            }
             etNombre.setText(clienteSeleccionado.getNombre());
             etApellido.setText(clienteSeleccionado.getApellido());
             etTelefono.setText(clienteSeleccionado.getTelefono());
@@ -72,6 +84,7 @@ public class EditarCliente extends Fragment {
     }
 
     private void validarYActualizarCliente() {
+        String tipoCedula = String.valueOf(spTipoCedula.getSelectedItem());
         String cedula = etCedula.getText().toString().trim();
         String nombre = etNombre.getText().toString().trim();
         String apellido = etApellido.getText().toString().trim();
@@ -86,7 +99,7 @@ public class EditarCliente extends Fragment {
         }
 
         // Validación de la cédula: debe ser un número mayor que cero
-        if (!Utils.validatePositiveNumberField(etCedula, "La cédula debe ser un número mayor que cero")) {
+        if (!Utils.validatePositiveNumberField(etCedula, "La cédula debe ser un número válido")) {
             return;
         }
 
@@ -101,7 +114,8 @@ public class EditarCliente extends Fragment {
         }
 
         // Si no hay errores, actualizamos el cliente
-        clienteSeleccionado.setCedula(cedula);
+        String cedulaCompleta = tipoCedula + "-" + cedula;
+        clienteSeleccionado.setCedula(cedulaCompleta);
         clienteSeleccionado.setNombre(nombre);
         clienteSeleccionado.setApellido(apellido);
 
@@ -112,6 +126,10 @@ public class EditarCliente extends Fragment {
         if (!direccion.isEmpty()) {
             clienteSeleccionado.setDireccion(direccion);
         }
+
+        ClienteDao clienteDao = new ClienteDao(requireContext());
+        clienteDao.update(clienteSeleccionado);
+        clienteDao.close();
 
         Toast.makeText(getContext(), "Cliente actualizado con éxito", Toast.LENGTH_SHORT).show();
         requireActivity().onBackPressed();

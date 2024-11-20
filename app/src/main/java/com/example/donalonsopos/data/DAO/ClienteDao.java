@@ -1,75 +1,143 @@
 package com.example.donalonsopos.data.DAO;
 
-import com.example.donalonsopos.data.DTO.Cliente;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
-import java.sql.*;
+import com.example.donalonsopos.data.DTO.Cliente;
+import com.example.donalonsopos.data.DB.DBManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDao {
-    private static final String SQL_SELECT = "SELECT idCliente, cedula, nombre, apellido, direccion, telefono FROM cliente";
-    private static final String SQL_INSERT = "INSERT INTO cliente (cedula, nombre, apellido, direccion, telefono) VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE cliente SET cedula = ?, nombre = ?, apellido = ?, direccion = ?, telefono = ? WHERE idCliente = ?";
-    private static final String SQL_DELETE = "DELETE FROM cliente WHERE idCliente = ?";
+    private static final String TAG = "ClienteDao";
+    private SQLiteDatabase db;
+    private DBManager dbManager;
 
-    private Connection conexion;
-
-    public ClienteDao(Connection conexion) {
-        this.conexion = conexion;
+    public ClienteDao(Context context) {
+        try {
+            dbManager = new DBManager(context);
+            dbManager.open(); // Abrir la conexión
+            db = dbManager.getDatabase(); // Usar el getter para obtener la base de datos
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al abrir la base de datos: ", e);
+        }
     }
 
-    public List<Cliente> select() throws SQLException {
+    private static final String TABLE_NAME = "cliente";
+    private static final String COLUMN_ID = "idCliente";
+    private static final String COLUMN_CEDULA = "cedula";
+    private static final String COLUMN_NOMBRE = "nombre";
+    private static final String COLUMN_APELLIDO = "apellido";
+    private static final String COLUMN_DIRECCION = "direccion";
+    private static final String COLUMN_TELEFONO = "telefono";
+    private static final String COLUMN_ISACTIVE = "isActive";
+
+    // Obtener todos los clientes activos
+    public List<Cliente> select() {
         List<Cliente> clientes = new ArrayList<>();
-        try (PreparedStatement stmt = conexion.prepareStatement(SQL_SELECT);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                Cliente cliente = new Cliente(
-                        rs.getInt("idCliente"),
-                        rs.getString("cedula"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido"),
-                        rs.getString("direccion"),
-                        rs.getString("telefono")
-                );
-                clientes.add(cliente);
+        Cursor cursor = null;
+        try {
+            // Solo seleccionar clientes donde isActive = 1
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ISACTIVE + " = 1";
+            cursor = db.rawQuery(query, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Cliente cliente = new Cliente(
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CEDULA)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOMBRE)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_APELLIDO)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECCION)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TELEFONO))
+                    );
+                    clientes.add(cliente);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al consultar clientes: ", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
             }
         }
         return clientes;
     }
 
-    public int insert(Cliente cliente) throws SQLException {
+    // Insertar cliente
+    public long insert(Cliente cliente) {
+        long id = -1;
+        try {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_CEDULA, cliente.getCedula());
+            values.put(COLUMN_NOMBRE, cliente.getNombre());
+            values.put(COLUMN_APELLIDO, cliente.getApellido());
+            values.put(COLUMN_DIRECCION, cliente.getDireccion());
+            values.put(COLUMN_TELEFONO, cliente.getTelefono());
+            values.put(COLUMN_ISACTIVE, 1); // Siempre insertar como activo
+
+            id = db.insert(TABLE_NAME, null, values);
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al insertar cliente: ", e);
+        }
+        return id;
+    }
+
+    // Actualizar cliente
+    public int update(Cliente cliente) {
         int rows = 0;
-        try (PreparedStatement stmt = conexion.prepareStatement(SQL_INSERT)) {
-            stmt.setString(1, cliente.getCedula());
-            stmt.setString(2, cliente.getNombre());
-            stmt.setString(3, cliente.getApellido());
-            stmt.setString(4, cliente.getDireccion());
-            stmt.setString(5, cliente.getTelefono());
-            rows = stmt.executeUpdate();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_CEDULA, cliente.getCedula());
+            values.put(COLUMN_NOMBRE, cliente.getNombre());
+            values.put(COLUMN_APELLIDO, cliente.getApellido());
+            values.put(COLUMN_DIRECCION, cliente.getDireccion());
+            values.put(COLUMN_TELEFONO, cliente.getTelefono());
+
+            rows = db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(cliente.getIdCliente())});
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al actualizar cliente: ", e);
         }
         return rows;
     }
 
-    public int update(Cliente cliente) throws SQLException {
+    // Eliminar cliente (Soft Delete)
+    public int delete(int idCliente) {
         int rows = 0;
-        try (PreparedStatement stmt = conexion.prepareStatement(SQL_UPDATE)) {
-            stmt.setString(1, cliente.getCedula());
-            stmt.setString(2, cliente.getNombre());
-            stmt.setString(3, cliente.getApellido());
-            stmt.setString(4, cliente.getDireccion());
-            stmt.setString(5, cliente.getTelefono());
-            stmt.setInt(6, cliente.getIdCliente());
-            rows = stmt.executeUpdate();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ISACTIVE, 0); // Marcar como inactivo
+
+            rows = db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(idCliente)});
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al marcar cliente como inactivo: ", e);
         }
         return rows;
     }
 
-    public int delete(int idCliente) throws SQLException {
+    // Reactivar cliente (opcional)
+    public int reactivate(int idCliente) {
         int rows = 0;
-        try (PreparedStatement stmt = conexion.prepareStatement(SQL_DELETE)) {
-            stmt.setInt(1, idCliente);
-            rows = stmt.executeUpdate();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ISACTIVE, 1); // Marcar como activo
+
+            rows = db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(idCliente)});
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al reactivar cliente: ", e);
         }
         return rows;
+    }
+
+    // Cerrar la conexión
+    public void close() {
+        if (dbManager != null) {
+            dbManager.close();
+        }
     }
 }

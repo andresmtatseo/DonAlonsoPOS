@@ -1,8 +1,11 @@
 package com.example.donalonsopos.util;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class Utils {
 
@@ -30,15 +33,20 @@ public class Utils {
         return true;
     }
 
-    // Valida el formato del teléfono (Ejemplo: formato general de 10 dígitos)
     public static boolean validatePhoneNumberField(EditText editText, String errorMessage) {
         String phone = editText.getText().toString().trim();
-        if (!phone.matches("^[0-9]{10}$")) { // Puedes ajustar el regex según el formato que desees
+
+        // Elimina caracteres no numéricos
+        phone = phone.replaceAll("[^0-9+]", "");
+
+        if (!phone.matches("^\\+?[0-9]{10,15}$")) {
             editText.setError(errorMessage);
             return false;
         }
+
         return true;
     }
+
 
     // Valida el formato de la dirección (Ejemplo básico de no vacío)
     public static boolean validateAddressField(EditText editText, String errorMessage) {
@@ -64,6 +72,23 @@ public class Utils {
         }
 
         return true;
+    }
+
+    // Método auxiliar para seleccionar un valor en un Spinner desde un arreglo
+    public static void setSpinnerSelection(Context context, Spinner spinner, String value, int arrayResId) {
+        // Cargar los datos del arreglo
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                context, arrayResId, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        // Buscar la posición del valor a seleccionar
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if (adapter.getItem(i).toString().equals(value)) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
     }
 
 }

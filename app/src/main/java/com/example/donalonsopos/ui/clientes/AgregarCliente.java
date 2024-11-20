@@ -8,13 +8,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ClienteDao;
+import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.util.Utils;
 
 public class AgregarCliente extends DialogFragment {
 
     private EditText etCedula, etNombre, etApellido, etTelefono, etDireccion;
+    private Spinner spTipoCedula;
     private Button btnGuardar, btnLimpiar;
     private ImageButton btnCerrar;
 
@@ -33,6 +37,7 @@ public class AgregarCliente extends DialogFragment {
     }
 
     private void initializeViews(View view) {
+        spTipoCedula = view.findViewById(R.id.spTipoCedula);
         etCedula = view.findViewById(R.id.etCedulaCliente);
         etNombre = view.findViewById(R.id.etNombre);
         etApellido = view.findViewById(R.id.etApellido);
@@ -50,7 +55,10 @@ public class AgregarCliente extends DialogFragment {
     }
 
     private void guardarCliente() {
+        // Obtener los valores de los campos de entrada
+        String tipoCedula = spTipoCedula.getSelectedItem().toString();
         String cedula = etCedula.getText().toString().trim();
+        String cedulaCompleta = tipoCedula + "-" + cedula;
         String nombre = etNombre.getText().toString().trim();
         String apellido = etApellido.getText().toString().trim();
         String telefono = etTelefono.getText().toString().trim();
@@ -62,7 +70,7 @@ public class AgregarCliente extends DialogFragment {
             return;
         }
 
-        if (!Utils.validatePositiveNumberField(etCedula, "La cédula debe ser un número mayor que cero")) {
+        if (!Utils.validatePositiveNumberField(etCedula, "La cédula debe ser un número válido")) {
             return;
         }
 
@@ -75,6 +83,10 @@ public class AgregarCliente extends DialogFragment {
         }
 
         // Lógica para guardar el cliente
+        ClienteDao clienteDao = new ClienteDao(requireContext());
+        Cliente cliente = new Cliente(cedulaCompleta, nombre, apellido, direccion, telefono);
+        clienteDao.insert(cliente);
+        clienteDao.close();
         Toast.makeText(getContext(), "Cliente registrado con éxito", Toast.LENGTH_SHORT).show();
         dismiss();  // Cerrar el formulario o realizar alguna acción de salida
     }

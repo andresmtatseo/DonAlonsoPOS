@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ClienteDao;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.util.ConfirmDialog;
 import com.google.android.material.snackbar.Snackbar;
@@ -107,6 +108,10 @@ public class DetallesCliente extends Fragment {
 
     private void mostrarDialogoConfirmacionEliminar() {
         confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este cliente?", () -> {
+            ClienteDao clienteDao = new ClienteDao(requireContext());
+            clienteDao.delete(clienteSeleccionado.getIdCliente());
+            clienteDao.close();
+
             Toast.makeText(getContext(), "Cliente eliminado con éxito", Toast.LENGTH_SHORT).show();
 
             // Navegación segura hacia atrás usando NavController después de confirmar la eliminación

@@ -1,5 +1,7 @@
 package com.example.donalonsopos.ui.ventas;
 
+import static com.example.donalonsopos.util.Utils.setSpinnerSelection;
+
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -179,7 +181,7 @@ public class AgregarVenta extends Fragment {
                 if (cedulaPartes.length == 2) {
                     String tipoCedula = cedulaPartes[0];
                     String numeroCedula = cedulaPartes[1];
-                    setSpinnerSelection(spTipoCedula, tipoCedula, R.array.tipo_cedula); // Establecer el tipo de cédula
+                    setSpinnerSelection(requireContext(), spTipoCedula, tipoCedula, R.array.tipo_cedula); // Establecer el tipo de cédula
                     etCedulaCliente.setText(numeroCedula); // Establecer el número de cédula
                 }
                 // Mostrar información del cliente
@@ -190,7 +192,7 @@ public class AgregarVenta extends Fragment {
 
             if (venta != null) {
                 // Configurar método de pago y número de comprobante
-                setSpinnerSelection(spMetodoPago, venta.getMetodoPago(), R.array.metodo_pago); // Establecer el método de pago
+                setSpinnerSelection(requireContext(), spMetodoPago, venta.getMetodoPago(), R.array.metodo_pago); // Establecer el método de pago
                 etNumeroComprobante.setText(String.valueOf(venta.getNumeroTransaccion()));
 
                 // Mostrar el campo de comprobante solo si aplica
@@ -224,23 +226,6 @@ public class AgregarVenta extends Fragment {
                 spMetodoPago.setSelection(0);
             }
         });
-    }
-
-    // Método auxiliar para seleccionar un valor en un Spinner desde un arreglo
-    private void setSpinnerSelection(Spinner spinner, String value, int arrayResId) {
-        // Cargar los datos del arreglo
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getContext(), arrayResId, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        // Buscar la posición del valor a seleccionar
-        for (int i = 0; i < adapter.getCount(); i++) {
-            if (adapter.getItem(i).toString().equals(value)) {
-                spinner.setSelection(i);
-                break;
-            }
-        }
     }
 
     private void setupListeners() {
