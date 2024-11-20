@@ -107,7 +107,15 @@
     <fragment
         android:id="@+id/agregarCompraFragment"
         android:name="com.example.donalonsopos.ui.compras.AgregarCompra"
-        android:label="Agregar Compra" />
+        android:label="Agregar Compra" >
+        <action
+            android:id="@+id/action_agregarCompraFragment_to_agregarProductoCompraFragment"
+            app:destination="@id/agregarProductoCompraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/agregarProductoCompraFragment"
+        android:name="com.example.donalonsopos.ui.compras.AgregarProductoCompra"
+        android:label="Agregar Productos a la Compra" />
     <fragment
         android:id="@+id/nav_clientes"
         android:name="com.example.donalonsopos.ui.clientes.ClientesFragment"

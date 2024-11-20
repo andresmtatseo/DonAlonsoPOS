@@ -24,8 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ClienteDao;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Venta;
+import com.example.donalonsopos.ui.clientes.AgregarCliente;
 import com.example.donalonsopos.util.ConfirmDialog;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
@@ -235,15 +237,27 @@ public class AgregarVenta extends Fragment {
     }
 
     private void buscarCliente() {
-        String cedulaCliente = String.valueOf(etCedulaCliente.getText());
+        String tipoCedula = String.valueOf(spTipoCedula.getSelectedItem());
+        String cedula = String.valueOf(etCedulaCliente.getText());
+        String cedulaCompleta = tipoCedula + "-" + cedula;
+
+        ClienteDao clienteDao = new ClienteDao(requireContext());
+        Cliente cliente = clienteDao.findByCedula(cedulaCompleta);
+        if (cliente != null) {
+            tvNombreClienteContenido.setText(cliente.getNombre());
+            tvApellidoClienteContenido.setText(cliente.getApellido());
+            tvDireccionClienteContenido.setText(cliente.getDireccion());
+        } else {
+            showNotFoundDialog();
+        }
+        clienteDao.close();
     }
 
     private void guardarVenta() {
+        String tipoCedula = String.valueOf(spTipoCedula.getSelectedItem());
         String cedula = etCedulaCliente.getText().toString().trim();
+        String cedulaCompleta = tipoCedula + "-" + cedula;
         String numeroComprobante = etNumeroComprobante.getText().toString().trim();
-        String tipoCedula = spTipoCedula.getSelectedItem() != null
-                ? spTipoCedula.getSelectedItem().toString().trim()
-                : "";
         String metodoPago = spMetodoPago.getSelectedItem() != null
                 ? spMetodoPago.getSelectedItem().toString().trim()
                 : "";
@@ -255,6 +269,15 @@ public class AgregarVenta extends Fragment {
             hayError = true;
         } else {
             etCedulaCliente.setError(null);
+        }
+
+        ClienteDao clienteDao = new ClienteDao(requireContext());
+        Cliente cliente = clienteDao.findByCedula(cedulaCompleta);
+        clienteDao.close();
+
+        if (cliente == null) {
+            showNotFoundDialog();
+            hayError = true;
         }
 
         if (etNumeroComprobante.isEnabled() && etNumeroComprobante.getVisibility() == View.VISIBLE) {
@@ -275,15 +298,25 @@ public class AgregarVenta extends Fragment {
             return;
         }
 
+
         // Aquí agregamos la lógica para guardar el producto (en base de datos o en memoria)
-        Toast.makeText(getContext(), "Venta guardada correctamente", Toast.LENGTH_SHORT).show();
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+        navController.popBackStack();
         limpiarCampos();
+        Toast.makeText(getContext(), "Venta guardada correctamente", Toast.LENGTH_SHORT).show();
     }
 
     private void showDeleteConfirmationDialog() {
         confirmDialog.showConfirmationDialog("Limpiar", "¿Estás seguro de limpiar todo el contenido?", () -> {
             Toast.makeText(getContext(), "Los campos fueron limpiados", Toast.LENGTH_SHORT).show();
             limpiarCampos();
+        });
+    }
+
+    private void showNotFoundDialog() {
+        confirmDialog.showConfirmationDialog("Cliente no encontrado", "El cliente no existe en la base de datos, ¿desea agregarlo?", () -> {
+            AgregarCliente dialog = new AgregarCliente();
+            dialog.show(getChildFragmentManager(), "agregar_cliente");
         });
     }
 

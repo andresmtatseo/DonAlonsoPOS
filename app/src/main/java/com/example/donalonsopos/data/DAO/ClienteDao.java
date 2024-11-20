@@ -69,6 +69,36 @@ public class ClienteDao {
         return clientes;
     }
 
+    // Buscar cliente por cédula
+    public Cliente findByCedula(String cedula) {
+        Cliente cliente = null;
+        Cursor cursor = null;
+        try {
+            // Query para buscar cliente activo con la cédula
+            String query = "SELECT * FROM " + TABLE_NAME +
+                    " WHERE " + COLUMN_CEDULA + " = ? AND " + COLUMN_ISACTIVE + " = 1";
+            cursor = db.rawQuery(query, new String[]{cedula});
+
+            if (cursor.moveToFirst()) {
+                cliente = new Cliente(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CEDULA)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOMBRE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_APELLIDO)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECCION)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TELEFONO))
+                );
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al buscar cliente por cédula: ", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return cliente;
+    }
+
     // Insertar cliente
     public long insert(Cliente cliente) {
         long id = -1;
