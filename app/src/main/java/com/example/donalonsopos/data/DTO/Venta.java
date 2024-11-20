@@ -16,7 +16,7 @@ public class Venta implements Serializable {
     private boolean isActive;
 
     // Constructores
-    public Venta() {
+    public Venta(int anInt, int cursorInt, int idCliente, String string, String cursorString, int numeroTransaccion, String s, float aFloat) {
     }
 
     public Venta(int idCliente, String metodoPago, int numeroTransaccion) {

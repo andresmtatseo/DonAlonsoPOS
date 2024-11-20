@@ -15,7 +15,7 @@ public class MovimientoProducto implements Serializable {
     private String descripcion;
 
     // Constructores
-    public MovimientoProducto() {
+    public MovimientoProducto(int anInt, int cursorInt, int idUsuario, String string, int referencia, int cantidad, String cursorString, String descripcion) {
     }
 
     public MovimientoProducto(int idMovimiento) {

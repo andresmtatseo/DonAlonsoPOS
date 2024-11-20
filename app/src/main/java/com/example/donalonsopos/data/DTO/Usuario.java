@@ -14,7 +14,7 @@ public class Usuario implements Serializable {
     private boolean isActive;
 
     // Constructores
-    public Usuario() {
+    public Usuario(int anInt, String string, String cursorString, int cursorInt, String s, String string1, String cursorString1) {
     }
 
     public Usuario(int idUsuario) {

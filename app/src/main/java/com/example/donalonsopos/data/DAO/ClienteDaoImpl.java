@@ -13,12 +13,12 @@ import com.example.donalonsopos.data.DB.DBManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteDao {
+public class ClienteDaoImpl {
     private static final String TAG = "ClienteDao";
     private SQLiteDatabase db;
     private DBManager dbManager;
 
-    public ClienteDao(Context context) {
+    public ClienteDaoImpl(Context context) {
         try {
             dbManager = new DBManager(context);
             dbManager.open(); // Abrir la conexión

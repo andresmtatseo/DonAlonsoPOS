@@ -4,7 +4,6 @@ import static com.example.donalonsopos.util.Utils.setSpinnerSelection;
 
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,13 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.DAO.ClienteDao;
+import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.ui.clientes.AgregarCliente;
 import com.example.donalonsopos.util.ConfirmDialog;
-import com.example.donalonsopos.util.OnItemClickListener;
-import com.example.donalonsopos.util.OnItemLongClickListener;
 import com.example.donalonsopos.util.ProductoConCantidad;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -241,7 +237,7 @@ public class AgregarVenta extends Fragment {
         String cedula = String.valueOf(etCedulaCliente.getText());
         String cedulaCompleta = tipoCedula + "-" + cedula;
 
-        ClienteDao clienteDao = new ClienteDao(requireContext());
+        ClienteDaoImpl clienteDao = new ClienteDaoImpl(requireContext());
         Cliente cliente = clienteDao.findByCedula(cedulaCompleta);
         if (cliente != null) {
             tvNombreClienteContenido.setText(cliente.getNombre());
@@ -271,7 +267,7 @@ public class AgregarVenta extends Fragment {
             etCedulaCliente.setError(null);
         }
 
-        ClienteDao clienteDao = new ClienteDao(requireContext());
+        ClienteDaoImpl clienteDao = new ClienteDaoImpl(requireContext());
         Cliente cliente = clienteDao.findByCedula(cedulaCompleta);
         clienteDao.close();
 

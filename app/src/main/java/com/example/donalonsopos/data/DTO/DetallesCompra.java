@@ -13,7 +13,7 @@ public class DetallesCompra implements Serializable {
     private Date fechaExpiracion;
 
     // Constructores
-    public DetallesCompra() {
+    public DetallesCompra(int anInt, int cursorInt, int idProducto, int cantidad, float aFloat, String string) {
     }
 
     public DetallesCompra(int idDetallesCompra) {

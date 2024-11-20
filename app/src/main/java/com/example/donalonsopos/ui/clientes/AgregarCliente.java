@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.DAO.ClienteDao;
+import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.util.Utils;
 
@@ -83,7 +83,7 @@ public class AgregarCliente extends DialogFragment {
         }
 
         // Lógica para guardar el cliente
-        ClienteDao clienteDao = new ClienteDao(requireContext());
+        ClienteDaoImpl clienteDao = new ClienteDaoImpl(requireContext());
         Cliente cliente = new Cliente(cedulaCompleta, nombre, apellido, direccion, telefono);
         clienteDao.insert(cliente);
         clienteDao.close();

@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.DAO.ClienteDao;
+import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
@@ -190,7 +190,7 @@ public class ClientesFragment extends Fragment {
 
     private void cargarClientes() {
         clientes.clear();
-        ClienteDao clienteDao = new ClienteDao(requireContext());
+        ClienteDaoImpl clienteDao = new ClienteDaoImpl(requireContext());
         clientes.addAll(clienteDao.select());
         clienteDao.close();
         clientesFiltrados.clear();

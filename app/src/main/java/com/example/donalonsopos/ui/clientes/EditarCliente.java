@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.DAO.ClienteDao;
+import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.util.Utils;
 
@@ -127,7 +127,7 @@ public class EditarCliente extends Fragment {
             clienteSeleccionado.setDireccion(direccion);
         }
 
-        ClienteDao clienteDao = new ClienteDao(requireContext());
+        ClienteDaoImpl clienteDao = new ClienteDaoImpl(requireContext());
         clienteDao.update(clienteSeleccionado);
         clienteDao.close();
 
