@@ -22,7 +22,7 @@ public class DBConexion extends SQLiteOpenHelper {
                 + DBManager.USUARIO_USERNAME + " TEXT,"
                 + DBManager.USUARIO_PASSWORD + " TEXT,"
                 + DBManager.USUARIO_ROL + " TEXT,"
-                + DBManager.USUARIO_CEDULA + " TEXT,"
+                + DBManager.USUARIO_CEDULA + " TEXT UNIQUE,"
                 + DBManager.USUARIO_NOMBRE + " TEXT,"
                 + DBManager.USUARIO_APELLIDO + " TEXT,"
                 + DBManager.USUARIO_ISACTIVE + " INTEGER" + ")";
@@ -31,7 +31,7 @@ public class DBConexion extends SQLiteOpenHelper {
         //Cliente
         String CREATE_CLIENTE_TABLE = "CREATE TABLE " + DBManager.TABLA_CLIENTE + "("
                 + DBManager.CLIENTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + DBManager.CLIENTE_CEDULA + " TEXT,"
+                + DBManager.CLIENTE_CEDULA + " TEXT UNIQUE,"
                 + DBManager.CLIENTE_NOMBRE + " TEXT,"
                 + DBManager.CLIENTE_APELLIDO + " TEXT,"
                 + DBManager.CLIENTE_DIRECCION + " TEXT,"
@@ -72,7 +72,7 @@ public class DBConexion extends SQLiteOpenHelper {
 
         String CREATE_PROVEEDOR_TABLE = "CREATE TABLE " + DBManager.TABLA_PROVEEDOR + "("
                 + DBManager.PROVEEDOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + DBManager.PROVEEDOR_CEDULA + " TEXT,"
+                + DBManager.PROVEEDOR_CEDULA + " TEXT UNIQUE,"
                 + DBManager.PROVEEDOR_NOMBRE + " TEXT,"
                 + DBManager.PROVEEDOR_DIRECCION + " TEXT,"
                 + DBManager.PROVEEDOR_TELEFONO + " TEXT,"
