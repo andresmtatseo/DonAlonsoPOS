@@ -39,7 +39,7 @@ public class ReportesFragment extends AppCompatActivity {
         btnGenerarReporte = findViewById(R.id.btnGenerarReporte);
 
         // Configurar el Spinner con opciones
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this, R.array.spinner_reportes, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this, R.array.spinner_items, android.R.layout.simple_spinner_item);
 
         seleccion.setAdapter(adapter);
 

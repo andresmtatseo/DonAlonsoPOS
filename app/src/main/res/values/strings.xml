@@ -57,5 +57,11 @@
         <item>Postres Congelados</item>
     </string-array>
 
+    <string-array name="spinner_items">
+        <item>Clientes</item>
+        <item>Productos</item>
+        <item>Ventas</item>
+    </string-array>
+
 
 </resources>
