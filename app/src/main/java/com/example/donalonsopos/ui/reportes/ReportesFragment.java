@@ -45,9 +45,14 @@ public class ReportesFragment extends AppCompatActivity {
                 switch (selected) {
                     case "Ventas": showDialog(new DialogFiltrosVentasFragment());
                     break;
-                    case "Productos": // Muestra el diálogo para productos showDialog(new DialogFiltrosProductosFragment()); break;
-                    case "Clientes": showDialog(new DialogFiltrosVentasFragment());
-                    break; } }
+                    case "Compras": showDialog(new DialogFiltrosComprasFragment());
+                        break;
+                    case "Clientes": showDialog(new DialogFiltrosClientesFragment());
+                    break;
+                    case "Proveedores": showDialog(new DialogFiltrosProveedoresFragment());
+                        break;
+                    case "Productos": showDialog(new DialogFiltrosProductosFragment());
+                        break; } }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
