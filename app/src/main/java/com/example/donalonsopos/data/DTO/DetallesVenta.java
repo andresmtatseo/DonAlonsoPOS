@@ -63,3 +63,4 @@ public class DetallesVenta implements Serializable {
         this.precioUnitario = precioUnitario;
     }
 }
+//.

@@ -13,7 +13,7 @@ public class Compra implements Serializable {
     private boolean isActive;
 
     // Constructores
-    public Compra() {
+    public Compra(int anInt, int cursorInt, String string, String cursorString, String s, float aFloat) {
         // Constructor vacío por defecto
     }
 

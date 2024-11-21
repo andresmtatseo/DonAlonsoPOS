@@ -145,3 +145,5 @@ public class Venta implements Serializable {
         this.isActive = isActive;
     }
 }
+
+//.

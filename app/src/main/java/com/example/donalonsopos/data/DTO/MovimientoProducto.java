@@ -90,3 +90,5 @@ public class MovimientoProducto implements Serializable {
         this.descripcion = descripcion;
     }
 }
+
+//.

@@ -70,3 +70,5 @@ public class DetallesCompra implements Serializable {
         this.fechaExpiracion = fechaExpiracion;
     }
 }
+
+//.
