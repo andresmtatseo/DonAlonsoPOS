@@ -30,8 +30,6 @@ import java.util.Map;
 
 public class AgregarProductoVenta extends Fragment {
 
-    public static final String KEY_PRODUCTO = "producto";
-
     private static final String FILTRO_ID = "ID";
     private static final String FILTRO_NOMBRE = "Nombre";
     private static final String FILTRO_CATEGORIA = "Categoría";

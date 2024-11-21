@@ -57,7 +57,7 @@
         <item>Postres Congelados</item>
     </string-array>
 
-    <string-array name="spinner_items">
+    <string-array name="modulo_reportes">
         <item>Seleccione una opción</item>
         <item>Ventas</item>
         <item>Compras</item>
@@ -65,6 +65,7 @@
         <item>Productos</item>
         <item>Ventas</item>
     </string-array>
+
 
 
 </resources>

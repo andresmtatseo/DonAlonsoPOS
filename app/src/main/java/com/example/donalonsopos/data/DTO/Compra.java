@@ -14,13 +14,6 @@ public class Compra implements Serializable {
     private boolean isActive;
 
     // Constructores
-    public Compra(int anInt, int cursorInt, String string, String cursorString, String s, float aFloat) {
-    }
-
-    public Compra(int idCompra) {
-        this.idCompra = idCompra;
-    }
-
     public Compra(int idCompra, int idProveedor, Date fechaCompra, String metodoPago, String numeroFactura, float total, boolean isActive) {
         this.idCompra = idCompra;
         this.idProveedor = idProveedor;
@@ -29,6 +22,29 @@ public class Compra implements Serializable {
         this.numeroFactura = numeroFactura;
         this.total = total;
         this.isActive = isActive;
+
+    }
+
+    public Compra(int idCompra) {
+        this.idCompra = idCompra;
+    }
+
+    public Compra(int idCompra, int idProveedor, String metodoPago) {
+        this.idCompra = idCompra;
+        this.idProveedor = idProveedor;
+        this.metodoPago = metodoPago;
+    }
+
+    public Compra(int idProveedor, String metodoPago, String numeroFactura) {
+        this.idProveedor = idProveedor;
+        this.metodoPago = metodoPago;
+        this.numeroFactura = numeroFactura;
+    }
+
+    public Compra(int idCompra, int idProveedor, String metodoPago, String numeroFactura) {
+        this.idCompra = idCompra;
+        this.idProveedor = idProveedor;
+        this.metodoPago = metodoPago;
     }
 
     // Métodos

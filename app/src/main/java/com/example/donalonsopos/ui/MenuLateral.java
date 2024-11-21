@@ -4,24 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.ui.ayuda.AyudaFragment;
-import com.example.donalonsopos.ui.clientes.ClientesFragment;
-import com.example.donalonsopos.ui.compras.ComprasFragment;
-import com.example.donalonsopos.ui.inicio.InicioFragment;
-import com.example.donalonsopos.ui.productos.ProductosFragment;
-import com.example.donalonsopos.ui.proveedores.ProveedoresFragment;
-import com.example.donalonsopos.ui.reportes.ReportesFragment;
-import com.example.donalonsopos.ui.usuarios.UsuariosFragment;
-import com.example.donalonsopos.ui.ventas.VentasFragment;
-import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -32,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.donalonsopos.databinding.ActivityMenuLateralBinding;
 
 import com.example.donalonsopos.util.ConfirmDialog;
+import com.google.android.material.navigation.NavigationView;
 
 public class MenuLateral extends AppCompatActivity {
 

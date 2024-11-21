@@ -20,6 +20,11 @@ public class Proveedor implements Serializable {
         this.idProveedor = idProveedor;
     }
 
+    public Proveedor(int idProveedor, String cedula) {
+        this.idProveedor = idProveedor;
+        this.cedula = cedula;
+    }
+
     public Proveedor(int idProveedor, String cedula, String nombre, String direccion, String telefono, String email, boolean isActive) {
         this.idProveedor = idProveedor;
         this.cedula = cedula;
