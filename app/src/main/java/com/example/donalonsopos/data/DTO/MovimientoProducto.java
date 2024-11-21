@@ -1,7 +1,6 @@
 package com.example.donalonsopos.data.DTO;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class MovimientoProducto implements Serializable {
     // Atributos
@@ -11,18 +10,11 @@ public class MovimientoProducto implements Serializable {
     private String tipoMovimiento;
     private int referencia;
     private int cantidad;
-    private Date fechaMovimiento;
+    private String fechaMovimiento; // Cambiado de Date a String
     private String descripcion;
 
     // Constructores
-    public MovimientoProducto(int anInt, int cursorInt, int idUsuario, String string, int referencia, int cantidad, String cursorString, String descripcion) {
-    }
-
-    public MovimientoProducto(int idMovimiento) {
-        this.idMovimiento = idMovimiento;
-    }
-
-    public MovimientoProducto(int idMovimiento, int idProducto, int idUsuario, String tipoMovimiento, int referencia, int cantidad, Date fechaMovimiento, String descripcion) {
+    public MovimientoProducto(int idMovimiento, int idProducto, int idUsuario, String tipoMovimiento, int referencia, int cantidad, String fechaMovimiento, String descripcion) {
         this.idMovimiento = idMovimiento;
         this.idProducto = idProducto;
         this.idUsuario = idUsuario;
@@ -31,6 +23,10 @@ public class MovimientoProducto implements Serializable {
         this.cantidad = cantidad;
         this.fechaMovimiento = fechaMovimiento;
         this.descripcion = descripcion;
+    }
+
+    public MovimientoProducto(int idMovimiento) {
+        this.idMovimiento = idMovimiento;
     }
 
     // Métodos
@@ -78,11 +74,11 @@ public class MovimientoProducto implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Date getFechaMovimiento() {
+    public String getFechaMovimiento() { // Cambiado a String
         return fechaMovimiento;
     }
 
-    public void setFechaMovimiento(Date fechaMovimiento) {
+    public void setFechaMovimiento(String fechaMovimiento) { // Cambiado a String
         this.fechaMovimiento = fechaMovimiento;
     }
 

@@ -1,91 +1,21 @@
 package com.example.donalonsopos.data.DTO;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Venta implements Serializable {
     // Atributos
     private int idVenta;
     private int idUsuario;
     private int idCliente;
-    private Date fechaVenta;
+    private String fechaVenta; // Cambiado de Date a String
     private String metodoPago;
     private int numeroTransaccion;
-    private Date fechaPago;
+    private String fechaPago; // Cambiado de Date a String
     private float total;
     private boolean isActive;
 
     // Constructores
-    public Venta(int anInt, int cursorInt, int idCliente, String string, String cursorString, int numeroTransaccion, String s, float aFloat) {
-    }
-
-    public Venta(int idCliente, String metodoPago, int numeroTransaccion) {
-        this.idCliente = idCliente;
-        this.metodoPago = metodoPago;
-        this.numeroTransaccion = numeroTransaccion;
-    }
-
-    public Venta(int idVenta) {
-        this.idVenta = idVenta;
-    }
-
-    public Venta(int idVenta, int idUsuario) {
-        this.idVenta = idVenta;
-        this.idUsuario = idUsuario;
-    }
-
-    public Venta(int idVenta, int idUsuario, int idCliente) {
-        this.idVenta = idVenta;
-        this.idUsuario = idUsuario;
-        this.idCliente = idCliente;
-    }
-
-    public Venta(int idUsuario, int idVenta, int idCliente, Date fechaVenta) {
-        this.idUsuario = idUsuario;
-        this.idVenta = idVenta;
-        this.idCliente = idCliente;
-        this.fechaVenta = fechaVenta;
-    }
-
-    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago) {
-        this.idVenta = idVenta;
-        this.idUsuario = idUsuario;
-        this.idCliente = idCliente;
-        this.fechaVenta = fechaVenta;
-        this.metodoPago = metodoPago;
-    }
-
-    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago, int numeroTransaccion) {
-        this.idVenta = idVenta;
-        this.idUsuario = idUsuario;
-        this.idCliente = idCliente;
-        this.fechaVenta = fechaVenta;
-        this.metodoPago = metodoPago;
-        this.numeroTransaccion = numeroTransaccion;
-    }
-
-    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago, int numeroTransaccion, Date fechaPago) {
-        this.idVenta = idVenta;
-        this.idUsuario = idUsuario;
-        this.idCliente = idCliente;
-        this.fechaVenta = fechaVenta;
-        this.metodoPago = metodoPago;
-        this.numeroTransaccion = numeroTransaccion;
-        this.fechaPago = fechaPago;
-    }
-
-    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago, int numeroTransaccion, Date fechaPago, float total) {
-        this.idVenta = idVenta;
-        this.idUsuario = idUsuario;
-        this.idCliente = idCliente;
-        this.fechaVenta = fechaVenta;
-        this.metodoPago = metodoPago;
-        this.numeroTransaccion = numeroTransaccion;
-        this.fechaPago = fechaPago;
-        this.total = total;
-    }
-
-    public Venta(int idVenta, int idUsuario, int idCliente, Date fechaVenta, String metodoPago, int numeroTransaccion, Date fechaPago, float total, boolean isActive) {
+    public Venta(int idVenta, int idUsuario, int idCliente, String fechaVenta, String metodoPago, int numeroTransaccion, String fechaPago, float total) {
         this.idVenta = idVenta;
         this.idUsuario = idUsuario;
         this.idCliente = idCliente;
@@ -97,11 +27,59 @@ public class Venta implements Serializable {
         this.isActive = isActive;
     }
 
+    public Venta(int idVenta, int idUsuario, int idCliente, String fechaVenta, String metodoPago, int numeroTransaccion, String fechaPago) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+        this.fechaPago = fechaPago;
+    }
+
+    public Venta(int idVenta, int idUsuario, int idCliente, String fechaVenta, String metodoPago, int numeroTransaccion) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+    }
+
+    public Venta(int idVenta, int idUsuario, int idCliente, String fechaVenta, String metodoPago) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+    }
+
+    public Venta(int idUsuario, int idVenta, int idCliente, String fechaVenta) {
+        this.idUsuario = idUsuario;
+        this.idVenta = idVenta;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+    }
+
+    public Venta(int idVenta, int idUsuario, int idCliente) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+    }
+
+    public Venta(int idVenta, int idUsuario) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+    }
+
+    public Venta(int idVenta) {
+        this.idVenta = idVenta;
+    }
+
     // Métodos
     public int getIdVenta() {
         return idVenta;
     }
-
 
     public int getIdUsuario() {
         return idUsuario;
@@ -119,11 +97,11 @@ public class Venta implements Serializable {
         this.idCliente = idCliente;
     }
 
-    public Date getFechaVenta() {
+    public String getFechaVenta() { // Cambiado a String
         return fechaVenta;
     }
 
-    public void setFechaVenta(Date fechaVenta) {
+    public void setFechaVenta(String fechaVenta) { // Cambiado a String
         this.fechaVenta = fechaVenta;
     }
 
@@ -143,11 +121,11 @@ public class Venta implements Serializable {
         this.numeroTransaccion = numeroTransaccion;
     }
 
-    public Date getFechaPago() {
+    public String getFechaPago() { // Cambiado a String
         return fechaPago;
     }
 
-    public void setFechaPago(Date fechaPago) {
+    public void setFechaPago(String fechaPago) { // Cambiado a String
         this.fechaPago = fechaPago;
     }
 

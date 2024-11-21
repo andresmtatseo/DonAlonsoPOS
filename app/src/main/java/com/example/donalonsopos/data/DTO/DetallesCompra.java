@@ -1,7 +1,6 @@
 package com.example.donalonsopos.data.DTO;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class DetallesCompra implements Serializable {
     // Atributos
@@ -10,23 +9,20 @@ public class DetallesCompra implements Serializable {
     private int idProducto;
     private int cantidad;
     private float precioUnitario;
-    private Date fechaExpiracion;
+    private String fechaExpiracion; // Cambiado de Date a String
 
     // Constructores
-    public DetallesCompra(int anInt, int cursorInt, int idProducto, int cantidad, float aFloat, String string) {
-    }
-
-    public DetallesCompra(int idDetallesCompra) {
-        this.idDetallesCompra = idDetallesCompra;
-    }
-
-    public DetallesCompra(int idDetallesCompra, int idCompra, int idProducto, int cantidad, float precioUnitario, Date fechaExpiracion) {
+    public DetallesCompra(int idDetallesCompra, int idCompra, int idProducto, int cantidad, float precioUnitario, String fechaExpiracion) {
         this.idDetallesCompra = idDetallesCompra;
         this.idCompra = idCompra;
         this.idProducto = idProducto;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         this.fechaExpiracion = fechaExpiracion;
+    }
+
+    public DetallesCompra(int idDetallesCompra) {
+        this.idDetallesCompra = idDetallesCompra;
     }
 
     // Métodos
@@ -66,11 +62,11 @@ public class DetallesCompra implements Serializable {
         this.precioUnitario = precioUnitario;
     }
 
-    public Date getFechaExpiracion() {
+    public String getFechaExpiracion() { // Cambiado a String
         return fechaExpiracion;
     }
 
-    public void setFechaExpiracion(Date fechaExpiracion) {
+    public void setFechaExpiracion(String fechaExpiracion) { // Cambiado a String
         this.fechaExpiracion = fechaExpiracion;
     }
 }
