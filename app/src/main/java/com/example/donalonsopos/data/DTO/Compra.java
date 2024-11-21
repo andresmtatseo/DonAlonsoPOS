@@ -1,12 +1,13 @@
 package com.example.donalonsopos.data.DTO;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Compra implements Serializable {
     // Atributos
     private int idCompra;
     private int idProveedor;
-    private String fechaCompra;
+    private Date fechaCompra;
     private String metodoPago;
     private String numeroFactura;
     private float total;
@@ -20,7 +21,7 @@ public class Compra implements Serializable {
         this.idCompra = idCompra;
     }
 
-    public Compra(int idCompra, int idProveedor, String fechaCompra, String metodoPago, String numeroFactura, float total, boolean isActive) {
+    public Compra(int idCompra, int idProveedor, Date fechaCompra, String metodoPago, String numeroFactura, float total, boolean isActive) {
         this.idCompra = idCompra;
         this.idProveedor = idProveedor;
         this.fechaCompra = fechaCompra;
@@ -43,11 +44,11 @@ public class Compra implements Serializable {
         this.idProveedor = idProveedor;
     }
 
-    public String getFechaCompra() {
+    public Date getFechaCompra() {
         return fechaCompra;
     }
 
-    public void setFechaCompra(String fechaCompra) {
+    public void setFechaCompra(Date fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
 

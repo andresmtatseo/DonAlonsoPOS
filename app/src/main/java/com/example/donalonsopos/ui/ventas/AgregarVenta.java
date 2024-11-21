@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
+import com.example.donalonsopos.data.DTO.Compra;
+import com.example.donalonsopos.data.DTO.Proveedor;
 import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.ui.clientes.AgregarCliente;
 import com.example.donalonsopos.util.ConfirmDialog;
@@ -129,7 +131,6 @@ public class AgregarVenta extends Fragment {
                 try {
                     numeroComprobante = Integer.parseInt(etNumeroComprobante.getText().toString().trim());
                 } catch (NumberFormatException e) {
-                    etNumeroComprobante.setError("Ingrese un número válido");
                     numeroComprobante = 0; // Valor por defecto si ocurre un error
                 }
 
@@ -328,6 +329,10 @@ public class AgregarVenta extends Fragment {
         if (rvProductosSeleccionados.getAdapter() != null) {
             rvProductosSeleccionados.setAdapter(null);
         }
-        setArguments(null);
+        // Limpiar el bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            bundle.clear();
+        }
     }
 }
