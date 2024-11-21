@@ -1,26 +1,16 @@
 package com.example.donalonsopos.ui.reportes;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.donalonsopos.R;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 
 
 public class ReportesFragment extends AppCompatActivity {
@@ -53,23 +43,28 @@ public class ReportesFragment extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = parent.getItemAtPosition(position).toString();
                 switch (selected) {
-                    case "Clientes": showDialog(new DialogFiltrosClientesFragment());
+                    case "Ventas": showDialog(new DialogFiltrosVentasFragment());
                     break;
                     case "Productos": // Muestra el diálogo para productos showDialog(new DialogFiltrosProductosFragment()); break;
-                    case "Ventas": // Muestra el diálogo para ventas showDialog(new DialogFiltrosVentasFragment()); break; } }
+                    case "Clientes": showDialog(new DialogFiltrosVentasFragment());
+                    break; } }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            };
 
         // Configurar el botón para generar el reporte
 
 
 
-            }
+            });
         }
 
-            private void showDialog(DialogFiltrosClientesFragment dialogFiltrosClientesFragment) {
-            }
+            private void showDialog(DialogFragment dialogFragment) {
+                dialogFragment.show(getSupportFragmentManager(), "dialog"); }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) { // No hacer nada
-                } });
+
     }
 
-}
+
