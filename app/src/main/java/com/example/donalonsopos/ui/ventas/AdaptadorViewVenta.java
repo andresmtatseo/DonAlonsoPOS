@@ -81,8 +81,7 @@ public class AdaptadorViewVenta extends RecyclerView.Adapter<AdaptadorViewVenta.
             tvIdVenta.setText("ID: " + venta.getIdVenta());
             tvIdCliente.setText("ID Cliente: " + venta.getIdCliente());
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            tvFechaVenta.setText("Fecha Venta: " + sdf.format(venta.getFechaVenta()));
+            tvFechaVenta.setText("Fecha Venta: " + venta.getFechaVenta());
 
             tvMetodoPago.setText("Método de Pago: " + venta.getMetodoPago());
             tvNumeroTransaccion.setText("N° Transacción: " + venta.getNumeroTransaccion());

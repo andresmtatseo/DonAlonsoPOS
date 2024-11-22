@@ -242,7 +242,7 @@ public class VentasFragment extends Fragment {
                     try {
                         Date inicio = dateFormat.parse(fechaInicio);
                         Date fin = dateFormat.parse(fechaFin);
-                        Date fechaVenta = venta.getFechaVenta();
+                        Date fechaVenta = dateFormat.parse(venta.getFechaVenta());
 
                         // Usar Calendar para comparar solo las fechas (ignorando hora)
                         Calendar calInicio = Calendar.getInstance();
@@ -279,10 +279,10 @@ public class VentasFragment extends Fragment {
 
     private void cargarVentas() {
         ventas.clear();
-        ventas.add(new Venta(1, 5, 8, new Date(), "Efectivo", 3068484, new Date(), 100));
-        ventas.add(new Venta(2, 1, 4, new Date(), "Tarjeta", 0, new Date(), 100));
-        ventas.add(new Venta(3, 2, 3, new Date(), "Efectivo", 0, new Date(), 100));
-        ventas.add(new Venta(4, 3, 2, new Date(), "Efectivo", 0, new Date(), 100));
+        ventas.add(new Venta(1, 5, 8, dateFormat.format(new Date()), "Efectivo", 3068484, dateFormat.format(new Date()), 100));
+        ventas.add(new Venta(2, 1, 4, dateFormat.format(new Date()), "Tarjeta", 0, dateFormat.format(new Date()), 100));
+        ventas.add(new Venta(3, 2, 3, dateFormat.format(new Date()), "Efectivo", 0, dateFormat.format(new Date()), 100));
+        ventas.add(new Venta(4, 3, 2, dateFormat.format(new Date()), "Efectivo", 0, dateFormat.format(new Date()), 100));
         ventasFiltradas.clear();
         ventasFiltradas.addAll(ventas);
         adaptador.notifyDataSetChanged();

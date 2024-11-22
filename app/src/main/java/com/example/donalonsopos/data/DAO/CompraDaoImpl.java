@@ -53,7 +53,8 @@ public class CompraDaoImpl {
                             cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FECHA_COMPRA)),
                             cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_METODO_PAGO)),
                             cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NUMERO_FACTURA)),
-                            cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_TOTAL))
+                            cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_TOTAL)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ISACTIVE))
                     );
                     compras.add(compra);
                 } while (cursor.moveToNext());

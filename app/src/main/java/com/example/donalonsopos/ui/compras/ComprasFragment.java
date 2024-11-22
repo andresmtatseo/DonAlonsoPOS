@@ -245,7 +245,7 @@ public class ComprasFragment extends Fragment {
                     try {
                         Date inicio = dateFormat.parse(fechaInicio);
                         Date fin = dateFormat.parse(fechaFin);
-                        Date fechaCompra = compra.getFechaCompra();
+                        Date fechaCompra = dateFormat.parse(compra.getFechaCompra());
 
                         // Usar Calendar para comparar solo las fechas (ignorando hora)
                         Calendar calInicio = Calendar.getInstance();
@@ -282,8 +282,8 @@ public class ComprasFragment extends Fragment {
 
     private void cargarCompras() {
         compras.clear();
-        compras.add(new Compra(1, 1001, new Date(), "Efectivo", "F001", 1500.75f, true));
-        compras.add(new Compra(2, 1002, new Date(), "Tarjeta", "F002", 2000.00f, true));
+        compras.add(new Compra(1, 1001, dateFormat.format(new Date()), "Efectivo", "F001", 1500.75f));
+        compras.add(new Compra(2, 1002, dateFormat.format(new Date()), "Tarjeta", "F002", 2000.00f));
         // Agrega más compras según sea necesario
         comprasFiltradas.clear();
         comprasFiltradas.addAll(compras);

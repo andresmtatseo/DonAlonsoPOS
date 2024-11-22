@@ -3,18 +3,29 @@ package com.example.donalonsopos.data.DTO;
 import java.io.Serializable;
 
 public class Venta implements Serializable {
-    // Atributos
+
     private int idVenta;
     private int idUsuario;
     private int idCliente;
-    private String fechaVenta; // Cambiado de Date a String
+    private String fechaVenta;
     private String metodoPago;
     private int numeroTransaccion;
-    private String fechaPago; // Cambiado de Date a String
+    private String fechaPago;
     private float total;
     private boolean isActive;
 
-    // Constructores
+    public Venta(int idVenta, String fechaVenta, int idCliente, int idUsuario, String metodoPago, int numeroTransaccion, String fechaPago, float total, boolean isActive) {
+        this.idVenta = idVenta;
+        this.fechaVenta = fechaVenta;
+        this.idCliente = idCliente;
+        this.idUsuario = idUsuario;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+        this.fechaPago = fechaPago;
+        this.total = total;
+        this.isActive = isActive;
+    }
+
     public Venta(int idVenta, int idUsuario, int idCliente, String fechaVenta, String metodoPago, int numeroTransaccion, String fechaPago, float total) {
         this.idVenta = idVenta;
         this.idUsuario = idUsuario;
@@ -59,6 +70,12 @@ public class Venta implements Serializable {
         this.idVenta = idVenta;
         this.idCliente = idCliente;
         this.fechaVenta = fechaVenta;
+    }
+
+    public Venta(int idCliente, String metodoPago, int numeroTransaccion) {
+        this.idCliente = idCliente;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
     }
 
     public Venta(int idVenta, int idUsuario, int idCliente) {

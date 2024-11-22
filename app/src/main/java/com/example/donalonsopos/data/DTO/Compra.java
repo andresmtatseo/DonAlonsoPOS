@@ -1,34 +1,43 @@
 package com.example.donalonsopos.data.DTO;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Compra implements Serializable {
     // Atributos
     private int idCompra;
     private int idProveedor;
-    private String fechaCompra; // Fecha como String
+    private String fechaCompra;
     private String metodoPago;
     private String numeroFactura;
     private float total;
-    private boolean isActive;
+    private int isActive;
 
     // Constructores
-    public Compra(int anInt, int cursorInt, String string, String cursorString, String s, float aFloat) {
-        // Constructor vacío por defecto
-    }
 
-    public Compra(int idCompra) {
+
+    public Compra(int idCompra, int idProveedor, String metodoPago, String fechaCompra, String numeroFactura, float total, int isActive) {
         this.idCompra = idCompra;
+        this.idProveedor = idProveedor;
+        this.metodoPago = metodoPago;
+        this.fechaCompra = fechaCompra;
+        this.numeroFactura = numeroFactura;
+        this.isActive = isActive;
+        this.total = total;
     }
 
-    public Compra(int idCompra, int idProveedor, String fechaCompra, String metodoPago, String numeroFactura, float total, boolean isActive) {
+    public Compra(int idCompra, int idProveedor, String fechaCompra, String metodoPago, String numeroFactura, float total) {
         this.idCompra = idCompra;
         this.idProveedor = idProveedor;
         this.fechaCompra = fechaCompra;
         this.metodoPago = metodoPago;
         this.numeroFactura = numeroFactura;
         this.total = total;
-        this.isActive = isActive;
+
+    }
+
+    public Compra(int idCompra) {
+        this.idCompra = idCompra;
     }
 
     public Compra(int idCompra, int idProveedor, String metodoPago) {
@@ -47,16 +56,13 @@ public class Compra implements Serializable {
         this.idCompra = idCompra;
         this.idProveedor = idProveedor;
         this.metodoPago = metodoPago;
-        this.numeroFactura = numeroFactura;
     }
 
-    // Métodos getter y setter
+
+
+    // Métodos
     public int getIdCompra() {
         return idCompra;
-    }
-
-    public void setIdCompra(int idCompra) {
-        this.idCompra = idCompra;
     }
 
     public int getIdProveedor() {
@@ -99,14 +105,4 @@ public class Compra implements Serializable {
         this.total = total;
     }
 
-    public boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
 }
-
-
-//hola
