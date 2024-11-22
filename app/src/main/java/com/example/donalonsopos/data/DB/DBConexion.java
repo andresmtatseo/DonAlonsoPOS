@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBConexion extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "DonAlonsoDB";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
 
     public DBConexion(Context context) {
@@ -61,7 +61,7 @@ public class DBConexion extends SQLiteOpenHelper {
                 + DBManager.PRODUCTO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + DBManager.PRODUCTO_NOMBRE + " TEXT NOT NULL,"
                 + DBManager.PRODUCTO_PRECIO + " REAL NOT NULL,"
-                + DBManager.PRODUCTO_IMAGENURL + " TEXT,"
+                + DBManager.PRODUCTO_IMAGENURL + " BLOB,"
                 + DBManager.PRODUCTO_DESCRIPCION + " TEXT,"
                 + DBManager.PRODUCTO_CANTIDADACTUAL + " INTEGER NOT NULL,"
                 + DBManager.PRODUCTO_CANTIDADMINIMA + " INTEGER NOT NULL,"

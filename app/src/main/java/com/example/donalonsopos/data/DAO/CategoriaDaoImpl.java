@@ -97,6 +97,22 @@ public class CategoriaDaoImpl {
         return categoria;
     }
 
+    // Método para actualizar una categoría
+    public int update(Categoria categoria) {
+        int rows = 0;
+        try {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_NOMBRE, categoria.getNombre());
+
+            rows = db.update(TABLE_NAME, values, COLUMN_IDCATEGORIA + " = ?",
+                    new String[]{String.valueOf(categoria.getIdCategoria())});
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al actualizar categoría: ", e);
+        }
+        return rows;
+    }
+
+
     // Eliminar categoría por ID
     public int delete(int idCategoria) {
         int rows = 0;

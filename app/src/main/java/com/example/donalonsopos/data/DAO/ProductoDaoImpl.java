@@ -33,7 +33,7 @@ public class ProductoDaoImpl {
     private static final String COLUMN_ID_CATEGORIA = "idCategoria";
     private static final String COLUMN_NOMBRE = "nombre";
     private static final String COLUMN_PRECIO = "precio";
-    private static final String COLUMN_IMAGEN_URL = "imagenURL";
+    private static final String COLUMN_IMAGEN_URL = "imagenURL"; // Ahora es un BLOB
     private static final String COLUMN_DESCRIPCION = "descripcion";
     private static final String COLUMN_CANTIDAD_ACTUAL = "cantidadActual";
     private static final String COLUMN_CANTIDAD_MINIMA = "cantidadMinima";
@@ -49,12 +49,14 @@ public class ProductoDaoImpl {
 
             if (cursor.moveToFirst()) {
                 do {
+                    byte[] imagenBlob = cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_IMAGEN_URL));
+
                     Producto producto = new Producto(
                             cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
                             cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID_CATEGORIA)),
                             cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOMBRE)),
                             cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_PRECIO)),
-                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGEN_URL)),
+                            imagenBlob, // Imagen en formato byte[]
                             cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPCION)),
                             cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CANTIDAD_ACTUAL)),
                             cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CANTIDAD_MINIMA))
@@ -80,7 +82,7 @@ public class ProductoDaoImpl {
             values.put(COLUMN_ID_CATEGORIA, producto.getIdCategoria());
             values.put(COLUMN_NOMBRE, producto.getNombre());
             values.put(COLUMN_PRECIO, producto.getPrecio());
-            values.put(COLUMN_IMAGEN_URL, producto.getImagenURL());
+            values.put(COLUMN_IMAGEN_URL, producto.getImagenBlob()); // Imagen en formato byte[]
             values.put(COLUMN_DESCRIPCION, producto.getDescripcion());
             values.put(COLUMN_CANTIDAD_ACTUAL, producto.getCantidadActual());
             values.put(COLUMN_CANTIDAD_MINIMA, producto.getCantidadMinima());
@@ -101,7 +103,7 @@ public class ProductoDaoImpl {
             values.put(COLUMN_ID_CATEGORIA, producto.getIdCategoria());
             values.put(COLUMN_NOMBRE, producto.getNombre());
             values.put(COLUMN_PRECIO, producto.getPrecio());
-            values.put(COLUMN_IMAGEN_URL, producto.getImagenURL());
+            values.put(COLUMN_IMAGEN_URL, producto.getImagenBlob()); // Imagen en formato byte[]
             values.put(COLUMN_DESCRIPCION, producto.getDescripcion());
             values.put(COLUMN_CANTIDAD_ACTUAL, producto.getCantidadActual());
             values.put(COLUMN_CANTIDAD_MINIMA, producto.getCantidadMinima());

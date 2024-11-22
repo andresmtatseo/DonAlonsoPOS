@@ -18,14 +18,19 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.CategoriaDaoImpl;
+import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
 import com.example.donalonsopos.data.DTO.Categoria;
-import com.example.donalonsopos.util.Utils;
+import com.example.donalonsopos.data.DTO.Producto;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +44,14 @@ public class AgregarProducto extends DialogFragment {
     private static final int SELECT_FILE = 1002;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private ImageView ivFotoProducto;
+    private byte[] imagenProducto; // Variable para almacenar la imagen como byte array.
 
     public AgregarProducto() {
         // Constructor vacío
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_agregar_producto, container, false);
 
         initializeViews(view);
@@ -68,26 +73,42 @@ public class AgregarProducto extends DialogFragment {
         btnLimpiar = view.findViewById(R.id.btnLimpiar);
         btnCerrar = view.findViewById(R.id.btnCerrar);
 
-        // Llamamos a la función cargarCategorias() y llenamos el Spinner
-        List<Categoria> categorias = cargarCategorias();
         ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, categorias);
+                android.R.layout.simple_spinner_item, cargarCategorias());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategoria.setAdapter(adapter);
     }
 
-
     private void setupListeners() {
-        btnTomarFoto.setOnClickListener(v -> abrirCamara());
+        btnTomarFoto.setOnClickListener(v -> verificarPermisoCamara());
         btnSeleccionarImagen.setOnClickListener(v -> seleccionarImagen());
         btnGuardar.setOnClickListener(v -> guardarProducto());
         btnLimpiar.setOnClickListener(v -> limpiarCampos());
         btnCerrar.setOnClickListener(v -> dismiss());
     }
 
+    private void verificarPermisoCamara() {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{android.Manifest.permission.CAMERA},
+                    CAMERA_PERMISSION_REQUEST_CODE);
+        } else {
+            abrirCamara();
+        }
+    }
+
     private void abrirCamara() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+        if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+            try {
+                startActivityForResult(intent, REQUEST_CAMERA);
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error al intentar abrir la cámara: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getContext(), "No se encontró ninguna aplicación de cámara en este dispositivo", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void seleccionarImagen() {
@@ -96,47 +117,43 @@ public class AgregarProducto extends DialogFragment {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                abrirCamara();
+            } else {
+                Toast.makeText(getContext(), "Permiso de cámara denegado", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                ivFotoProducto.setImageBitmap(photo);  // Mostrar la foto en el ImageView
+                ivFotoProducto.setImageBitmap(photo); // Mostrar la foto en el ImageView
+                imagenProducto = convertirBitmapABytes(photo); // Convertir a byte array
             } else if (requestCode == SELECT_FILE) {
                 Uri selectedImageUri = data.getData();
-                ivFotoProducto.setImageURI(selectedImageUri);  // Mostrar la imagen seleccionada
+                ivFotoProducto.setImageURI(selectedImageUri); // Mostrar la imagen seleccionada
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                    imagenProducto = convertirBitmapABytes(bitmap); // Convertir a byte array
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Verificamos si el permiso de cámara ya ha sido otorgado
-        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Si no se ha concedido, solicitamos el permiso
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.CAMERA},
-                    CAMERA_PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            // Verificamos si el permiso fue concedido
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // El permiso fue concedido, puedes abrir la cámara
-                abrirCamara();
-            } else {
-                // El permiso fue denegado, muestra un mensaje al usuario
-                Toast.makeText(getContext(), "Permiso de cámara denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
+    private byte[] convertirBitmapABytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
     }
 
     private void guardarProducto() {
@@ -145,9 +162,8 @@ public class AgregarProducto extends DialogFragment {
         String cantidadMinima = etCantidadMinima.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
 
-        // Obtener el id de la categoría seleccionada
         Categoria categoriaSeleccionada = (Categoria) spCategoria.getSelectedItem();
-        int categoriaId = categoriaSeleccionada != null ? categoriaSeleccionada.getIdCategoria() : -1;
+        int idCategoria = categoriaSeleccionada != null ? categoriaSeleccionada.getIdCategoria() : -1;
 
         if (nombre.isEmpty()) {
             etNombreProducto.setError("El nombre del producto es obligatorio");
@@ -158,8 +174,9 @@ public class AgregarProducto extends DialogFragment {
             etPrecio.setError("El precio es obligatorio");
             return;
         }
+        double precioDouble;
         try {
-            double precioDouble = Double.parseDouble(precio);
+            precioDouble = Double.parseDouble(precio);
             if (precioDouble <= 0) {
                 etPrecio.setError("El precio debe ser mayor que cero");
                 return;
@@ -173,8 +190,9 @@ public class AgregarProducto extends DialogFragment {
             etCantidadMinima.setError("La cantidad mínima es obligatoria");
             return;
         }
+        int cantidadMinimaInt;
         try {
-            int cantidadMinimaInt = Integer.parseInt(cantidadMinima);
+            cantidadMinimaInt = Integer.parseInt(cantidadMinima);
             if (cantidadMinimaInt <= 0) {
                 etCantidadMinima.setError("La cantidad mínima debe ser mayor que cero");
                 return;
@@ -184,32 +202,22 @@ public class AgregarProducto extends DialogFragment {
             return;
         }
 
-        // Validar la categoría (aunque el spinner debería tener opciones válidas)
-        if (categoriaId == -1) {
-            Toast.makeText(getContext(), "Debes seleccionar una categoría", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Aquí agregarías la lógica para guardar el producto con el id de la categoría
-        // Por ejemplo:
-        // Producto producto = new Producto(nombre, precioDouble, cantidadMinimaInt, descripcion, categoriaId);
-        // guardarEnBaseDeDatos(producto);
+        Producto producto = new Producto(idCategoria, nombre, precioDouble, imagenProducto, descripcion, 0, cantidadMinimaInt);
+        ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
+        productoDao.insert(producto);
+        productoDao.close();
 
         Toast.makeText(getContext(), "Producto guardado correctamente", Toast.LENGTH_SHORT).show();
         dismiss();
     }
 
-
     private List<Categoria> cargarCategorias() {
-        // Simulamos categorías obtenidas desde la base de datos
         List<Categoria> categorias = new ArrayList<>();
-        categorias.add(new Categoria(1, "Categoria 1"));
-        categorias.add(new Categoria(2, "Categoria 2"));
-        categorias.add(new Categoria(3, "Categoria 3"));
-        categorias.add(new Categoria(4, "Categoria 4"));
+        CategoriaDaoImpl categoriaDao = new CategoriaDaoImpl(requireContext());
+        categorias.addAll(categoriaDao.select());
+        categoriaDao.close();
         return categorias;
     }
-
 
     private void limpiarCampos() {
         etNombreProducto.setText("");
@@ -218,5 +226,6 @@ public class AgregarProducto extends DialogFragment {
         etDescripcion.setText("");
         spCategoria.setSelection(0);
         ivFotoProducto.setImageResource(R.drawable.icono_camara);
+        imagenProducto = null; // Resetear la imagen
     }
 }

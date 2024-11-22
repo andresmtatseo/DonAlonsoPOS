@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.util.ConfirmDialog;
 
@@ -96,6 +97,9 @@ public class DetallesProducto extends Fragment {
 
     private void showDeleteConfirmationDialog() {
         confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este producto?", () -> {
+            ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
+            productoDao.delete(productoSeleccionado.getIdProducto());
+            productoDao.close();
             Toast.makeText(getContext(), "Producto eliminado con éxito", Toast.LENGTH_SHORT).show();
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
             navController.popBackStack();

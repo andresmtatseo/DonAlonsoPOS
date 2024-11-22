@@ -73,6 +73,14 @@
         <action
             android:id="@+id/action_nav_productos_to_detallesProductoFragment"
             app:destination="@id/detallesProductoFragment" />
+        <action
+            android:id="@+id/action_nav_productos_to_CategoriasFragment"
+            app:destination="@id/CategoriasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/CategoriasFragment"
+        android:name="com.example.donalonsopos.ui.productos.CategoriasFragment"
+        android:label="Gestionar Categorias">
     </fragment>
     <fragment
         android:id="@+id/detallesProductoFragment"

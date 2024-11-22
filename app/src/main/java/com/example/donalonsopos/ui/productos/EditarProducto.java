@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -14,16 +15,24 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.CategoriaDaoImpl;
+import com.example.donalonsopos.data.DAO.MovimientoProductoDaoImpl;
+import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
+import com.example.donalonsopos.data.DTO.Categoria;
+import com.example.donalonsopos.data.DTO.MovimientoProducto;
 import com.example.donalonsopos.data.DTO.Producto;
+
+import java.util.Date;
+import java.util.List;
 
 public class EditarProducto extends Fragment {
 
     private static final String KEY_PRODUCTO = "producto";
     private Producto producto;
 
-    private EditText etNombreProducto, etPrecio, etDescripcion, etCantidadMinima;
-    private Button btnActualizar;
-    private Spinner spCategoria;
+    private EditText etNombreProducto, etPrecio, etDescripcion, etCantidadMinima, etCantidadActual;
+    private Button btnActualizar, btnHabilitarCantidadActual;
+    private Spinner spCategoria, spMotivo;
 
     public EditarProducto() {
         // Constructor vacío requerido
@@ -48,6 +57,16 @@ public class EditarProducto extends Fragment {
         etDescripcion = view.findViewById(R.id.etDescripcion);
         etCantidadMinima = view.findViewById(R.id.etCantidadMinima);
         spCategoria = view.findViewById(R.id.spCategoria);
+        spMotivo = view.findViewById(R.id.spMotivo);
+        etCantidadActual = view.findViewById(R.id.etCantidadActual);
+        btnActualizar = view.findViewById(R.id.btnActualizarProducto);
+        btnHabilitarCantidadActual = view.findViewById(R.id.btnHabilitarCantidadActual);
+
+        // Cargar categorías desde la base de datos
+        ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, cargarCategorias());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCategoria.setAdapter(adapter);
 
         // Cargar datos del producto si existen
         if (producto != null) {
@@ -55,14 +74,29 @@ public class EditarProducto extends Fragment {
             etPrecio.setText(String.valueOf(producto.getPrecio()));
             etDescripcion.setText(producto.getDescripcion());
             etCantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
-            // Configurar spCategoria si tienes un adaptador de categorías
+            etCantidadActual.setText(String.valueOf(producto.getCantidadActual()));
+            // Setear la categoría seleccionada en el Spinner (suponiendo que el idCategoria es un índice válido)
+            for (int i = 0; i < adapter.getCount(); i++) {
+                if (adapter.getItem(i).getIdCategoria() == producto.getIdCategoria()) {
+                    spCategoria.setSelection(i);
+                    break;
+                }
+            }
         }
 
-        // Configurar el botón de actualización
-        btnActualizar = view.findViewById(R.id.btnActualizarProducto);
         btnActualizar.setOnClickListener(v -> validarYActualizarProducto());
 
+        // Habilitar edición de cantidad actual y motivo
+        btnHabilitarCantidadActual.setOnClickListener(v -> habilitarCamposEdicion());
+
         return view;
+    }
+
+    // Método para habilitar los campos para edición
+    private void habilitarCamposEdicion() {
+        // Habilitar el EditText y Spinner para edición
+        etCantidadActual.setEnabled(true);
+        spMotivo.setEnabled(true);
     }
 
     // Método para validar campos y actualizar el producto
@@ -71,6 +105,9 @@ public class EditarProducto extends Fragment {
         String precioStr = etPrecio.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
         String cantidadMinimaStr = etCantidadMinima.getText().toString().trim();
+        String cantidadActualStr = etCantidadActual.getText().toString().trim();
+        int idCategoria = ((Categoria) spCategoria.getSelectedItem()).getIdCategoria(); // Obtener el id de la categoría seleccionada
+        String motivo = spMotivo.getSelectedItem().toString(); // Obtener el motivo seleccionado en el Spinner
 
         // Validar campos vacíos obligatorios
         if (TextUtils.isEmpty(nombre)) {
@@ -88,27 +125,62 @@ public class EditarProducto extends Fragment {
             etCantidadMinima.requestFocus();
             return;
         }
+        if (TextUtils.isEmpty(cantidadActualStr)) {
+            etCantidadActual.setError("La cantidad actual es requerida");
+            etCantidadActual.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(motivo) || motivo.equals("Selecciona un motivo")) {
+            Toast.makeText(getContext(), "Debe seleccionar un motivo", Toast.LENGTH_SHORT).show();
+            spMotivo.requestFocus();
+            return;
+        }
 
         // Validar valores numéricos
         double precio;
         int cantidadMinima;
+        int cantidadActual;
         try {
             precio = Double.parseDouble(precioStr);
             cantidadMinima = Integer.parseInt(cantidadMinimaStr);
+            cantidadActual = Integer.parseInt(cantidadActualStr);
         } catch (NumberFormatException e) {
             Toast.makeText(getContext(), "Precio o cantidad mínima inválida", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Actualizar el producto
-        producto.setNombre(nombre);
-        producto.setPrecio(precio);
-        producto.setDescripcion(descripcion);  // Descripción opcional, actualizada solo si se proporciona
-        producto.setCantidadMinima(cantidadMinima);
+        // Determinar el tipo de movimiento
+        String tipoMovimiento = "";
+        int diferenciaCantidad = cantidadActual - producto.getCantidadActual();
+
+        if (diferenciaCantidad > 0) {
+            tipoMovimiento = "Entrada"; // Aumentó la cantidad, es un ingreso
+        } else if (diferenciaCantidad < 0) {
+            tipoMovimiento = "Salida"; // Disminuyó la cantidad, es un egreso
+        }
+
+        // Actualizar producto
+        ProductoDaoImpl productoDao = new ProductoDaoImpl(getContext());
+        productoDao.update(new Producto(producto.getIdProducto(), idCategoria, nombre, precio, producto.getImagenBlob(), descripcion, cantidadActual, cantidadMinima));
+        productoDao.close();
+
+        // Insertar movimiento producto
+        MovimientoProductoDaoImpl movimientoProductoDao = new MovimientoProductoDaoImpl(getContext());
+        movimientoProductoDao.insert(new MovimientoProducto(producto.getIdProducto(), 0, tipoMovimiento, 0, diferenciaCantidad, new Date().toString(), motivo));
+        movimientoProductoDao.close();
 
         Toast.makeText(getContext(), "Producto actualizado correctamente", Toast.LENGTH_SHORT).show();
 
         // Regresar a la pantalla anterior o realizar otra acción
         requireActivity().onBackPressed();
+    }
+
+
+    // Método para cargar las categorías desde la base de datos
+    private List<Categoria> cargarCategorias() {
+        CategoriaDaoImpl categoriaDao = new CategoriaDaoImpl(getContext());
+        List<Categoria> categorias = categoriaDao.select(); // Aquí obtenemos las categorías
+        categoriaDao.close();
+        return categorias;
     }
 }

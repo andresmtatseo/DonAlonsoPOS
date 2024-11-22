@@ -66,6 +66,18 @@
         <item>Ventas</item>
     </string-array>
 
-
+    <string-array name="motivos">
+        <item>Seleccione un motivo</item>
+        <item>Productos Dañados o Perdidos</item>
+        <item>Reabastecimiento de Productos</item>
+        <item>Devoluciones o Reemplazos</item>
+        <item>Errores de Conteo o Registro</item>
+        <item>Transferencias Entre Almacenes</item>
+        <item>Descuentos Especiales</item>
+        <item>Auditorías y Ajustes</item>
+        <item>Productos Caducados</item>
+        <item>Errores en Facturación</item>
+        <item>Otros</item>
+    </string-array>
 
 </resources>

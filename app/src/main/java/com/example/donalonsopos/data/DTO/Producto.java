@@ -3,47 +3,59 @@ package com.example.donalonsopos.data.DTO;
 import java.io.Serializable;
 
 public class Producto implements Serializable {
-    // Atributos
+
     private int idProducto;
     private int idCategoria;
     private String nombre;
     private double precio;
-    private String imagenURL;
+    private byte[] imagenBlob;
     private String descripcion;
     private int cantidadActual;
     private int cantidadMinima;
     private int isActive;
 
-    //Constructores
-    public Producto(int anInt, int cursorInt, String string, float aFloat, String cursorString, String s, int i, int anInt1) {
+    public Producto(int idCategoria, String nombre, double precio, byte[] imagenBlob, String descripcion, int cantidadMinima) {
+        this.idCategoria = idCategoria;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.imagenBlob = imagenBlob;
+        this.descripcion = descripcion;
+        this.cantidadMinima = cantidadMinima;
     }
 
-    public Producto(int idProducto) {
-        this.idProducto = idProducto;
-    }
-
-    public Producto(int idProducto, int idCategoria, String nombre, int cantidadActual, double precio, String imagenURL) {
+    public Producto(int idProducto, int idCategoria, String nombre, double precio, byte[] imagenBlob, String descripcion, int cantidadActual, int cantidadMinima) {
         this.idProducto = idProducto;
         this.idCategoria = idCategoria;
         this.nombre = nombre;
+        this.precio = precio;
+        this.imagenBlob = imagenBlob;
+        this.descripcion = descripcion;
         this.cantidadActual = cantidadActual;
-        this.precio = precio;
-        this.imagenURL = imagenURL;
+        this.cantidadMinima = cantidadMinima;
     }
 
-    public Producto(int idProducto, int idCategoria, String nombre, double precio, String imagenURL, String descripcion, int cantidadActual, int cantidadMinima, int isActive) {
+    public Producto(int idCategoria, String nombre, double precio, byte[] imagenBlob, String descripcion, int cantidadActual, int cantidadMinima) {
+        this.idCategoria = idCategoria;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.imagenBlob = imagenBlob;
+        this.descripcion = descripcion;
+        this.cantidadActual = cantidadActual;
+        this.cantidadMinima = cantidadMinima;
+    }
+
+    public Producto(int idProducto, int idCategoria, String nombre, double precio, byte[] imagenBlob, String descripcion, int cantidadActual, int cantidadMinima, int isActive) {
         this.idProducto = idProducto;
         this.idCategoria = idCategoria;
         this.nombre = nombre;
         this.precio = precio;
-        this.imagenURL = imagenURL;
+        this.imagenBlob = imagenBlob;
         this.descripcion = descripcion;
         this.cantidadActual = cantidadActual;
         this.cantidadMinima = cantidadMinima;
         this.isActive = isActive;
     }
 
-    //Metodos
     public int getIdProducto() {
         return idProducto;
     }
@@ -72,12 +84,13 @@ public class Producto implements Serializable {
         this.precio = precio;
     }
 
-    public String getImagenURL() {
-        return imagenURL;
+
+    public byte[] getImagenBlob() {
+        return imagenBlob;
     }
 
-    public void setImagen(String imagen) {
-        this.imagenURL = imagen;
+    public void setImagenBlob(byte[] imagenBlob) {
+        this.imagenBlob = imagenBlob;
     }
 
     public String getDescripcion() {

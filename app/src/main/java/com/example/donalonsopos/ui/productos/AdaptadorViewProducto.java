@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Producto;
+import com.example.donalonsopos.data.DTO.Categoria; // Asegúrate de tener acceso a la clase Categoria
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class AdaptadorViewProducto extends RecyclerView.Adapter<AdaptadorViewProducto.ViewHolder> {
 
@@ -23,12 +26,19 @@ public class AdaptadorViewProducto extends RecyclerView.Adapter<AdaptadorViewPro
     private final List<Producto> productos;
     private final OnItemClickListener listener;
     private final OnItemLongClickListener longListener;
+    private final Map<Integer, String> categoriaMap; // Mapa para asociar ID con nombre de categoría
 
-    public AdaptadorViewProducto(Context context, List<Producto> productos, OnItemClickListener listener, OnItemLongClickListener longClickListener) {
+    public AdaptadorViewProducto(Context context, List<Producto> productos, List<Categoria> categorias, OnItemClickListener listener, OnItemLongClickListener longClickListener) {
         this.context = context;
         this.productos = productos;
         this.listener = listener;
         this.longListener = longClickListener;
+
+        // Crear el mapa de categorías
+        this.categoriaMap = new HashMap<>();
+        for (Categoria categoria : categorias) {
+            categoriaMap.put(categoria.getIdCategoria(), categoria.getNombre());
+        }
     }
 
     @NonNull
@@ -78,7 +88,15 @@ public class AdaptadorViewProducto extends RecyclerView.Adapter<AdaptadorViewPro
 
         public void bind(Producto producto) {
             idProducto.setText("ID: " + producto.getIdProducto());
-            idCategoria.setText("Categoría: " + producto.getIdCategoria());
+
+            // Obtener el nombre de la categoría usando el mapa
+            String categoriaNombre = categoriaMap.get(producto.getIdCategoria());
+            if (categoriaNombre != null) {
+                idCategoria.setText("Categoría: " + categoriaNombre);
+            } else {
+                idCategoria.setText("Categoría no encontrada");
+            }
+
             nombre.setText(producto.getNombre());
             precio.setText(String.format("Precio: %.2f", producto.getPrecio()));
             cantidadActual.setText("Cant. Disponible: " + producto.getCantidadActual());
@@ -96,5 +114,4 @@ public class AdaptadorViewProducto extends RecyclerView.Adapter<AdaptadorViewPro
             return true;
         }
     }
-
 }

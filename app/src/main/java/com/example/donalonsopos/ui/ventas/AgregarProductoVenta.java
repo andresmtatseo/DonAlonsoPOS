@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.data.DTO.Venta;
@@ -266,24 +267,12 @@ public class AgregarProductoVenta extends Fragment {
 
     private ArrayList<Producto> cargarProductos() {
         productos.clear();
-        productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
-        productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
-        productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
-        productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
-        productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
-        productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
-        productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
-        productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
-        productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
-        productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
-        productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
-        productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
-        productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
-        productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
-        productos.add(new Producto(66, 5, "Banana", 150, 0.85, "imagen_banana.png"));
-
+        ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
+        productos.addAll(productoDao.select());
+        productoDao.close();
         productosFiltrados.clear();
         productosFiltrados.addAll(productos);
+        adaptador.notifyDataSetChanged();
 
         return productos;
     }

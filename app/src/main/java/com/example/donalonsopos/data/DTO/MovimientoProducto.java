@@ -10,12 +10,22 @@ public class MovimientoProducto implements Serializable {
     private String tipoMovimiento;
     private int referencia;
     private int cantidad;
-    private String fechaMovimiento; // Cambiado de Date a String
+    private String fechaMovimiento;
     private String descripcion;
 
     // Constructores
     public MovimientoProducto(int idMovimiento, int idProducto, int idUsuario, String tipoMovimiento, int referencia, int cantidad, String fechaMovimiento, String descripcion) {
         this.idMovimiento = idMovimiento;
+        this.idProducto = idProducto;
+        this.idUsuario = idUsuario;
+        this.tipoMovimiento = tipoMovimiento;
+        this.referencia = referencia;
+        this.cantidad = cantidad;
+        this.fechaMovimiento = fechaMovimiento;
+        this.descripcion = descripcion;
+    }
+
+    public MovimientoProducto(int idProducto, int idUsuario, String tipoMovimiento, int referencia, int cantidad, String fechaMovimiento, String descripcion) {
         this.idProducto = idProducto;
         this.idUsuario = idUsuario;
         this.tipoMovimiento = tipoMovimiento;

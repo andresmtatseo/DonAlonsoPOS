@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
@@ -24,12 +25,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.CategoriaDaoImpl;
+import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
+import com.example.donalonsopos.data.DTO.Categoria;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductosFragment extends Fragment {
 
@@ -63,6 +68,12 @@ public class ProductosFragment extends Fragment {
         setupFilterButton(view);
         setupSpinnerCategorias(view);
 
+        Button btnGestionarCategorias = view.findViewById(R.id.btnGestionarCategorias);
+        btnGestionarCategorias.setOnClickListener( v -> {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+            navController.navigate(R.id.CategoriasFragment);
+        });
+
         cargarProductos();
 
         return view;
@@ -81,7 +92,7 @@ public class ProductosFragment extends Fragment {
         lista.setHasFixedSize(true);
         lista.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adaptador = new AdaptadorViewProducto(requireContext(), productosFiltrados, new OnItemClickListener() {
+        adaptador = new AdaptadorViewProducto(requireContext(), productosFiltrados, cargarCategorias(), new OnItemClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Producto productoSeleccionado = productosFiltrados.get(position);
@@ -103,7 +114,7 @@ public class ProductosFragment extends Fragment {
         SwipeRefreshLayout swipeToRefresh = view.findViewById(R.id.swipeRefreshLayout);
         swipeToRefresh.setOnRefreshListener(() -> {
             Toast.makeText(requireContext(), "Actualizando productos...", Toast.LENGTH_SHORT).show();
-            cargarProductos();  // Recargar los productos desde el origen de datos
+            cargarProductos();
             adaptador.notifyDataSetChanged();
             swipeToRefresh.setRefreshing(false);
         });
@@ -140,7 +151,8 @@ public class ProductosFragment extends Fragment {
             RadioGroup radioGroupFiltros = dialogView.findViewById(R.id.radioGroupFiltros);
             Spinner spinnerCategorias = dialogView.findViewById(R.id.spinnerCategorias);
 
-            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
+            // Cargar categorías en el Spinner
+            ArrayAdapter<Categoria> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerCategorias.setAdapter(spinnerAdapter);
 
@@ -163,26 +175,13 @@ public class ProductosFragment extends Fragment {
                     filtroActual = FILTRO_NOMBRE;
                 } else if (selectedId == R.id.rbFiltrarPorCategoria) {
                     filtroActual = FILTRO_CATEGORIA;
-                    // Asignar id de categoría según la selección
-                    String categoriaSeleccionada = spinnerCategorias.getSelectedItem().toString();
-                    switch (categoriaSeleccionada) {
-                        case "Lácteos":
-                            idCategoriaSeleccionada = 1;
-                            break;
-                        case "Frutas":
-                            idCategoriaSeleccionada = 2;
-                            break;
-                        case "Helados":
-                            idCategoriaSeleccionada = 3;
-                            break;
-                        case "Dulces":
-                            idCategoriaSeleccionada = 4;
-                            break;
-                        default:
-                            idCategoriaSeleccionada = -1;
-                    }
+
+                    // Obtener el objeto Categoria seleccionado
+                    Categoria categoriaSeleccionada = (Categoria) spinnerCategorias.getSelectedItem();
+                    idCategoriaSeleccionada = categoriaSeleccionada != null ? categoriaSeleccionada.getIdCategoria() : -1;
                 }
 
+                // Actualizar la vista con el filtro seleccionado
                 tvFiltro.setText("Por " + filtroActual);
                 SearchView searchView = view.findViewById(R.id.searchView);
                 String textoBusqueda = searchView.getQuery().toString();
@@ -203,17 +202,16 @@ public class ProductosFragment extends Fragment {
             return;
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
+        ArrayAdapter<Categoria> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategorias.setAdapter(spinnerAdapter);
     }
 
-    private ArrayList<String> cargarCategorias() {
-        ArrayList<String> categorias = new ArrayList<>();
-        categorias.add("Lácteos");
-        categorias.add("Frutas");
-        categorias.add("Helados");
-        categorias.add("Dulces");
+    private List<Categoria> cargarCategorias() {
+        List<Categoria> categorias = new ArrayList<>();
+        CategoriaDaoImpl categoriaDao = new CategoriaDaoImpl(requireContext());
+        categorias.addAll(categoriaDao.select());
+        categoriaDao.close();
         return categorias;
     }
 
@@ -246,12 +244,10 @@ public class ProductosFragment extends Fragment {
 
     private ArrayList<Producto> cargarProductos() {
         productos.clear();
-        productos.add(new Producto(55, 1, "Helado 5L Fresa", 10, 10.55, "imagen_fresa.png"));
-        productos.add(new Producto(35, 2, "Helado 5L Mantecado", 100, 105, "imagen_mantecado.png"));
-        productos.add(new Producto(45, 3, "Manzana Roja", 200, 1.25, "imagen_manzana.png"));
-        productos.add(new Producto(65, 4, "Dulce de Leche", 250, 3.25, "imagen_dulcedeleche.png"));
-
-        // Llenar el RecyclerView con todos los productos
+        ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
+        productos.addAll(productoDao.select());
+        productoDao.close();
+        productosFiltrados.clear();
         productosFiltrados.addAll(productos);
         adaptador.notifyDataSetChanged();
 

@@ -20,6 +20,10 @@ public class Categoria implements Serializable {
         this.nombre = nombre;
     }
 
+    public Categoria(String nombre) {
+        this.nombre = nombre;
+    }
+
     // Metodos
     public int getIdCategoria() {
         return idCategoria;
