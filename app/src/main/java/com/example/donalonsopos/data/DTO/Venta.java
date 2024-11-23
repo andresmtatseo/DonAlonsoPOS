@@ -14,6 +14,28 @@ public class Venta implements Serializable {
     private float total;
     private boolean isActive;
 
+    public Venta(int idVenta, int idUsuario, int idCliente, String fechaVenta, String metodoPago, int numeroTransaccion, String fechaPago, float total, boolean isActive) {
+        this.idVenta = idVenta;
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+        this.fechaPago = fechaPago;
+        this.total = total;
+        this.isActive = isActive;
+    }
+
+    public Venta(int idUsuario, int idCliente, String fechaVenta, String metodoPago, int numeroTransaccion, String fechaPago, float total) {
+        this.idUsuario = idUsuario;
+        this.idCliente = idCliente;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.numeroTransaccion = numeroTransaccion;
+        this.fechaPago = fechaPago;
+        this.total = total;
+    }
+
     public Venta(int idVenta, String fechaVenta, int idCliente, int idUsuario, String metodoPago, int numeroTransaccion, String fechaPago, float total, boolean isActive) {
         this.idVenta = idVenta;
         this.fechaVenta = fechaVenta;

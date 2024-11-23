@@ -14,12 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DTO.Categoria;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.util.ProductoConCantidad;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdaptadorViewProductoVenta extends RecyclerView.Adapter<AdaptadorViewProductoVenta.ViewHolder> {
 
@@ -27,8 +29,10 @@ public class AdaptadorViewProductoVenta extends RecyclerView.Adapter<AdaptadorVi
     private final List<Producto> productos;
     private final List<ProductoConCantidad> productosSeleccionados;  // Recibe productos seleccionados
     private final HashMap<Integer, Integer> cantidadesSeleccionadas = new HashMap<>();
+    private final Map<Integer, String> categoriaMap; // Mapa para asociar ID con nombre de categoría
 
-    public AdaptadorViewProductoVenta(Context context, List<Producto> productos, List<ProductoConCantidad> productosSeleccionados) {
+
+    public AdaptadorViewProductoVenta(Context context, List<Producto> productos, List<ProductoConCantidad> productosSeleccionados, List<Categoria> categorias) {
         this.context = context;
         this.productos = productos;
         this.productosSeleccionados = productosSeleccionados != null ? productosSeleccionados : new ArrayList<>();
@@ -41,6 +45,12 @@ public class AdaptadorViewProductoVenta extends RecyclerView.Adapter<AdaptadorVi
                         productoConCantidad.getCantidad()
                 );
             }
+        }
+
+        // Crear el mapa de categorías
+        this.categoriaMap = new HashMap<>();
+        for (Categoria categoria : categorias) {
+            categoriaMap.put(categoria.getIdCategoria(), categoria.getNombre());
         }
 
         Log.d("Adaptador", "Productos seleccionados cargados: " + cantidadesSeleccionadas.toString());
@@ -91,7 +101,13 @@ public class AdaptadorViewProductoVenta extends RecyclerView.Adapter<AdaptadorVi
         public void bind(Producto producto) {
             int id = producto.getIdProducto();
             idProducto.setText(String.valueOf(id));
-            idCategoria.setText(String.valueOf(producto.getIdCategoria()));
+            // Obtener el nombre de la categoría usando el mapa
+            String categoriaNombre = categoriaMap.get(producto.getIdCategoria());
+            if (categoriaNombre != null) {
+                idCategoria.setText(categoriaNombre);
+            } else {
+                idCategoria.setText("Categoría no encontrada");
+            }
             nombre.setText(producto.getNombre());
             precio.setText(String.format("%.2f", producto.getPrecio()));
             imagen.setImageResource(R.drawable.icono_producto_sin_foto);

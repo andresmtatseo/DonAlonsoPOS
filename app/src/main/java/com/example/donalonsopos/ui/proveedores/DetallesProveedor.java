@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ProveedorDaoImpl;
 import com.example.donalonsopos.data.DTO.Proveedor;
 import com.example.donalonsopos.util.ConfirmDialog;
 
@@ -108,6 +109,13 @@ public class DetallesProveedor extends Fragment {
 
     private void mostrarDialogoConfirmacionEliminar() {
         confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este proveedor?", () -> {
+            ProveedorDaoImpl proveedorDao = new ProveedorDaoImpl(requireContext());
+            int row = proveedorDao.delete(proveedorSeleccionado.getIdProveedor());
+            proveedorDao.close();
+            if (row == 0) {
+                Toast.makeText(getContext(), "No se pudo eliminar el proveedor", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Toast.makeText(getContext(), "Proveedor eliminado con éxito", Toast.LENGTH_SHORT).show();
 
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);

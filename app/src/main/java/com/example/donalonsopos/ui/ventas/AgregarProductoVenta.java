@@ -7,6 +7,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.CategoriaDaoImpl;
 import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
+import com.example.donalonsopos.data.DTO.Categoria;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.data.DTO.Venta;
@@ -71,6 +75,7 @@ public class AgregarProductoVenta extends Fragment {
         setupRecyclerView(view);
         setupSearchView(view);
         setupFilterButton(view);
+        setupSpinnerCategorias(view);
         cargarProductos();
 
         return view;
@@ -90,7 +95,7 @@ public class AgregarProductoVenta extends Fragment {
         lista = view.findViewById(R.id.lista);
         lista.setHasFixedSize(true);
         lista.setLayoutManager(new GridLayoutManager(getContext(), 6));
-        adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, productosSeleccionados);
+        adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, productosSeleccionados, cargarCategorias());
         lista.setAdapter(adaptador);
     }
 
@@ -125,14 +130,8 @@ public class AgregarProductoVenta extends Fragment {
             RadioGroup radioGroupFiltros = dialogView.findViewById(R.id.radioGroupFiltros);
             Spinner spinnerCategorias = dialogView.findViewById(R.id.spinnerCategorias);
 
-            // Opciones para el Spinner de categorías
-            ArrayList<String> categorias = new ArrayList<>();
-            categorias.add("Lácteos");
-            categorias.add("Frutas");
-            categorias.add("Helados");
-            categorias.add("Dulces");
-
-            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, categorias);
+            // Cargar categorías en el Spinner
+            ArrayAdapter<Categoria> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerCategorias.setAdapter(spinnerAdapter);
 
@@ -155,25 +154,13 @@ public class AgregarProductoVenta extends Fragment {
                     filtroActual = FILTRO_NOMBRE;
                 } else if (selectedId == R.id.rbFiltrarPorCategoria) {
                     filtroActual = FILTRO_CATEGORIA;
-                    // Asignar id de categoría según la selección
-                    switch (spinnerCategorias.getSelectedItem().toString()) {
-                        case "Lácteos":
-                            idCategoriaSeleccionada = 1;
-                            break;
-                        case "Frutas":
-                            idCategoriaSeleccionada = 2;
-                            break;
-                        case "Helados":
-                            idCategoriaSeleccionada = 3;
-                            break;
-                        case "Dulces":
-                            idCategoriaSeleccionada = 4;
-                            break;
-                        default:
-                            idCategoriaSeleccionada = -1;
-                    }
+
+                    // Obtener el objeto Categoria seleccionado
+                    Categoria categoriaSeleccionada = (Categoria) spinnerCategorias.getSelectedItem();
+                    idCategoriaSeleccionada = categoriaSeleccionada != null ? categoriaSeleccionada.getIdCategoria() : -1;
                 }
 
+                // Actualizar la vista con el filtro seleccionado
                 tvFiltro.setText("Por " + filtroActual);
                 SearchView searchView = view.findViewById(R.id.searchView);
                 String textoBusqueda = searchView.getQuery().toString();
@@ -183,6 +170,20 @@ public class AgregarProductoVenta extends Fragment {
             builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
             builder.create().show();
         });
+    }
+
+    private void setupSpinnerCategorias(View view) {
+        // Usar dialogView para encontrar el Spinner dentro del diálogo
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_filtros_productos, null);
+        Spinner spinnerCategorias = dialogView.findViewById(R.id.spinnerCategorias);
+        if (spinnerCategorias == null) {
+            Log.e("ProductosFragment", "El Spinner es null en setupSpinnerCategorias.");
+            return;
+        }
+
+        ArrayAdapter<Categoria> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategorias.setAdapter(spinnerAdapter);
     }
 
     private void filtrarProductos(String textoBusqueda) {
@@ -275,6 +276,14 @@ public class AgregarProductoVenta extends Fragment {
         adaptador.notifyDataSetChanged();
 
         return productos;
+    }
+
+    private List<Categoria> cargarCategorias() {
+        List<Categoria> categorias = new ArrayList<>();
+        CategoriaDaoImpl categoriaDao = new CategoriaDaoImpl(requireContext());
+        categorias.addAll(categoriaDao.select());
+        categoriaDao.close();
+        return categorias;
     }
 
 }

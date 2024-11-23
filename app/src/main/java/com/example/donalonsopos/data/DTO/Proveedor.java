@@ -13,7 +13,23 @@ public class Proveedor implements Serializable {
     private boolean isActive;
 
     // Constructores
-    public Proveedor(int anInt, String string, String cursorString, String s, String string1, String cursorString1) {
+
+
+    public Proveedor(int idProveedor, String cedula, String nombre, String direccion, String telefono, String email) {
+        this.idProveedor = idProveedor;
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.email = email;
+    }
+
+    public Proveedor(String cedula, String nombre, String direccion, String telefono, String email) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.email = email;
     }
 
     public Proveedor(int idProveedor) {

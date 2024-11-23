@@ -23,8 +23,15 @@ import android.widget.Toast;
 
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
+import com.example.donalonsopos.data.DAO.DetallesVentaDaoImpl;
+import com.example.donalonsopos.data.DAO.MovimientoProductoDaoImpl;
+import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
+import com.example.donalonsopos.data.DAO.VentaDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Compra;
+import com.example.donalonsopos.data.DTO.DetallesVenta;
+import com.example.donalonsopos.data.DTO.MovimientoProducto;
+import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.data.DTO.Proveedor;
 import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.ui.clientes.AgregarCliente;
@@ -32,8 +39,11 @@ import com.example.donalonsopos.util.ConfirmDialog;
 import com.example.donalonsopos.util.ProductoConCantidad;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AgregarVenta extends Fragment {
 
@@ -45,6 +55,9 @@ public class AgregarVenta extends Fragment {
     private RecyclerView rvProductosSeleccionados;
     private Button btnConfirmar, btnLimpiar;
     private ConfirmDialog confirmDialog;
+
+    private String fechaInicio, fechaFin;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
     public AgregarVenta() {
         // Required empty public constructor
@@ -134,7 +147,20 @@ public class AgregarVenta extends Fragment {
                     numeroComprobante = 0; // Valor por defecto si ocurre un error
                 }
 
+                // Crear cliente con datos de cédula
                 cliente = new Cliente(id, cedulaCompleta);
+
+                // Obtener los valores de los campos, aunque puedan estar vacíos
+                String nombre = tvNombreClienteContenido.getText().toString().trim();
+                String apellido = tvApellidoClienteContenido.getText().toString().trim();
+                String direccion = tvDireccionClienteContenido.getText().toString().trim();
+
+                // Establecer los valores del cliente, aunque estén vacíos
+                cliente.setNombre(nombre);
+                cliente.setApellido(apellido);
+                cliente.setDireccion(direccion);
+
+                // Crear la venta con los datos de cliente y método de pago
                 venta = new Venta(cliente.getIdCliente(), metodoPago, numeroComprobante);
             }
 
@@ -261,6 +287,7 @@ public class AgregarVenta extends Fragment {
 
         boolean hayError = false;
 
+        // Validaciones
         if (cedula.isEmpty()) {
             etCedulaCliente.setError("Este campo es obligatorio");
             hayError = true;
@@ -282,7 +309,7 @@ public class AgregarVenta extends Fragment {
                 etNumeroComprobante.setError("Este campo es obligatorio");
                 hayError = true;
             } else {
-                etNumeroComprobante.setError(null); //
+                etNumeroComprobante.setError(null);
             }
         }
 
@@ -291,17 +318,90 @@ public class AgregarVenta extends Fragment {
             hayError = true;
         }
 
+        int numeroComprobanteInt = 0;
+        try {
+            numeroComprobanteInt = Integer.parseInt(numeroComprobante);
+        } catch (NumberFormatException e) {
+            etNumeroComprobante.setError("El número de comprobante debe ser un número entero");
+            hayError = true;
+        }
+
         if (hayError) {
             return;
         }
 
+        float totalVenta = 0;
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            List<ProductoConCantidad> productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
+            if (productosSeleccionados != null && !productosSeleccionados.isEmpty()) {
+                // Calcular el total de la venta
+                for (ProductoConCantidad producto : productosSeleccionados) {
+                    totalVenta += producto.getProducto().getPrecio() * producto.getCantidad();
+                }
+            }
+        }
 
-        // Aquí agregamos la lógica para guardar el producto (en base de datos o en memoria)
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
-        navController.popBackStack();
-        limpiarCampos();
-        Toast.makeText(getContext(), "Venta guardada correctamente", Toast.LENGTH_SHORT).show();
+        // Guardar la venta y obtener el ID generado
+        VentaDaoImpl ventaDao = new VentaDaoImpl(requireContext());
+        Venta nuevaVenta = new Venta(0, cliente.getIdCliente(), dateFormat.format(new Date()), metodoPago, numeroComprobanteInt, dateFormat.format(new Date()), totalVenta);
+        long idVentaGenerado = ventaDao.insert(nuevaVenta);
+        ventaDao.close();
+
+        if (idVentaGenerado > 0) {
+            // Guardar los productos seleccionados como detalles de la venta
+            if (bundle != null) {
+                List<ProductoConCantidad> productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
+                if (productosSeleccionados != null && !productosSeleccionados.isEmpty()) {
+                    DetallesVentaDaoImpl detalleVentaDao = new DetallesVentaDaoImpl(requireContext());
+                    MovimientoProductoDaoImpl movimientoProductoDao = new MovimientoProductoDaoImpl(requireContext());
+                    ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
+
+                    for (ProductoConCantidad producto : productosSeleccionados) {
+                        // Guardar el detalle de la venta
+                        detalleVentaDao.insert(new DetallesVenta((int) idVentaGenerado,
+                                producto.getProducto().getIdProducto(),
+                                producto.getCantidad(),
+                                (float) producto.getProducto().getPrecio()));
+
+                        // Descontar la cantidad vendida del inventario
+                        Producto productoInventario = productoDao.findById(producto.getProducto().getIdProducto());
+                        if (productoInventario != null) {
+                            int cantidadRestante = productoInventario.getCantidadActual() - producto.getCantidad();
+                            productoInventario.setCantidadActual(cantidadRestante);
+
+                            // Actualizar el producto en la base de datos
+                            productoDao.update(productoInventario);
+
+                            // Registrar el movimiento en el inventario (venta)
+                            MovimientoProducto movimiento = new MovimientoProducto(
+                                    productoInventario.getIdProducto(),
+                                    0,
+                                    "Salida",
+                                    0,
+                                    producto.getCantidad(),
+                                    dateFormat.format(new Date()),
+                                    "Venta realizada"
+                            );
+                            movimientoProductoDao.insert(movimiento);
+                        }
+                    }
+                    detalleVentaDao.close();
+                    movimientoProductoDao.close();
+                    productoDao.close();
+                }
+            }
+
+            Toast.makeText(getContext(), "Venta guardada correctamente", Toast.LENGTH_SHORT).show();
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+            navController.popBackStack();
+            limpiarCampos();
+        } else {
+            Toast.makeText(getContext(), "Error al guardar la venta", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 
     private void showDeleteConfirmationDialog() {
         confirmDialog.showConfirmationDialog("Limpiar", "¿Estás seguro de limpiar todo el contenido?", () -> {

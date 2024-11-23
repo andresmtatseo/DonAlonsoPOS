@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ProveedorDaoImpl;
 import com.example.donalonsopos.data.DTO.Proveedor;
 import com.example.donalonsopos.util.Utils;
 
@@ -118,7 +119,13 @@ public class EditarProveedor extends Fragment {
             proveedorSeleccionado.setEmail(email);
         }
 
-        // Mostrar mensaje de éxito
+        ProveedorDaoImpl proveedorDao = new ProveedorDaoImpl(requireContext());
+        int row = proveedorDao.update(proveedorSeleccionado);
+        proveedorDao.close();
+        if (row == 0) {
+            Toast.makeText(getContext(), "No se pudo actualizar el proveedor", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Toast.makeText(getContext(), "Proveedor actualizado con éxito", Toast.LENGTH_SHORT).show();
 
         // Volver a la vista anterior

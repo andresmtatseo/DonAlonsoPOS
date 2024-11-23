@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBConexion extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "DonAlonsoDB";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
 
 
     public DBConexion(Context context) {
@@ -46,6 +46,7 @@ public class DBConexion extends SQLiteOpenHelper {
                 + DBManager.VENTA_NUMEROTRANSACCION + " TEXT,"
                 + DBManager.VENTA_FECHAPAGO + " TEXT,"
                 + DBManager.VENTA_TOTAL + " REAL NOT NULL,"
+                + DBManager.VENTA_ISACTIVE + " INTEGER NOT NULL,"
                 + DBManager.VENTA_IDUSUARIO + " INTEGER NOT NULL,"
                 + DBManager.VENTA_IDCLIENTE + " INTEGER NOT NULL,"
                 + "FOREIGN KEY (" + DBManager.VENTA_IDUSUARIO + ") REFERENCES " + DBManager.TABLA_USUARIO + "(" + DBManager.USUARIO_ID + "), "

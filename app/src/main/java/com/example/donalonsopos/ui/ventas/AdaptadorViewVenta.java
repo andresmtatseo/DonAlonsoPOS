@@ -10,26 +10,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
 
-import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class AdaptadorViewVenta extends RecyclerView.Adapter<AdaptadorViewVenta.ViewHolder> {
 
     private final Context context;
     private final List<Venta> ventas;
+    private final Map<Integer, String> cedulaMap;
     private final OnItemClickListener listener;
     private final OnItemLongClickListener longListener;
 
-    public AdaptadorViewVenta(Context context, List<Venta> ventas, OnItemClickListener listener, OnItemLongClickListener longListener) {
+    public AdaptadorViewVenta(Context context, List<Venta> ventas, List<Cliente> clientes, OnItemClickListener listener, OnItemLongClickListener longListener) {
         this.context = context;
         this.ventas = ventas;
         this.listener = listener;
         this.longListener = longListener;
+
+        // Generar el mapa de idCliente -> cédula
+        this.cedulaMap = new HashMap<>();
+        for (Cliente cliente : clientes) {
+            cedulaMap.put(cliente.getIdCliente(), cliente.getCedula());
+        }
     }
 
     @NonNull
@@ -79,10 +88,16 @@ public class AdaptadorViewVenta extends RecyclerView.Adapter<AdaptadorViewVenta.
 
         public void bind(Venta venta) {
             tvIdVenta.setText("ID: " + venta.getIdVenta());
-            tvIdCliente.setText("ID Cliente: " + venta.getIdCliente());
+
+            // Obtener la cédula a partir del mapa
+            String cedula = cedulaMap.get(venta.getIdCliente());
+            if (cedula != null) {
+                tvIdCliente.setText("Cédula: " + cedula);
+            } else {
+                tvIdCliente.setText("Cédula: No disponible");
+            }
 
             tvFechaVenta.setText("Fecha Venta: " + venta.getFechaVenta());
-
             tvMetodoPago.setText("Método de Pago: " + venta.getMetodoPago());
             tvNumeroTransaccion.setText("N° Transacción: " + venta.getNumeroTransaccion());
             tvTotal.setText("Total: $" + String.format(Locale.getDefault(), "%.2f", venta.getTotal()));

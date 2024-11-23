@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.CompraDaoImpl;
 import com.example.donalonsopos.data.DTO.Compra;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
@@ -282,9 +283,9 @@ public class ComprasFragment extends Fragment {
 
     private void cargarCompras() {
         compras.clear();
-        compras.add(new Compra(1, 1001, dateFormat.format(new Date()), "Efectivo", "F001", 1500.75f));
-        compras.add(new Compra(2, 1002, dateFormat.format(new Date()), "Tarjeta", "F002", 2000.00f));
-        // Agrega más compras según sea necesario
+        CompraDaoImpl compraDao = new CompraDaoImpl(requireContext());
+        compras.addAll(compraDao.select());
+        compraDao.close();
         comprasFiltradas.clear();
         comprasFiltradas.addAll(compras);
     }

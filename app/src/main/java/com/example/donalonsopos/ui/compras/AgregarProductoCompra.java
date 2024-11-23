@@ -22,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.CategoriaDaoImpl;
 import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
+import com.example.donalonsopos.data.DTO.Categoria;
 import com.example.donalonsopos.data.DTO.Compra;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.data.DTO.Proveedor;
@@ -111,7 +113,7 @@ public class AgregarProductoCompra extends Fragment {
         lista = view.findViewById(R.id.lista);
         lista.setHasFixedSize(true);
         lista.setLayoutManager(new GridLayoutManager(getContext(), 6));
-        adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, productosSeleccionados);
+        adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, productosSeleccionados, cargarCategorias());
         lista.setAdapter(adaptador);
     }
 
@@ -296,6 +298,14 @@ public class AgregarProductoCompra extends Fragment {
         adaptador.notifyDataSetChanged();
 
         return productos;
+    }
+
+    private List<Categoria> cargarCategorias() {
+        List<Categoria> categorias = new ArrayList<>();
+        CategoriaDaoImpl categoriaDao = new CategoriaDaoImpl(requireContext());
+        categorias.addAll(categoriaDao.select());
+        categoriaDao.close();
+        return categorias;
     }
 
 }

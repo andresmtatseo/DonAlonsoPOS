@@ -16,6 +16,14 @@ public class Compra implements Serializable {
     // Constructores
 
 
+    public Compra(int idProveedor, String fechaCompra, String metodoPago, String numeroFactura, float total) {
+        this.idProveedor = idProveedor;
+        this.fechaCompra = fechaCompra;
+        this.metodoPago = metodoPago;
+        this.numeroFactura = numeroFactura;
+        this.total = total;
+    }
+
     public Compra(int idCompra, int idProveedor, String metodoPago, String fechaCompra, String numeroFactura, float total, int isActive) {
         this.idCompra = idCompra;
         this.idProveedor = idProveedor;

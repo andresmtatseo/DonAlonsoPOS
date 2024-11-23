@@ -21,6 +21,13 @@ public class DetallesCompra implements Serializable {
         this.fechaExpiracion = fechaExpiracion;
     }
 
+    public DetallesCompra(int idCompra, int idProducto, int cantidad, float precioUnitario) {
+        this.idCompra = idCompra;
+        this.idProducto = idProducto;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+    }
+
     public DetallesCompra(int idDetallesCompra) {
         this.idDetallesCompra = idDetallesCompra;
     }

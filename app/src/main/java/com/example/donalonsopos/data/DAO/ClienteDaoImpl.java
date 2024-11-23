@@ -99,6 +99,35 @@ public class ClienteDaoImpl {
         return cliente;
     }
 
+    public Cliente findById(int id) {
+        Cliente cliente = null;
+        Cursor cursor = null;
+        try {
+            // Query para buscar cliente activo por ID
+            String query = "SELECT * FROM " + TABLE_NAME +
+                    " WHERE " + COLUMN_ID + " = ? AND " + COLUMN_ISACTIVE + " = 1";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+
+            if (cursor.moveToFirst()) {
+                cliente = new Cliente(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CEDULA)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOMBRE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_APELLIDO)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECCION)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TELEFONO))
+                );
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al buscar cliente por ID: ", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return cliente;
+    }
+
     // Insertar cliente
     public long insert(Cliente cliente) {
         long id = -1;

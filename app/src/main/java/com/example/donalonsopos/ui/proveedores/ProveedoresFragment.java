@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ProveedorDaoImpl;
 import com.example.donalonsopos.data.DTO.Proveedor;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
@@ -178,8 +179,9 @@ public class ProveedoresFragment extends Fragment {
 
     private void cargarProveedores() {
         proveedores.clear();
-        proveedores.add(new Proveedor(1, "J-12345678", "Distribuidora XYZ", "Calle 1", "1234567890", "xyz@mail.com", true));
-        proveedores.add(new Proveedor(2, "J-87654321", "Suministros ABC", "Calle 2", "0987654321", "abc@mail.com", true));
+        ProveedorDaoImpl proveedorDao = new ProveedorDaoImpl(requireContext());
+        proveedores.addAll(proveedorDao.select());
+        proveedorDao.close();
         proveedoresFiltrados.clear();
         proveedoresFiltrados.addAll(proveedores);
     }

@@ -65,6 +65,37 @@ public class DetallesVentaDaoImpl {
         return detallesVentas;
     }
 
+    public List<DetallesVenta> selectByIdVenta(int idVenta) {
+        List<DetallesVenta> detallesVentas = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            // Query para seleccionar los detalles de venta donde coincida el idVenta
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_IDVENTA + " = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(idVenta)});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    DetallesVenta detallesVenta = new DetallesVenta(
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IDVENTA)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IDPRODUCTO)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CANTIDAD)),
+                            cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_PRECIOUNITARIO))
+                    );
+                    detallesVentas.add(detallesVenta);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al consultar detalles de venta por idVenta: ", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return detallesVentas;
+    }
+
+
     // Insertar detalles de venta
     public long insert(DetallesVenta detallesVenta) {
         long id = -1;

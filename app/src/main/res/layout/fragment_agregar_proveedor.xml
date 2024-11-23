@@ -54,12 +54,27 @@
             android:text="Cédula/RIF:"
             android:textSize="28sp" />
 
-        <EditText
-            android:id="@+id/etCedulaCliente"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingrese cédula"
-            android:textSize="28sp" />
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spTipoCedula"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="5"
+                android:entries="@array/tipo_cedula" />
+
+            <EditText
+                android:id="@+id/etCedulaCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Ingrese cédula"
+                android:textSize="28sp" />
+        </LinearLayout>
 
         <!-- Nombre -->
         <TextView

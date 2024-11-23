@@ -23,8 +23,18 @@ import android.widget.Toast;
 
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
+import com.example.donalonsopos.data.DAO.CompraDaoImpl;
+import com.example.donalonsopos.data.DAO.DetallesCompraDaoImpl;
+import com.example.donalonsopos.data.DAO.DetallesVentaDaoImpl;
+import com.example.donalonsopos.data.DAO.MovimientoProductoDaoImpl;
+import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
+import com.example.donalonsopos.data.DAO.ProveedorDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Compra;
+import com.example.donalonsopos.data.DTO.DetallesCompra;
+import com.example.donalonsopos.data.DTO.DetallesVenta;
+import com.example.donalonsopos.data.DTO.MovimientoProducto;
+import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.data.DTO.Proveedor;
 import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.ui.clientes.AgregarCliente;
@@ -34,8 +44,11 @@ import com.example.donalonsopos.util.ConfirmDialog;
 import com.example.donalonsopos.util.ProductoConCantidad;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AgregarCompra extends Fragment {
 
@@ -51,6 +64,9 @@ public class AgregarCompra extends Fragment {
     private Button btnConfirmar, btnLimpiar;
     private AdaptadorViewProductoSeleccionado adaptador;
     private ConfirmDialog confirmDialog;
+
+    private String fechaInicio, fechaFin;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
     public AgregarCompra() {
 
@@ -240,26 +256,27 @@ public class AgregarCompra extends Fragment {
         String cedula = String.valueOf(etCedulaProveedor.getText());
         String cedulaCompleta = tipoCedula + "-" + cedula;
 
-//        ProveedorDaoImpl proveedorDao = new ProveedorDaoImpl(requireContext());
-//        Proveedor proveedor = proveedorDao.findByCedula(cedulaCompleta);
-//        if (proveedor != null) {
-//            tvNombreProveedorContenido.setText(proveedor.getNombre());
-//            tvTelefonoProveedorContenido.setText(proveedor.getTelefono());
-//            tvDireccionProveedorContenido.setText(proveedor.getDireccion());
-//        } else {
-//            showNotFoundDialog();
-//        }
-//        ProveedorDaoImpl.close();
+        ProveedorDaoImpl proveedorDao = new ProveedorDaoImpl(requireContext());
+        Proveedor proveedor = proveedorDao.findByCedula(cedulaCompleta);
+        if (proveedor != null) {
+            tvNombreProveedorContenido.setText(proveedor.getNombre());
+            tvTelefonoProveedorContenido.setText(proveedor.getTelefono());
+            tvDireccionProveedorContenido.setText(proveedor.getDireccion());
+        } else {
+            showNotFoundDialog();
+        }
+        proveedorDao.close();
     }
 
     private void guardarCompra() {
         String cedula = etCedulaProveedor.getText().toString().trim();
         String numeroComprobante = etNumeroComprobante.getText().toString().trim();
         String tipoCedula = spTipoCedula.getSelectedItem() != null ? spTipoCedula.getSelectedItem().toString().trim() : "";
+        String cedulaCompleta = tipoCedula + "-" + cedula;
         String metodoPago = spMetodoPago.getSelectedItem() != null ? spMetodoPago.getSelectedItem().toString().trim() : "";
 
         // productos seleccionados
-        if (cedula.isEmpty() || numeroComprobante.isEmpty() || tipoCedula.isEmpty() || metodoPago.isEmpty() ) {
+        if (cedula.isEmpty() || numeroComprobante.isEmpty() || tipoCedula.isEmpty() || metodoPago.isEmpty()) {
             Toast.makeText(getContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -269,9 +286,81 @@ public class AgregarCompra extends Fragment {
             return;
         }
 
-        // Aquí agregamos la lógica para guardar el producto (en base de datos o en memoria)
-        Toast.makeText(getContext(), "Compra guardada correctamente", Toast.LENGTH_SHORT).show();
-        limpiarCampos();
+        ProveedorDaoImpl proveedorDao = new ProveedorDaoImpl(requireContext());
+        Proveedor proveedor = proveedorDao.findByCedula(cedulaCompleta);
+        if (proveedor == null) {
+            showNotFoundDialog();
+        }
+        proveedorDao.close();
+
+        float totalCompra = 0;
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            List<ProductoConCantidad> productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
+            if (productosSeleccionados != null && !productosSeleccionados.isEmpty()) {
+                // Calcular el total de la venta
+                for (ProductoConCantidad producto : productosSeleccionados) {
+                    totalCompra += producto.getProducto().getPrecio() * producto.getCantidad();
+                }
+            }
+        }
+
+        CompraDaoImpl compraDao = new CompraDaoImpl(requireContext());
+        long idCompra = compraDao.insert(new Compra(proveedor.getIdProveedor(), dateFormat.format(new Date()), (String) metodoPago, numeroComprobante, totalCompra));
+        compraDao.close();
+
+        if (idCompra > 0) {
+            // Guardar los productos seleccionados como detalles de la compra
+            if (bundle != null) {
+                List<ProductoConCantidad> productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
+                if (productosSeleccionados != null && !productosSeleccionados.isEmpty()) {
+                    DetallesCompraDaoImpl detalleCompraDao = new DetallesCompraDaoImpl(requireContext());
+                    MovimientoProductoDaoImpl movimientoProductoDao = new MovimientoProductoDaoImpl(requireContext());
+                    ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
+
+                    for (ProductoConCantidad producto : productosSeleccionados) {
+                        // Guardar el detalle de la compra
+                        detalleCompraDao.insert(new DetallesCompra((int) idCompra,
+                                producto.getProducto().getIdProducto(),
+                                producto.getCantidad(),
+                                (float) producto.getProducto().getPrecio())); // hay que poner el costo del producto
+
+                        // sumar la cantidad comprada
+                        Producto productoInventario = productoDao.findById(producto.getProducto().getIdProducto());
+                        if (productoInventario != null) {
+                            int cantidadNueva = productoInventario.getCantidadActual() + producto.getCantidad();
+                            productoInventario.setCantidadActual(cantidadNueva);
+
+                            // Actualizar el producto en la base de datos
+                            productoDao.update(productoInventario);
+
+                            // Registrar el movimiento en el inventario (venta)
+                            MovimientoProducto movimiento = new MovimientoProducto(
+                                    productoInventario.getIdProducto(),
+                                    0,
+                                    "Entrada",
+                                    0,
+                                    producto.getCantidad(),
+                                    dateFormat.format(new Date()),
+                                    "Compra realizada"
+                            );
+                            movimientoProductoDao.insert(movimiento);
+                        }
+                    }
+                    detalleCompraDao.close();
+                    movimientoProductoDao.close();
+                    productoDao.close();
+                }
+            }
+
+            Toast.makeText(getContext(), "Compra guardada correctamente", Toast.LENGTH_SHORT).show();
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
+            navController.popBackStack();
+            limpiarCampos();
+
+        } else {
+            Toast.makeText(getContext(), "Error al guardar la compra", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showNotFoundDialog() {

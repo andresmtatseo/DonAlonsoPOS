@@ -74,6 +74,40 @@ public class ProductoDaoImpl {
         return productos;
     }
 
+    public Producto findById(int idProducto) {
+        Producto producto = null;
+        Cursor cursor = null;
+        try {
+            // Consulta SQL para obtener el producto por su ID
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = ? AND " + COLUMN_ISACTIVE + " = 1";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(idProducto)});
+
+            // Verifica si el cursor tiene resultados
+            if (cursor != null && cursor.moveToFirst()) {
+                byte[] imagenBlob = cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_IMAGEN_URL));
+
+                // Crear el objeto Producto con los datos obtenidos del cursor
+                producto = new Producto(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID_CATEGORIA)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOMBRE)),
+                        cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_PRECIO)),
+                        imagenBlob,  // Imagen en formato byte[]
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPCION)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CANTIDAD_ACTUAL)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CANTIDAD_MINIMA))
+                );
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al buscar producto por ID: ", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return producto;  // Retorna el producto encontrado, o null si no se encuentra
+    }
+
     // Insertar producto
     public long insert(Producto producto) {
         long id = -1;

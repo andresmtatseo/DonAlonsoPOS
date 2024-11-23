@@ -26,6 +26,13 @@ public class DetallesVenta implements Serializable {
         this.precioUnitario = precioUnitario;
     }
 
+    public DetallesVenta(int idVenta, int idProducto, int cantidad, float precioUnitario) {
+        this.idVenta = idVenta;
+        this.idProducto = idProducto;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+    }
+
     // Métodos
     public int getIdDetallesVenta() {
         return idDetallesVenta;

@@ -22,18 +22,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
+import com.example.donalonsopos.data.DAO.VentaDaoImpl;
 import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Venta;
 import com.example.donalonsopos.util.OnItemClickListener;
-import com.example.donalonsopos.util.OnItemLongClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class VentasFragment extends Fragment {
 
@@ -82,7 +85,7 @@ public class VentasFragment extends Fragment {
         listaVentas.setHasFixedSize(true);
         listaVentas.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adaptador = new AdaptadorViewVenta(requireContext(), ventasFiltradas, new OnItemClickListener() {
+        adaptador = new AdaptadorViewVenta(requireContext(), ventasFiltradas, cargarClientes(), new OnItemClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Venta ventaSeleccionada = ventasFiltradas.get(position);
@@ -224,6 +227,17 @@ public class VentasFragment extends Fragment {
         ventasFiltradas.clear();
         String query = textoBusqueda.toLowerCase().trim();
 
+        // Obtener todos los clientes desde la base de datos una sola vez
+        ClienteDaoImpl clienteDao = new ClienteDaoImpl(requireContext());
+        List<Cliente> clientes = clienteDao.select();
+        clienteDao.close();
+
+        // Crear un mapa para buscar rápidamente por idCliente
+        Map<Integer, String> mapaClientes = new HashMap<>();
+        for (Cliente cliente : clientes) {
+            mapaClientes.put(cliente.getIdCliente(), cliente.getCedula()); // Mapear idCliente -> cédula
+        }
+
         for (Venta venta : ventas) {
             switch (filtroActual) {
                 case FILTRO_ID_VENTA:
@@ -232,9 +246,9 @@ public class VentasFragment extends Fragment {
                     }
                     break;
                 case FILTRO_CEDULA_RIF:
-                    // simular busqueda en bdd
-                    Cliente cliente = new Cliente(5, "V-30465183");
-                    if (String.valueOf(venta.getIdCliente()).contains(query)) {
+                    // Buscar la cédula en el mapaClientes usando el idCliente de la venta
+                    String cedula = mapaClientes.get(venta.getIdCliente());
+                    if (cedula != null && cedula.contains(query)) {
                         ventasFiltradas.add(venta);
                     }
                     break;
@@ -279,14 +293,22 @@ public class VentasFragment extends Fragment {
 
     private void cargarVentas() {
         ventas.clear();
-        ventas.add(new Venta(1, 5, 8, dateFormat.format(new Date()), "Efectivo", 3068484, dateFormat.format(new Date()), 100));
-        ventas.add(new Venta(2, 1, 4, dateFormat.format(new Date()), "Tarjeta", 0, dateFormat.format(new Date()), 100));
-        ventas.add(new Venta(3, 2, 3, dateFormat.format(new Date()), "Efectivo", 0, dateFormat.format(new Date()), 100));
-        ventas.add(new Venta(4, 3, 2, dateFormat.format(new Date()), "Efectivo", 0, dateFormat.format(new Date()), 100));
+        VentaDaoImpl ventaDao = new VentaDaoImpl(requireContext());
+        ventas.addAll(ventaDao.select());
+        ventaDao.close();
         ventasFiltradas.clear();
         ventasFiltradas.addAll(ventas);
         adaptador.notifyDataSetChanged();
     }
+
+    private List<Cliente> cargarClientes() {
+        List<Cliente> clientes = new ArrayList<>();
+        ClienteDaoImpl clienteDao = new ClienteDaoImpl(requireContext());
+        clientes.addAll(clienteDao.select());
+        clienteDao.close();
+        return clientes;
+    }
+
 
     private Bundle createBundleWithVenta(Venta venta) {
         Bundle bundle = new Bundle();
