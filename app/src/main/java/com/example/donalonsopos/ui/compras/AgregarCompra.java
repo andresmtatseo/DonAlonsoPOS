@@ -175,7 +175,7 @@ public class AgregarCompra extends Fragment {
                 for (DetallesCompra detallesCompra : detallesCompras) {
                     totalCompra += detallesCompra.getPrecioUnitario() * detallesCompra.getCantidad();
                 }
-                tvTotalContenido.setText("Total: $" + String.format("%.2f", totalCompra));
+                tvTotalContenido.setText(String.format("%.2f", totalCompra));
             }
         }
     }
@@ -272,7 +272,7 @@ public class AgregarCompra extends Fragment {
         String cedulaCompleta = tipoCedula + "-" + cedula;
         String metodoPago = spMetodoPago.getSelectedItem() != null ? spMetodoPago.getSelectedItem().toString().trim() : "";
 
-        // productos seleccionados
+        // Validaciones
         if (cedula.isEmpty() || numeroComprobante.isEmpty() || tipoCedula.isEmpty() || metodoPago.isEmpty()) {
             Toast.makeText(getContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
             return;
@@ -290,64 +290,44 @@ public class AgregarCompra extends Fragment {
         }
         proveedorDao.close();
 
+        // Inicializamos el total de la compra
         float totalCompra = 0;
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            List<ProductoConCantidad> productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
-            if (productosSeleccionados != null && !productosSeleccionados.isEmpty()) {
-                // Calcular el total de la venta
-                for (ProductoConCantidad producto : productosSeleccionados) {
-                    totalCompra += producto.getProducto().getPrecio() * producto.getCantidad();
-                }
+
+        // Obtener el adaptador para acceder a los productos y sus cantidades
+        if (adaptador != null) {
+            for (DetallesCompra detalle : adaptador.getDetallesCompra()) {
+                totalCompra += detalle.getPrecioUnitario() * detalle.getCantidad(); // Precio * Cantidad
             }
         }
 
+        // Crear la compra en la base de datos
         CompraDaoImpl compraDao = new CompraDaoImpl(requireContext());
-        long idCompra = compraDao.insert(new Compra(proveedor.getIdProveedor(), dateFormat.format(new Date()), (String) metodoPago, numeroComprobante, totalCompra));
+        long idCompra = compraDao.insert(new Compra(proveedor.getIdProveedor(), dateFormat.format(new Date()), metodoPago, numeroComprobante, totalCompra));
         compraDao.close();
 
         if (idCompra > 0) {
-            // Guardar los productos seleccionados como detalles de la compra
-            if (bundle != null) {
-                List<ProductoConCantidad> productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
-                if (productosSeleccionados != null && !productosSeleccionados.isEmpty()) {
-                    DetallesCompraDaoImpl detalleCompraDao = new DetallesCompraDaoImpl(requireContext());
-                    MovimientoProductoDaoImpl movimientoProductoDao = new MovimientoProductoDaoImpl(requireContext());
-                    ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
+            // Guardar los detalles de la compra
+            DetallesCompraDaoImpl detalleCompraDao = new DetallesCompraDaoImpl(requireContext());
+            ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
 
-                    for (ProductoConCantidad producto : productosSeleccionados) {
-                        // Guardar el detalle de la compra
-                        detalleCompraDao.insert(new DetallesCompra((int) idCompra,
-                                producto.getProducto().getIdProducto(),
-                                producto.getCantidad(),
-                                (float) producto.getProducto().getPrecio())); // hay que poner el costo del producto
+            if (adaptador != null) {
+                for (DetallesCompra detalle : adaptador.getDetallesCompra()) {
+                    // Guardar cada detalle de la compra
+                    detalleCompraDao.insert(new DetallesCompra((int) idCompra,
+                            detalle.getIdProducto(),
+                            detalle.getCantidad(),
+                            detalle.getPrecioUnitario()));
 
-                        // sumar la cantidad comprada
-                        Producto productoInventario = productoDao.findById(producto.getProducto().getIdProducto());
-                        if (productoInventario != null) {
-                            int cantidadNueva = productoInventario.getCantidadActual() + producto.getCantidad();
-                            productoInventario.setCantidadActual(cantidadNueva);
-
-                            // Actualizar el producto en la base de datos
-                            productoDao.update(productoInventario);
-
-                            // Registrar el movimiento en el inventario (venta)
-                            MovimientoProducto movimiento = new MovimientoProducto(
-                                    productoInventario.getIdProducto(),
-                                    0,
-                                    "Entrada",
-                                    0,
-                                    producto.getCantidad(),
-                                    dateFormat.format(new Date()),
-                                    "Compra realizada"
-                            );
-                            movimientoProductoDao.insert(movimiento);
-                        }
+                    // Actualizar la cantidad del producto en inventario
+                    Producto productoInventario = productoDao.findById(detalle.getIdProducto());
+                    if (productoInventario != null) {
+                        int nuevaCantidad = productoInventario.getCantidadActual() + detalle.getCantidad();
+                        productoInventario.setCantidadActual(nuevaCantidad);
+                        productoDao.update(productoInventario);
                     }
-                    detalleCompraDao.close();
-                    movimientoProductoDao.close();
-                    productoDao.close();
                 }
+                detalleCompraDao.close();
+                productoDao.close();
             }
 
             Toast.makeText(getContext(), "Compra guardada correctamente", Toast.LENGTH_SHORT).show();
@@ -359,6 +339,7 @@ public class AgregarCompra extends Fragment {
             Toast.makeText(getContext(), "Error al guardar la compra", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void showNotFoundDialog() {
         confirmDialog.showConfirmationDialog("Proveedor no encontrado", "El proveedor no existe en la base de datos, ¿desea agregarlo?", () -> {
@@ -396,6 +377,5 @@ public class AgregarCompra extends Fragment {
 
         return productos;
     }
-
 
 }

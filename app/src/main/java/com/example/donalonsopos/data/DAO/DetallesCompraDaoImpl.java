@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.example.donalonsopos.data.DTO.DetallesCompra;
 import com.example.donalonsopos.data.DB.DBManager;
+import com.example.donalonsopos.data.DTO.DetallesVenta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,36 @@ public class DetallesCompraDaoImpl {
             }
         } catch (SQLException e) {
             Log.e(TAG, "Error al consultar detalles de compra: ", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return detallesCompras;
+    }
+
+    public List<DetallesCompra> selectByIdCompra(int idCompra) {
+        List<DetallesCompra> detallesCompras = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            // Query para seleccionar los detalles de venta donde coincida el idVenta
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_IDCOMPRA + " = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(idCompra)});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    DetallesCompra detallesCompra = new DetallesCompra(
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IDCOMPRA)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IDPRODUCTO)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CANTIDAD)),
+                            cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_PRECIOUNITARIO))
+                    );
+                    detallesCompras.add(detallesCompra);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al consultar detalles de venta por idVenta: ", e);
         } finally {
             if (cursor != null) {
                 cursor.close();

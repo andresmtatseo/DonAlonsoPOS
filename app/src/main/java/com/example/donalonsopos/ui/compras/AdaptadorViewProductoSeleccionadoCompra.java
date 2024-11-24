@@ -49,6 +49,11 @@ public class AdaptadorViewProductoSeleccionadoCompra extends RecyclerView.Adapte
         return detallesCompras.size();
     }
 
+    // Método para obtener los detalles de la compra
+    public List<DetallesCompra> getDetallesCompra() {
+        return detallesCompras;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tvNombreProducto;
@@ -102,7 +107,7 @@ public class AdaptadorViewProductoSeleccionadoCompra extends RecyclerView.Adapte
                             float costoUnitario = Float.parseFloat(s.toString());
                             if (costoUnitario < 0) {
                                 Toast.makeText(itemView.getContext(), "El costo unitario no puede ser menor que 0", Toast.LENGTH_SHORT).show();
-                                etCostoUnitario.setText("0");
+                                etCostoUnitario.setHint("0.00");
                             } else {
                                 detallesCompra.setPrecioUnitario(costoUnitario);
                                 actualizarTotal(detallesCompra.getCantidad(), costoUnitario);
@@ -128,7 +133,7 @@ public class AdaptadorViewProductoSeleccionadoCompra extends RecyclerView.Adapte
                             int cantidad = Integer.parseInt(s.toString());
                             if (cantidad < 0) {
                                 Toast.makeText(itemView.getContext(), "La cantidad no puede ser menor que 0", Toast.LENGTH_SHORT).show();
-                                etCantidad.setText("0");
+                                etCantidad.setHint("0");
                             } else {
                                 detallesCompra.setCantidad(cantidad);
                                 actualizarTotal(cantidad, detallesCompra.getPrecioUnitario());

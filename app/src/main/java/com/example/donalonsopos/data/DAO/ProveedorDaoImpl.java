@@ -97,6 +97,34 @@ public class ProveedorDaoImpl {
         return proveedor; // Retorna el proveedor encontrado o null si no se encuentra
     }
 
+    public Proveedor findById(int id) {
+        Proveedor proveedor = null;
+        Cursor cursor = null;
+        try {
+            // Consulta SQL para obtener un proveedor por cédula
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = ? AND " + COLUMN_ISACTIVE + " = 1";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+            if (cursor.moveToFirst()) {
+                // Si se encuentra el proveedor, lo asignamos
+                proveedor = new Proveedor(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CEDULA)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOMBRE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECCION)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TELEFONO)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EMAIL))
+                );
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Error al consultar proveedor por cédula: ", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return proveedor; // Retorna el proveedor encontrado o null si no se encuentra
+    }
+
     // Insertar proveedor
     public long insert(Proveedor proveedor) {
         long id = -1;
