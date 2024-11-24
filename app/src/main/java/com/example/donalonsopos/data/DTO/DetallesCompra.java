@@ -12,6 +12,11 @@ public class DetallesCompra implements Serializable {
     private String fechaExpiracion; // Cambiado de Date a String
 
     // Constructores
+
+
+    public DetallesCompra() {
+    }
+
     public DetallesCompra(int idDetallesCompra, int idCompra, int idProducto, int cantidad, float precioUnitario, String fechaExpiracion) {
         this.idDetallesCompra = idDetallesCompra;
         this.idCompra = idCompra;

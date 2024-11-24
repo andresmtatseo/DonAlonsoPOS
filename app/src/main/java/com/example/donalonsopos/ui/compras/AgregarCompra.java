@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,24 +23,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donalonsopos.R;
-import com.example.donalonsopos.data.DAO.ClienteDaoImpl;
 import com.example.donalonsopos.data.DAO.CompraDaoImpl;
 import com.example.donalonsopos.data.DAO.DetallesCompraDaoImpl;
-import com.example.donalonsopos.data.DAO.DetallesVentaDaoImpl;
 import com.example.donalonsopos.data.DAO.MovimientoProductoDaoImpl;
 import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
 import com.example.donalonsopos.data.DAO.ProveedorDaoImpl;
-import com.example.donalonsopos.data.DTO.Cliente;
 import com.example.donalonsopos.data.DTO.Compra;
 import com.example.donalonsopos.data.DTO.DetallesCompra;
-import com.example.donalonsopos.data.DTO.DetallesVenta;
 import com.example.donalonsopos.data.DTO.MovimientoProducto;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.data.DTO.Proveedor;
-import com.example.donalonsopos.data.DTO.Venta;
-import com.example.donalonsopos.ui.clientes.AgregarCliente;
 import com.example.donalonsopos.ui.proveedores.AgregarProveedor;
-import com.example.donalonsopos.ui.ventas.AdaptadorViewProductoSeleccionado;
 import com.example.donalonsopos.util.ConfirmDialog;
 import com.example.donalonsopos.util.ProductoConCantidad;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,7 +46,7 @@ import java.util.Locale;
 
 public class AgregarCompra extends Fragment {
 
-    private String KEY_PRODUCTOS_SELECCIONADOS = "productosSeleccionados";
+    private String KEY_DETALLES_COMPRA = "detallesCompra";
     private String KEY_COMPRA = "compra";
     private String KEY_PROVEEDOR = "proveedor";
 
@@ -62,8 +56,10 @@ public class AgregarCompra extends Fragment {
     private TextView tvNombreProveedorContenido, tvTelefonoProveedorContenido, tvDireccionProveedorContenido, tvTotalContenido;
     private RecyclerView rvProductosSeleccionados;
     private Button btnConfirmar, btnLimpiar;
-    private AdaptadorViewProductoSeleccionado adaptador;
+    private AdaptadorViewProductoSeleccionadoCompra adaptador;
     private ConfirmDialog confirmDialog;
+
+    private ArrayList<Producto> productos = new ArrayList<>();
 
     private String fechaInicio, fechaFin;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -167,18 +163,19 @@ public class AgregarCompra extends Fragment {
         // Obtener los productos seleccionados con cantidades desde el Bundle
         Bundle bundle = getArguments();
         if (bundle != null) {
-            List<ProductoConCantidad> productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable("productosSeleccionados");
-            if (productosSeleccionados != null && !productosSeleccionados.isEmpty()) {
+            List<DetallesCompra> detallesCompras = (List<DetallesCompra>) bundle.getSerializable(KEY_DETALLES_COMPRA);
+            if (detallesCompras != null && !detallesCompras.isEmpty()) {
+                Log.e("AgregarCompra Fragment", "Bundle detallesCompras recuperado");
                 // Asignar los productos seleccionados al RecyclerView
-                adaptador = new AdaptadorViewProductoSeleccionado(requireContext(), productosSeleccionados);
+                adaptador = new AdaptadorViewProductoSeleccionadoCompra(requireContext(), detallesCompras, cargarProductos());
                 rvProductosSeleccionados.setAdapter(adaptador);
 
                 // Calcular el total de la venta
-                double totalVenta = 0;
-                for (ProductoConCantidad producto : productosSeleccionados) {
-                    totalVenta += producto.getProducto().getPrecio() * producto.getCantidad();
+                float totalCompra = 0;
+                for (DetallesCompra detallesCompra : detallesCompras) {
+                    totalCompra += detallesCompra.getPrecioUnitario() * detallesCompra.getCantidad();
                 }
-                tvTotalContenido.setText("Total: $" + String.format("%.2f", totalVenta));
+                tvTotalContenido.setText("Total: $" + String.format("%.2f", totalCompra));
             }
         }
     }
@@ -190,23 +187,23 @@ public class AgregarCompra extends Fragment {
         btnAgregar.setOnClickListener(v -> {
             // Obtener el bundle actual con los productos seleccionados y datos de la venta
             Bundle bundle = getArguments();
-            List<ProductoConCantidad> productosSeleccionados = null;
+            List<com.example.donalonsopos.ui.compras.DetallesCompra> detallesCompras = null;
             Compra compra = null;
             Proveedor proveedor = null;
 
             // Recuperar los datos del bundle si existen
             if (bundle != null) {
-                productosSeleccionados = (List<ProductoConCantidad>) bundle.getSerializable(KEY_PRODUCTOS_SELECCIONADOS);
+                detallesCompras = (List<com.example.donalonsopos.ui.compras.DetallesCompra>) bundle.getSerializable(KEY_DETALLES_COMPRA);
                 compra = (Compra) bundle.getSerializable(KEY_COMPRA);
                 proveedor = (Proveedor) bundle.getSerializable(KEY_PROVEEDOR);
             }
 
             // Inicializar productos seleccionados si es nulo
-            if (productosSeleccionados == null) {
-                productosSeleccionados = new ArrayList<>();
+            if (detallesCompras == null) {
+                detallesCompras = new ArrayList<>();
             }
 
-            // Si no hay una venta previa, crear una nueva
+            // Si no hay una compra previa, crear una nueva
             if (compra == null) {
                 String tipoCedula = spTipoCedula.getSelectedItem() != null
                         ? spTipoCedula.getSelectedItem().toString().trim()
@@ -214,7 +211,7 @@ public class AgregarCompra extends Fragment {
                 String cedula = etCedulaProveedor.getText().toString().trim();
                 String cedulaCompleta = tipoCedula + "-" + cedula;
 
-                // Simulo la búsqueda del id del cliente
+                // Simulo la búsqueda del id del proveedor
                 int id = 5;
                 String metodoPago = spMetodoPago.getSelectedItem() != null
                         ? spMetodoPago.getSelectedItem().toString().trim()
@@ -235,7 +232,7 @@ public class AgregarCompra extends Fragment {
             Bundle nuevoBundle = new Bundle();
 
             // Asegurarnos de pasar correctamente los productos seleccionados
-            nuevoBundle.putSerializable(KEY_PRODUCTOS_SELECCIONADOS, new ArrayList<>(productosSeleccionados));
+            nuevoBundle.putSerializable(KEY_DETALLES_COMPRA, new ArrayList<>(detallesCompras));
             nuevoBundle.putSerializable(KEY_COMPRA, compra);
             nuevoBundle.putSerializable(KEY_PROVEEDOR, proveedor);
 
@@ -389,6 +386,15 @@ public class AgregarCompra extends Fragment {
             bundle.clear();
         }
 
+    }
+
+    private ArrayList<Producto> cargarProductos() {
+        productos.clear();
+        ProductoDaoImpl productoDao = new ProductoDaoImpl(requireContext());
+        productos.addAll(productoDao.select());
+        productoDao.close();
+
+        return productos;
     }
 
 

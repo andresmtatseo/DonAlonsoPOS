@@ -14,12 +14,13 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context=".ui.productos.ProductosFragment">
-
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="horizontal"
+            tools:context=".ui.compras.AgregarProductoCompra">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -34,8 +35,8 @@
                         android:id="@+id/searchView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
                         android:layout_weight="1"
+                        android:layout_margin="10dp"
                         android:background="@drawable/borde_curveado">
 
                     </SearchView>
@@ -68,23 +69,31 @@
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/lista"
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/swipeRefreshLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/borde_curveado" />
+                    android:layout_margin="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/lista"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/borde_curveado" />
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             </LinearLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnAgregar3"
+                android:id="@+id/btnAgregar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
                 android:layout_margin="45sp"
+                android:layout_gravity="bottom|end"
                 android:clickable="true"
-                android:contentDescription="Boton para agregar producto"
+                android:contentDescription="Boton para Agregar Cliente"
                 android:src="@drawable/icono_anadir"
                 app:backgroundTint="@color/red" />
 

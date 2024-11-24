@@ -107,38 +107,16 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:layout_weight="0"
-        android:background="@drawable/btn_secundary"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnDecrementar"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/ibAgregarProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="-"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvCantidad"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btnIncrementar"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="+"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:background="@drawable/btn_primary"
+            app:srcCompat="@drawable/icono_anadir_al_carrito" />
     </LinearLayout>
 
 </LinearLayout>

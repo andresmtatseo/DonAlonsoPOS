@@ -1,5 +1,6 @@
 package com.example.donalonsopos.ui.compras;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
@@ -8,7 +9,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,17 +29,14 @@ import com.example.donalonsopos.data.DAO.CategoriaDaoImpl;
 import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
 import com.example.donalonsopos.data.DTO.Categoria;
 import com.example.donalonsopos.data.DTO.Compra;
+import com.example.donalonsopos.data.DTO.DetallesCompra;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.example.donalonsopos.data.DTO.Proveedor;
 import com.example.donalonsopos.ui.productos.AgregarProducto;
-import com.example.donalonsopos.ui.ventas.AdaptadorViewProductoVenta;
-import com.example.donalonsopos.util.ProductoConCantidad;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class AgregarProductoCompra extends Fragment {
@@ -46,7 +46,7 @@ public class AgregarProductoCompra extends Fragment {
     private static final String FILTRO_CATEGORIA = "Categoría";
     private String filtroActual = FILTRO_NOMBRE;
 
-    private static final String KEY_PRODUCTOS_SELECCIONADOS = "productosSeleccionados";
+    private static final String KEY_DETALLES_COMPRA = "detallesCompra";
     private static final String KEY_COMPRA = "compra";
     private static final String KEY_PROVEEDOR = "proveedor";
 
@@ -54,10 +54,10 @@ public class AgregarProductoCompra extends Fragment {
     private TextView tvFiltro;
     private ImageButton ibFiltro;
     private Button btnQuitarProductos, btnContinuar;
-    private AdaptadorViewProductoVenta adaptador;
+    private AdaptadorViewProductoCompra adaptador;
     private ArrayList<Producto> productos = new ArrayList<>();
     private ArrayList<Producto> productosFiltrados = new ArrayList<>();
-    private ArrayList<ProductoConCantidad> productosSeleccionados = new ArrayList<>(); // Lista de productos con cantidad seleccionada
+    private ArrayList<DetallesCompra> detallesCompras;
     private int idCategoriaSeleccionada = -1;
     private Compra compra;
     private Proveedor proveedor;
@@ -71,21 +71,22 @@ public class AgregarProductoCompra extends Fragment {
         View view = inflater.inflate(R.layout.fragment_agregar_producto_compra, container, false);
 
         if (getArguments() != null) {
-            List<ProductoConCantidad> productosRecibidos = (List<ProductoConCantidad>) getArguments().getSerializable(KEY_PRODUCTOS_SELECCIONADOS);
-            if (productosRecibidos != null) {
-                productosSeleccionados.addAll(productosRecibidos); // Agregar los productos ya seleccionados
+            detallesCompras = (ArrayList<DetallesCompra>) getArguments().getSerializable(KEY_DETALLES_COMPRA);
+            if (detallesCompras == null) {
+                detallesCompras = new ArrayList<>();  // Asegúrate de inicializar si es null
             }
-
             compra = (Compra) getArguments().getSerializable(KEY_COMPRA);
             proveedor = (Proveedor) getArguments().getSerializable(KEY_PROVEEDOR);
         }
 
         initializeViews(view);
         setupFloatingActionButton(view);
+        setupSwipeRefresh(view);
         setupListeners();
         setupRecyclerView(view);
         setupSearchView(view);
         setupFilterButton(view);
+        setupSpinnerCategorias(view);
         cargarProductos();
 
         return view;
@@ -97,10 +98,21 @@ public class AgregarProductoCompra extends Fragment {
     }
 
     private void setupFloatingActionButton(View view) {
-        FloatingActionButton btnAgregar = view.findViewById(R.id.btnAgregar3);
+        FloatingActionButton btnAgregar = view.findViewById(R.id.btnAgregar);
         btnAgregar.setOnClickListener(v -> {
             AgregarProducto dialog = new AgregarProducto();
             dialog.show(getChildFragmentManager(), "agregar_producto");
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void setupSwipeRefresh(View view) {
+        SwipeRefreshLayout swipeToRefresh = view.findViewById(R.id.swipeRefreshLayout);
+        swipeToRefresh.setOnRefreshListener(() -> {
+            cargarProductos();
+            adaptador.notifyDataSetChanged();
+            swipeToRefresh.setRefreshing(false);
+            Toast.makeText(requireContext(), "Productos actualizadas", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -113,7 +125,7 @@ public class AgregarProductoCompra extends Fragment {
         lista = view.findViewById(R.id.lista);
         lista.setHasFixedSize(true);
         lista.setLayoutManager(new GridLayoutManager(getContext(), 6));
-        adaptador = new AdaptadorViewProductoVenta(requireContext(), productosFiltrados, productosSeleccionados, cargarCategorias());
+        adaptador = new AdaptadorViewProductoCompra(requireContext(), productosFiltrados, detallesCompras, cargarCategorias());
         lista.setAdapter(adaptador);
     }
 
@@ -148,14 +160,8 @@ public class AgregarProductoCompra extends Fragment {
             RadioGroup radioGroupFiltros = dialogView.findViewById(R.id.radioGroupFiltros);
             Spinner spinnerCategorias = dialogView.findViewById(R.id.spinnerCategorias);
 
-            // Opciones para el Spinner de categorías
-            ArrayList<String> categorias = new ArrayList<>();
-            categorias.add("Lácteos");
-            categorias.add("Frutas");
-            categorias.add("Helados");
-            categorias.add("Dulces");
-
-            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, categorias);
+            // Cargar categorías en el Spinner
+            ArrayAdapter<Categoria> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerCategorias.setAdapter(spinnerAdapter);
 
@@ -178,25 +184,13 @@ public class AgregarProductoCompra extends Fragment {
                     filtroActual = FILTRO_NOMBRE;
                 } else if (selectedId == R.id.rbFiltrarPorCategoria) {
                     filtroActual = FILTRO_CATEGORIA;
-                    // Asignar id de categoría según la selección
-                    switch (spinnerCategorias.getSelectedItem().toString()) {
-                        case "Lácteos":
-                            idCategoriaSeleccionada = 1;
-                            break;
-                        case "Frutas":
-                            idCategoriaSeleccionada = 2;
-                            break;
-                        case "Helados":
-                            idCategoriaSeleccionada = 3;
-                            break;
-                        case "Dulces":
-                            idCategoriaSeleccionada = 4;
-                            break;
-                        default:
-                            idCategoriaSeleccionada = -1;
-                    }
+
+                    // Obtener el objeto Categoria seleccionado
+                    Categoria categoriaSeleccionada = (Categoria) spinnerCategorias.getSelectedItem();
+                    idCategoriaSeleccionada = categoriaSeleccionada != null ? categoriaSeleccionada.getIdCategoria() : -1;
                 }
 
+                // Actualizar la vista con el filtro seleccionado
                 tvFiltro.setText("Por " + filtroActual);
                 SearchView searchView = view.findViewById(R.id.searchView);
                 String textoBusqueda = searchView.getQuery().toString();
@@ -206,6 +200,20 @@ public class AgregarProductoCompra extends Fragment {
             builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
             builder.create().show();
         });
+    }
+
+    private void setupSpinnerCategorias(View view) {
+        // Usar dialogView para encontrar el Spinner dentro del diálogo
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_filtros_productos, null);
+        Spinner spinnerCategorias = dialogView.findViewById(R.id.spinnerCategorias);
+        if (spinnerCategorias == null) {
+            Log.e("ProductosFragment", "El Spinner es null en setupSpinnerCategorias.");
+            return;
+        }
+
+        ArrayAdapter<Categoria> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, cargarCategorias());
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategorias.setAdapter(spinnerAdapter);
     }
 
     private void filtrarProductos(String textoBusqueda) {
@@ -236,56 +244,48 @@ public class AgregarProductoCompra extends Fragment {
     }
 
     private void continuarCompra(View v) {
-        // Obtener las cantidades seleccionadas desde el adaptador
-        HashMap<Integer, Integer> cantidadesSeleccionadas = adaptador.getCantidadesSeleccionadas();
+        List<DetallesCompra> productosSeleccionados = adaptador.getDetallesCompras();
 
-        // Lista para almacenar los productos seleccionados con cantidades mayores a 0
-        List<ProductoConCantidad> productosSeleccionados = new ArrayList<>();
+        // Comentar el clear si no deseas borrar los productos anteriores, pero necesitas evitar duplicados
+        // this.detallesCompras.clear();
 
-        // Crear un mapa para la búsqueda rápida de productos por idProducto
-        Map<Integer, Producto> productosPorId = new HashMap<>();
-        for (Producto producto : productos) {
-            productosPorId.put(producto.getIdProducto(), producto);
-        }
+        // Agregar solo los productos que no están ya en detallesCompras
+        for (DetallesCompra producto : productosSeleccionados) {
+            boolean alreadyExists = false;
 
-        // Recorrer el HashMap y agregar los productos con cantidad seleccionada mayor a 0
-        for (Map.Entry<Integer, Integer> entry : cantidadesSeleccionadas.entrySet()) {
-            int idProducto = entry.getKey();
-            int cantidad = entry.getValue();
-
-            if (cantidad > 0) {
-                Producto producto = productosPorId.get(idProducto);
-                if (producto != null) {
-                    productosSeleccionados.add(new ProductoConCantidad(producto, cantidad));
+            // Verifica si el producto ya está en la lista
+            for (DetallesCompra detalle : detallesCompras) {
+                if (detalle.getIdProducto() == producto.getIdProducto()) {
+                    alreadyExists = true;
+                    break;
                 }
+            }
+
+            // Solo agrega el producto si no está duplicado
+            if (!alreadyExists) {
+                this.detallesCompras.add(producto);
             }
         }
 
-        // Limpiar la lista de productos seleccionados previa, si ya existe
-        this.productosSeleccionados.clear();  // Eliminar productos seleccionados anteriores
+        Log.e("AgregarProductoCompra", "DetallesCompras antes de navegar: " + detallesCompras.size());
 
-        // Agregar los nuevos productos seleccionados a la lista
-        this.productosSeleccionados.addAll(productosSeleccionados);
-
-        // Pasa los productos seleccionados al siguiente fragmento
         Bundle nuevoBundle = new Bundle();
-        nuevoBundle.putSerializable(KEY_PRODUCTOS_SELECCIONADOS, new ArrayList<>(productosSeleccionados));
+        nuevoBundle.putSerializable(KEY_DETALLES_COMPRA, new ArrayList<>(this.detallesCompras));
         nuevoBundle.putSerializable(KEY_COMPRA, compra);
         nuevoBundle.putSerializable(KEY_PROVEEDOR, proveedor);
 
-        // Navegar al siguiente fragmento
         NavController navController = Navigation.findNavController(v);
         navController.popBackStack();
         navController.navigate(R.id.agregarCompraFragment, nuevoBundle);
+
+        Log.e("AgregarProductoCompra fragment", "DetallesCompras en continuarCompra: " + detallesCompras.size());
     }
 
 
     private void quitarProductos() {
-        HashMap<Integer, Integer> productosSeleccionados = adaptador.getCantidadesSeleccionadas();
-        productosSeleccionados.clear();
+        adaptador.getDetallesCompras().clear();
         adaptador.notifyDataSetChanged();
         Toast.makeText(getContext(), "Productos eliminados correctamente", Toast.LENGTH_SHORT).show();
-
     }
 
     private ArrayList<Producto> cargarProductos() {
