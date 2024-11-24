@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cedula del Cliente:"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -47,7 +47,8 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="Numero de Identidad"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textSize="20sp" />
 
                 <ImageButton
                     android:id="@+id/ibBuscar"
@@ -72,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Metodo de Pago:"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -113,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Datos del Cliente"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <!-- Nombre -->
@@ -127,14 +128,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvNombreClienteContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Apellido -->
@@ -148,14 +149,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Apellido:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvApellidoClienteContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Dirección -->
@@ -169,14 +170,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dirección:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvDireccionClienteContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -222,7 +223,7 @@
                 android:layout_margin="45sp"
                 android:clickable="true"
                 android:contentDescription="Boton para Agregar Productos"
-                android:src="@drawable/icono_anadir"
+                android:src="@drawable/icono_anadir_al_carrito"
                 app:backgroundTint="@color/red" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -237,16 +238,22 @@
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnLimpiar"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/btn_secundary"
-            android:text="Limpiar"
-            android:textColor="@color/red"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnLimpiar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_secundary"
+                android:text="Limpiar"
+                android:textColor="@color/red"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -256,7 +263,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvTotalVenta"
+                android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -284,12 +291,12 @@
             <Button
                 android:id="@+id/btnConfirmar"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/btn_primary"
                 android:text="Confirmar"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

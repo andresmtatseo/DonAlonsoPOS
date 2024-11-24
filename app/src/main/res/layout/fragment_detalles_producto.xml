@@ -21,10 +21,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:text="DETALLES DEL PRODUCTO"
+            android:text="Detalles del Producto"
             android:textAlignment="center"
-            android:textSize="34sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <!-- Botón de cerrar en la esquina superior derecha -->
@@ -49,97 +48,97 @@
             <!-- Texto de nombre del producto -->
             <TextView
                 android:id="@+id/tvNombre"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre:"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvNombreContenido"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="contenido"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <!-- Texto de precio -->
             <TextView
                 android:id="@+id/tvPrecio"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Precio:"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvPrecioContenido"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="contenido"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <!-- Texto de costo -->
             <TextView
                 android:id="@+id/tvCosto"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Costo:"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvCostoContenido"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="contenido"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <!-- Texto de cantidad actual -->
             <TextView
                 android:id="@+id/tvCantidadActual"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Cantidad Actual:"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvCantidadActualContenido"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="contenido"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <!-- Texto de cantidad mínima -->
             <TextView
                 android:id="@+id/tvCantidadMinima"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Cantidad Mínima:"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvCantidadMinimaContenido"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="contenido"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <!-- Texto de descripción -->
             <TextView
                 android:id="@+id/tvDescripcion"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Descripción:"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvDescripcionContenido"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="contenido"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <!-- Contenedor vertical para la imagen del producto -->
@@ -153,10 +152,8 @@
             <!-- Imagen del producto -->
             <ImageView
                 android:id="@+id/ivFotoProducto"
-                android:layout_width="400dp"
+                android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="50dp"
                 android:contentDescription="@string/foto_producto"
                 android:src="@drawable/icono_camara" />
         </LinearLayout>
@@ -179,7 +176,8 @@
             android:layout_marginEnd="200dp"
             android:background="@drawable/btn_secundary"
             android:text="Eliminar"
-            android:textColor="@color/red" />
+            android:textColor="@color/red"
+            android:textSize="16sp" />
 
         <!-- Botón de editar -->
         <Button
@@ -188,6 +186,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_primary"
             android:text="Editar"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

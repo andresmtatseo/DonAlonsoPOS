@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:orientation="vertical"
     tools:context=".ui.productos.CategoriasFragment">
 
@@ -9,25 +10,25 @@
         android:id="@+id/tvTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gestionar Categorias" />
+        android:layout_marginBottom="10dp"
+        android:text="Gestionar Categorias"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvSeleccioneSpin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccione una Categoria:"
+        android:textSize="16sp" />
 
     <Spinner
         android:id="@+id/spCategoria"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="50dp" />
 
     <!-- Campo para nombre de la categoría -->
-    <EditText
-        android:id="@+id/etNombreCategoria"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre de la categoría" />
-
-    <Button
-        android:id="@+id/btnCrear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Crear" />
 
     <Button
         android:id="@+id/btnEditar"
@@ -40,4 +41,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Eliminar" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="50dp"
+        android:text="Ó"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Crear Categoria"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etNombreCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre de la categoría"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnCrear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crear" />
+
 </LinearLayout>

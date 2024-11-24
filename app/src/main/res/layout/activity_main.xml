@@ -37,12 +37,12 @@
                 <TextView
                     android:id="@+id/tvIniciarSesion"
                     android:layout_width="wrap_content"
-                    android:layout_height="65dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:text="Iniciar Sesión"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="48sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -86,7 +86,8 @@
                     android:background="@drawable/btn_primary"
                     android:text="Iniciar"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btnSalir"
@@ -95,6 +96,15 @@
                     android:background="@drawable/btn_secundary"
                     android:text="Salir"
                     android:textColor="@color/red"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnRecuperarContrasena"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@android:drawable/toast_frame"
+                    android:text="¿Olvidó su Contraseña?"
                     android:textSize="14sp" />
 
             </LinearLayout>

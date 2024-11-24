@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Detalles del Proveedor"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -46,14 +46,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cedula:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvCedulaContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Nombre -->
@@ -66,14 +66,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvNombreContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Telefono -->
@@ -86,14 +86,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Teléfono:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvTelefonoContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Direccion -->
@@ -106,14 +106,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Direccion:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvDireccionContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -135,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Detalles de la Compra"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -149,14 +149,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Numero de Compra:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvNumeroCompraContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Fecha -->
@@ -169,14 +169,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fecha:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvFechaContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Metodo de Pago -->
@@ -189,14 +189,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Metodo de Pago:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvMetodoPagoContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Numero de Transaccion -->
@@ -209,14 +209,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Numero de Transaccion:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvNumeroTransaccionContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Total -->
@@ -229,14 +229,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvTotalContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -290,7 +290,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_primary"
             android:text="Anular"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
