@@ -24,8 +24,8 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cedula/RIF del Proveedor:"
-                android:textSize="16sp"
+                android:text="Cedula/RIF del Proveedor"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -38,7 +38,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:entries="@array/tipo_cedula"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:textAlignment="center" />
 
                 <EditText
                     android:id="@+id/etCedulaProveedor"
@@ -46,13 +47,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textSize="20sp" />
 
                 <ImageButton
                     android:id="@+id/ibBuscar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:layout_weight="0"
+                    android:background="?attr/actionBarItemBackground"
                     android:src="@drawable/icono_buscar" />
             </LinearLayout>
 
@@ -69,8 +73,8 @@
                 android:id="@+id/tvMetodoPago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Metodo de Pago:"
-                android:textSize="16sp"
+                android:text="Metodo de Pago"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -83,7 +87,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:entries="@array/metodo_pago"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:textAlignment="center" />
 
                 <EditText
                     android:id="@+id/etNumeroComprobante"
@@ -92,7 +97,8 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="Numero del Comprobante"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -110,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Datos del Proveedor"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <!-- Nombre -->
@@ -124,14 +130,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvNombreProveedorContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Telefono -->
@@ -145,14 +151,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Teléfono:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvTelefonoProveedorContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Dirección -->
@@ -166,14 +172,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dirección:"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvDireccionProveedorContenido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -218,8 +224,9 @@
                 android:layout_margin="45sp"
                 android:clickable="true"
                 android:contentDescription="Boton para Agregar Productos"
-                android:src="@drawable/icono_anadir"
-                app:backgroundTint="@color/red" />
+                android:src="@drawable/icono_anadir_al_carrito"
+                app:backgroundTint="@color/red"
+                app:fabSize="normal" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
@@ -242,13 +249,12 @@
             <Button
                 android:id="@+id/btnLimpiar"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/btn_secundary"
                 android:text="Limpiar"
                 android:textColor="@color/red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -274,7 +280,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="Cantidad"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -288,12 +293,12 @@
             <Button
                 android:id="@+id/btnConfirmar"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/btn_primary"
                 android:text="Confirmar"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

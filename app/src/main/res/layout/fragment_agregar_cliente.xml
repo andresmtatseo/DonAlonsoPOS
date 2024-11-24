@@ -10,168 +10,177 @@
 
     <!-- Contenedor horizontal para el botón de cerrar y el título -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <!-- Título del cliente -->
-        <TextView
-            android:id="@+id/tvTitulo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:text="REGISTRAR DEL CLIENTE"
-            android:textAlignment="center"
-            android:textSize="34sp"
-            android:textStyle="bold" />
-
-        <!-- Botón de cerrar en la esquina superior derecha -->
-        <ImageButton
-            android:id="@+id/btnCerrar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/icono_cerrar"
-            android:contentDescription="Cerrar" />
-    </LinearLayout>
-
-    <!-- Contenedor vertical para la información del cliente -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp">
-
-        <!-- Cedula -->
-        <TextView
-            android:id="@+id/tvCedula"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cédula:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/spTipoCedula"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:entries="@array/tipo_cedula"
-                android:padding="10dp" />
-
-            <EditText
-                android:id="@+id/etCedulaCliente"
+            <!-- Título del cliente -->
+            <TextView
+                android:id="@+id/tvTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Ingrese cédula"
-                android:textSize="28sp" />
+                android:text="Registrar Cliente"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- Botón de cerrar en la esquina superior derecha -->
+            <ImageButton
+                android:id="@+id/btnCerrar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:attr/windowSplashScreenBackground"
+                android:contentDescription="Cerrar"
+                android:src="@drawable/icono_cerrar" />
         </LinearLayout>
 
-        <!-- Teléfono -->
-
-        <!-- Nombre -->
-        <TextView
-            android:id="@+id/tvNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nombre:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
-
-        <EditText
-            android:id="@+id/etNombre"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese nombre"
-            android:textSize="28sp" />
-
-        <!-- Apellido -->
-        <TextView
-            android:id="@+id/tvApellido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Apellido:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
-
-        <EditText
-            android:id="@+id/etApellido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese apellido"
-            android:textSize="28sp" />
-
-        <!-- Dirección -->
-        <TextView
-            android:id="@+id/tvTelefono"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Teléfono:"
-            android:textSize="28sp" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etTelefono"
+            <!-- Cedula -->
+            <TextView
+                android:id="@+id/tvCedula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cédula:"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spTipoCedula"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:entries="@array/tipo_cedula"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/etCedulaCliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Ingrese cédula"
+                    android:inputType="number"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <!-- Teléfono -->
+
+            <!-- Nombre -->
+            <TextView
+                android:id="@+id/tvNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Nombre:"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese nombre"
+                android:textSize="20sp" />
+
+            <!-- Apellido -->
+            <TextView
+                android:id="@+id/tvApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Apellido:"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/etApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese apellido"
+                android:textSize="20sp" />
+
+            <!-- Dirección -->
+            <TextView
+                android:id="@+id/tvTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Teléfono:"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/etTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese teléfono"
+                android:inputType="phone"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Dirección:"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/etDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingrese dirección"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingrese teléfono"
-            android:textSize="28sp" />
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvDireccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dirección:"
-            android:textSize="28sp"
-            android:layout_marginTop="16dp" />
+            <!-- Botón de limpiar -->
 
-        <EditText
-            android:id="@+id/etDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese dirección"
-            android:textSize="28sp" />
+            <!-- Botón de guardar -->
+            <Button
+                android:id="@+id/btnLimpiar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_secundary"
+                android:text="Limpiar"
+                android:textColor="@color/red"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnGuardar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_primary"
+                android:text="Guardar"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
+
+    <!-- Contenedor vertical para la información del cliente -->
 
     <!-- Contenedor de botones -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <!-- Botón de limpiar -->
-        <Button
-            android:id="@+id/btnLimpiar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="200dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_secundary"
-            android:text="Limpiar"
-            android:textColor="@color/red"
-            android:textSize="20sp" />
-
-        <!-- Botón de guardar -->
-        <Button
-            android:id="@+id/btnGuardar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/btn_primary"
-            android:text="Guardar"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
 </LinearLayout>

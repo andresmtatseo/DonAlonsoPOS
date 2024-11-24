@@ -6,6 +6,27 @@
     android:layout_margin="10dp"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvIdProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="ID:" />
+
+        <TextView
+            android:id="@+id/tvIdProductoContenido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/ivImagen"
         android:layout_width="150dp"
@@ -39,29 +60,12 @@
         android:textAlignment="center">
 
         <TextView
-            android:id="@+id/tvIdProducto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="0"
-            android:text="ID:"
-            android:textAlignment="textEnd"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tvIdProductoContenido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:textSize="16sp" />
-
-        <TextView
             android:id="@+id/tvCaregoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="0"
-            android:text="Categoria:"
+            android:layout_weight="1"
+            android:text="Cat:"
+            android:textAlignment="textEnd"
             android:textSize="16sp" />
 
         <TextView
@@ -85,7 +89,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:text="Precio:"
             android:textAlignment="textEnd"
@@ -96,7 +99,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="0.00"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -128,7 +130,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="0"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnIncrementar"

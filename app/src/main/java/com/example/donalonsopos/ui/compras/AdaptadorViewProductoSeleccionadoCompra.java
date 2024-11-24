@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.DetallesCompra;
 import com.example.donalonsopos.data.DTO.Producto;
+import com.example.donalonsopos.util.Utils;
 
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class AdaptadorViewProductoSeleccionadoCompra extends RecyclerView.Adapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tvNombreProducto;
+        private final TextView tvCantidadActual;
         private final TextView tvPrecioUnitario;
         private final TextView tvTotalProducto;
         private final EditText etCostoUnitario;
@@ -65,6 +67,7 @@ public class AdaptadorViewProductoSeleccionadoCompra extends RecyclerView.Adapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombreProducto = itemView.findViewById(R.id.tvNombreProducto);
+            tvCantidadActual = itemView.findViewById(R.id.tvCantidadActual);
             tvPrecioUnitario = itemView.findViewById(R.id.tvPrecioUnitario);
             tvTotalProducto = itemView.findViewById(R.id.tvTotalProducto);
             etCostoUnitario = itemView.findViewById(R.id.etCostoUnitario);
@@ -82,9 +85,11 @@ public class AdaptadorViewProductoSeleccionadoCompra extends RecyclerView.Adapte
 
             if (producto != null) {
                 tvNombreProducto.setText(producto.getNombre());
+                tvCantidadActual.setText(String.valueOf(producto.getCantidadActual()));
                 tvPrecioUnitario.setText("$" + String.format("%.2f", producto.getPrecio()));
             } else {
                 tvNombreProducto.setText("Producto no encontrado");
+                tvCantidadActual.setText("-");
                 tvPrecioUnitario.setText("-");
             }
 
@@ -106,14 +111,13 @@ public class AdaptadorViewProductoSeleccionadoCompra extends RecyclerView.Adapte
                         try {
                             float costoUnitario = Float.parseFloat(s.toString());
                             if (costoUnitario < 0) {
-                                Toast.makeText(itemView.getContext(), "El costo unitario no puede ser menor que 0", Toast.LENGTH_SHORT).show();
-                                etCostoUnitario.setHint("0.00");
+                                Utils.validateRequiredField(etCostoUnitario, "El costo unitario debe ser mayor que 0");
                             } else {
                                 detallesCompra.setPrecioUnitario(costoUnitario);
                                 actualizarTotal(detallesCompra.getCantidad(), costoUnitario);
                             }
                         } catch (NumberFormatException e) {
-                            Toast.makeText(itemView.getContext(), "Por favor, introduce un valor válido", Toast.LENGTH_SHORT).show();
+                            Utils.validateRequiredField(etCostoUnitario, "Por favor, introduce un valor válido");
                         }
                     }
                 }
@@ -132,14 +136,13 @@ public class AdaptadorViewProductoSeleccionadoCompra extends RecyclerView.Adapte
                         try {
                             int cantidad = Integer.parseInt(s.toString());
                             if (cantidad < 0) {
-                                Toast.makeText(itemView.getContext(), "La cantidad no puede ser menor que 0", Toast.LENGTH_SHORT).show();
-                                etCantidad.setHint("0");
+                                Utils.validateRequiredField(etCantidad, "La cantidad debe ser mayor que 0");
                             } else {
                                 detallesCompra.setCantidad(cantidad);
                                 actualizarTotal(cantidad, detallesCompra.getPrecioUnitario());
                             }
                         } catch (NumberFormatException e) {
-                            Toast.makeText(itemView.getContext(), "Por favor, introduce un valor válido", Toast.LENGTH_SHORT).show();
+                            Utils.validateRequiredField(etCantidad, "Por favor, introduce un valor válido");
                         }
                     }
                 }

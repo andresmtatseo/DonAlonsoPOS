@@ -80,4 +80,10 @@
         <item>Otros</item>
     </string-array>
 
+    <string-array name="roles">
+        <item>Administrador</item>
+        <item>Encargado/a</item>
+        <item>Cajero/a</item>
+    </string-array>
+
 </resources>

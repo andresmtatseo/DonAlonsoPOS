@@ -296,7 +296,18 @@ public class AgregarCompra extends Fragment {
         // Obtener el adaptador para acceder a los productos y sus cantidades
         if (adaptador != null) {
             for (DetallesCompra detalle : adaptador.getDetallesCompra()) {
-                totalCompra += detalle.getPrecioUnitario() * detalle.getCantidad(); // Precio * Cantidad
+                // Validar que la cantidad y el precio sean mayores que 0
+                if (detalle.getCantidad() <= 0) {
+                    Toast.makeText(getContext(), "La cantidad del producto debe ser mayor a 0", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (detalle.getPrecioUnitario() <= 0) {
+                    Toast.makeText(getContext(), "El precio unitario debe ser mayor a 0", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Calcular el total de la compra
+                totalCompra += detalle.getPrecioUnitario() * detalle.getCantidad();
             }
         }
 
@@ -339,7 +350,6 @@ public class AgregarCompra extends Fragment {
             Toast.makeText(getContext(), "Error al guardar la compra", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void showNotFoundDialog() {
         confirmDialog.showConfirmationDialog("Proveedor no encontrado", "El proveedor no existe en la base de datos, ¿desea agregarlo?", () -> {
