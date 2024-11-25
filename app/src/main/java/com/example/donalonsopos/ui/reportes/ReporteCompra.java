@@ -44,7 +44,7 @@ public class ReporteCompra {
             documento.open();
 
             // Cargar la imagen desde los recursos
-            Image logo = Image.getInstance(context.getResources().openRawResource(R.raw.logodonalonso)); // Ajusta el nombre del recurso
+            Image logo = Image.getInstance(getClass().getResource("/logodonalonso.png"));
             logo.scaleToFit(200, 95);
 
             // Crear una tabla para centrar el logo
