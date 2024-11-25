@@ -24,6 +24,7 @@ public class ReporteCompra {
 
     public void crearInformeCompras(List<Compra> compras) {
         Document documento = new Document();
+
         try {
             // Obtener la fecha y hora actual
             LocalDateTime fechaHoraActual = LocalDateTime.now();
@@ -109,3 +110,22 @@ public class ReporteCompra {
             documento.close();
         }
     }
+
+    private void agregarCeldaEncabezado(PdfPTable tabla, String texto, Font font) {
+        PdfPCell celda = new PdfPCell(new Phrase(texto, font));
+        celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celda.setPadding(8f);
+        celda.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        celda.setBorderWidth(1.2f);
+        tabla.addCell(celda);
+    }
+
+    private PdfPCell crearCeldaConBorde(String texto, Font font) {
+        PdfPCell celda = new PdfPCell(new Phrase(texto, font));
+        celda.setBorderWidth(1.2f);
+        celda.setPadding(5f);
+        celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celda.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        return celda;
+    }
+}
