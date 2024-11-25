@@ -24,13 +24,11 @@ public class ReporteCompra {
 
     public void crearInformeCompras(List<Compra> compras) {
         Document documento = new Document();
-
         try {
-            // Obtener la fecha y hora actual y formatearla
+            // Obtener la fecha y hora actual
             LocalDateTime fechaHoraActual = LocalDateTime.now();
             DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
-
             String fecha = fechaHoraActual.format(formatoFecha);
             String hora = fechaHoraActual.format(formatoHora);
             String horaParaArchivo = hora.replace(":", "_");
@@ -43,20 +41,26 @@ public class ReporteCompra {
             PdfWriter.getInstance(documento, new FileOutputStream(archivoPDF));
             documento.open();
 
-            // Cargar la imagen desde los recursos
-            Image logo = Image.getInstance(getClass().getResource("/logodonalonso.png"));
-            logo.scaleToFit(200, 95);
+            // Intentar cargar la imagen
+            Image logo;
+            try {
+                logo = Image.getInstance(getClass().getResource("/logodonalonso.png"));
+                logo.scaleToFit(200, 95);
+                PdfPTable headerTable = new PdfPTable(1);
+                headerTable.setWidthPercentage(100);
+                PdfPCell imageCell = new PdfPCell(logo, false);
+                imageCell.setBorder(Rectangle.NO_BORDER);
+                imageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                headerTable.addCell(imageCell);
+                documento.add(headerTable);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Paragraph noLogo = new Paragraph("Logo no disponible.\n", new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC));
+                noLogo.setAlignment(Element.ALIGN_CENTER);
+                documento.add(noLogo);
+            }
 
-            // Crear una tabla para centrar el logo
-            PdfPTable headerTable = new PdfPTable(1);
-            headerTable.setWidthPercentage(100);
-            PdfPCell imageCell = new PdfPCell(logo, false);
-            imageCell.setBorder(Rectangle.NO_BORDER);
-            imageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            headerTable.addCell(imageCell);
-            documento.add(headerTable);
-
-            // Fuente para el título
+            // Título
             Font boldFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11);
             Paragraph titulo = new Paragraph("Heladería Don Alonso\nReporte de Compras\n", boldFont);
             titulo.setAlignment(Element.ALIGN_CENTER);
@@ -69,62 +73,39 @@ public class ReporteCompra {
             fechaHoraParagraph.setSpacingAfter(10);
             documento.add(fechaHoraParagraph);
 
-            // Fuente para el contenido
-            Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-            Font fontContenido = new Font(Font.FontFamily.HELVETICA, 9, Font.NORMAL);
+            // Verificar si hay datos
+            if (compras == null || compras.isEmpty()) {
+                Paragraph noData = new Paragraph("No se encontraron datos de compras para el informe.", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
+                noData.setAlignment(Element.ALIGN_CENTER);
+                documento.add(noData);
+            } else {
+                // Crear tabla con datos
+                PdfPTable tabla = new PdfPTable(6);
+                tabla.setWidthPercentage(100);
+                tabla.setSpacingBefore(10f);
+                tabla.setSpacingAfter(10f);
 
-            // Título "Reporte de Compras"
-            Paragraph tituloReporte = new Paragraph("Reporte de Compras", fontTitulo);
-            tituloReporte.setSpacingBefore(10);
-            tituloReporte.setSpacingAfter(10);
-            documento.add(tituloReporte);
+                agregarCeldaEncabezado(tabla, "ID Compra", boldFont);
+                agregarCeldaEncabezado(tabla, "ID Proveedor", boldFont);
+                agregarCeldaEncabezado(tabla, "Fecha Compra", boldFont);
+                agregarCeldaEncabezado(tabla, "Método Pago", boldFont);
+                agregarCeldaEncabezado(tabla, "Nro Factura", boldFont);
+                agregarCeldaEncabezado(tabla, "Total", boldFont);
 
-            // Crear la tabla con los datos
-            PdfPTable tabla = new PdfPTable(6); // 6 columnas
-            tabla.setWidthPercentage(100);
-            tabla.setSpacingBefore(10f);
-            tabla.setSpacingAfter(10f);
+                for (Compra compra : compras) {
+                    tabla.addCell(crearCeldaConBorde(String.valueOf(compra.getIdCompra()), boldFont));
+                    tabla.addCell(crearCeldaConBorde(String.valueOf(compra.getIdProveedor()), boldFont));
+                    tabla.addCell(crearCeldaConBorde(compra.getFechaCompra(), boldFont));
+                    tabla.addCell(crearCeldaConBorde(compra.getMetodoPago(), boldFont));
+                    tabla.addCell(crearCeldaConBorde(compra.getNumeroFactura(), boldFont));
+                    tabla.addCell(crearCeldaConBorde(String.format("%.2f", compra.getTotal()), boldFont));
+                }
 
-            // Añadir encabezados
-            agregarCeldaEncabezado(tabla, "ID Compra", fontContenido);
-            agregarCeldaEncabezado(tabla, "ID Proveedor", fontContenido);
-            agregarCeldaEncabezado(tabla, "Fecha Compra", fontContenido);
-            agregarCeldaEncabezado(tabla, "Método Pago", fontContenido);
-            agregarCeldaEncabezado(tabla, "Nro Factura", fontContenido);
-            agregarCeldaEncabezado(tabla, "Total", fontContenido);
-
-            // Agregar los datos de cada compra
-            for (Compra compra : compras) {
-                tabla.addCell(crearCeldaConBorde(String.valueOf(compra.getIdCompra()), fontContenido));
-                tabla.addCell(crearCeldaConBorde(String.valueOf(compra.getIdProveedor()), fontContenido));
-                tabla.addCell(crearCeldaConBorde(compra.getFechaCompra(), fontContenido));
-                tabla.addCell(crearCeldaConBorde(compra.getMetodoPago(), fontContenido));
-                tabla.addCell(crearCeldaConBorde(compra.getNumeroFactura(), fontContenido));
-                tabla.addCell(crearCeldaConBorde(String.format("%.2f", compra.getTotal()), fontContenido));
+                documento.add(tabla);
             }
-
-            // Añadir la tabla al documento
-            documento.add(tabla);
-
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
         } finally {
             documento.close();
         }
     }
-
-    private void agregarCeldaEncabezado(PdfPTable tabla, String texto, Font font) {
-        PdfPCell celda = new PdfPCell(new Phrase(texto, font));
-        celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-        celda.setPadding(8f);
-        celda.setBackgroundColor(BaseColor.LIGHT_GRAY);
-        celda.setBorderWidth(1.2f);
-        tabla.addCell(celda);
-    }
-
-    private PdfPCell crearCeldaConBorde(String texto, Font font) {
-        PdfPCell celda = new PdfPCell(new Phrase(texto, font));
-        celda.setBorderWidth(1.2f);
-        return celda;
-    }
-}
