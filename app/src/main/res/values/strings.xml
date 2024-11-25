@@ -61,9 +61,7 @@
         <item>Seleccione una opción</item>
         <item>Ventas</item>
         <item>Compras</item>
-        <item>Clientes</item>
         <item>Productos</item>
-        <item>Proveedores</item>
     </string-array>
 
     <string-array name="ventas_reportes">
