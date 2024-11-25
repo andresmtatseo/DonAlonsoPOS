@@ -58,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validarCredenciales(String usuario, String contrasena) {
+        // Comprobación directa para el usuario administrador
+        if ("admin".equals(usuario) && "1234".equals(contrasena)) {
+            return true;
+        }
+
         UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(this);
         boolean isAuthenticated = false;
 
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         return isAuthenticated;
     }
+
 
     private void mostrarConfirmacionSalir() {
         confirmDialog.showConfirmationDialog(

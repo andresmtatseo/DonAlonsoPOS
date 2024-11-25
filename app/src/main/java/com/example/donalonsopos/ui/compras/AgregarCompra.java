@@ -287,6 +287,7 @@ public class AgregarCompra extends Fragment {
         Proveedor proveedor = proveedorDao.findByCedula(cedulaCompleta);
         if (proveedor == null) {
             showNotFoundDialog();
+            return;
         }
         proveedorDao.close();
 
@@ -313,7 +314,8 @@ public class AgregarCompra extends Fragment {
 
         // Crear la compra en la base de datos
         CompraDaoImpl compraDao = new CompraDaoImpl(requireContext());
-        long idCompra = compraDao.insert(new Compra(proveedor.getIdProveedor(), dateFormat.format(new Date()), metodoPago, numeroComprobante, totalCompra));
+        Compra compra = new Compra(proveedor.getIdProveedor(), dateFormat.format(new Date()), metodoPago, numeroComprobante, totalCompra);
+        long idCompra = compraDao.insert(compra);
         compraDao.close();
 
         if (idCompra > 0) {
