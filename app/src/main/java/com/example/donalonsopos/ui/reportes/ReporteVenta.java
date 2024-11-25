@@ -18,11 +18,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class ReporteVentas {
+public class ReporteVenta {
 
     private final Context context;
 
-    public ReporteVentas(Context context) {
+    public ReporteVenta(Context context) {
         this.context = context;
     }
 
