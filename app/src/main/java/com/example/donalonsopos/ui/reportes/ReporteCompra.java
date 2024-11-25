@@ -1,14 +1,15 @@
 package com.example.donalonsopos.ui.reportes;
 
 import android.content.Context;
-import android.media.Image;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 
-import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Compra;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -45,10 +46,12 @@ public class ReporteCompra {
             documento.open();
 
             // Intentar cargar la imagen
-            Image logo;
             try {
-
-                Image logo = Image.getInstance(context.getResources().openRawResource(R.drawable.logodonalonso));
+                // Cargar el logo desde res/drawable
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.logodonalonso);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                Image logo = Image.getInstance(stream.toByteArray());
                 logo.scaleToFit(200, 95);
 
                 PdfPTable headerTable = new PdfPTable(1);
