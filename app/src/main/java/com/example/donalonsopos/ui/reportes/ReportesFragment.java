@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import com.example.donalonsopos.R;
+import com.itextpdf.text.pdf.*;
 
 public class ReportesFragment extends Fragment {
 
