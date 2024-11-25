@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.example.donalonsopos.R;
 
@@ -58,9 +61,19 @@ public class AyudaFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ayuda, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_ayuda, container, false);
+
+        WebView webView = view.findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true); // Habilitar JavaScript
+        webView.setWebViewClient(new WebViewClient()); // Manejar navegación dentro de la WebView
+
+        // URL del documento en modo vista previa
+        String docUrl = "https://docs.google.com/document/d/1ldjwx4D4GwTQGmyxbVkBVt-8cUPabut1K5W0whqN12A/preview";
+        webView.loadUrl(docUrl);
+
+        return view;
     }
+
 }
