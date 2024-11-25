@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Button;
 import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DAO.CompraDaoImpl;
+import com.example.donalonsopos.data.DAO.ProductoDaoImpl;
 import com.example.donalonsopos.data.DAO.VentaDaoImpl;
 import com.itextpdf.text.pdf.*;
 
@@ -77,6 +78,10 @@ public class ReportesFragment extends Fragment {
                         break;
                     case "Productos":
                         spProductos.setVisibility(View.VISIBLE);
+                        ProductoDaoImpl productoDao = new ProductoDaoImpl(getContext());
+                        ReporteProducto reporteProducto = new ReporteProducto(getContext());
+                        reporteProducto.crearReporteProducto(productoDao.select());
+                        productoDao.close();
                         break;
                 }
             }

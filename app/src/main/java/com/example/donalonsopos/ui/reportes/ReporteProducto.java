@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Producto;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
