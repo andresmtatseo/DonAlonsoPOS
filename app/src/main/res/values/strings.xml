@@ -66,6 +66,25 @@
         <item>Proveedores</item>
     </string-array>
 
+    <string-array name="ventas_reportes">
+        <item>Seleccione una opción</item>
+        <item>Ventas por fecha</item>
+        <item>Ventas por Clientes</item>
+    </string-array>
+
+    <string-array name="compras_reportes">
+        <item>Seleccione una opción</item>
+        <item>Compras por fecha</item>
+        <item>Compras por proveedor</item>
+    </string-array>
+
+    <string-array name="productos_reportes">
+        <item>Seleccione una opción</item>
+        <item>Movimientos de productos por fecha</item>
+        <item>Movimientos por producto</item>
+    </string-array>
+
+
     <string-array name="motivos">
         <item>Seleccione un motivo</item>
         <item>Productos Dañados o Perdidos</item>

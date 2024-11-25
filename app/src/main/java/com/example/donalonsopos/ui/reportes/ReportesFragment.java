@@ -39,9 +39,6 @@ public class ReportesFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = parent.getItemAtPosition(position).toString();
                 switch (selected) {
-                    case "Clientes":
-                        showDialog(new DialogFiltrosClientesFragment());
-                        break;
                     case "Productos":
                         showDialog(new DialogFiltrosProductosFragment());
                         break;
@@ -50,9 +47,6 @@ public class ReportesFragment extends Fragment {
                         break;
                     case "Compras":
                         showDialog(new DialogFiltrosComprasFragment());
-                        break;
-                    case "Proveedores":
-                        showDialog(new DialogFiltrosProveedoresFragment());
                         break;
                 }
             }
