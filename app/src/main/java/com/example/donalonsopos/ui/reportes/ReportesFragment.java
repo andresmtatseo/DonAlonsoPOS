@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.CompraDaoImpl;
 import com.itextpdf.text.pdf.*;
 
 public class ReportesFragment extends Fragment {
@@ -64,6 +65,10 @@ public class ReportesFragment extends Fragment {
                         break;
                     case "Compras":
                         spCompras.setVisibility(View.VISIBLE);
+                        CompraDaoImpl compraDao = new CompraDaoImpl(getContext());
+                        ReporteCompra reporteCompra = new ReporteCompra(getContext());
+                        reporteCompra.crearInformeCompras(compraDao.select());
+                        compraDao.close();
                         break;
                     case "Productos":
                         spProductos.setVisibility(View.VISIBLE);

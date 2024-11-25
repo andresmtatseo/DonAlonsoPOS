@@ -88,8 +88,8 @@ public class ReporteCompra {
 
                 agregarCeldaEncabezado(tabla, "ID Compra", boldFont);
                 agregarCeldaEncabezado(tabla, "ID Proveedor", boldFont);
-                agregarCeldaEncabezado(tabla, "Fecha Compra", boldFont);
                 agregarCeldaEncabezado(tabla, "Método Pago", boldFont);
+                agregarCeldaEncabezado(tabla, "Fecha Compra", boldFont);
                 agregarCeldaEncabezado(tabla, "Nro Factura", boldFont);
                 agregarCeldaEncabezado(tabla, "Total", boldFont);
 
