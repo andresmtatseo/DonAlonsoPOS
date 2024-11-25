@@ -5,48 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".ui.reportes.ReportesFragment">
 
     <TextView
         android:id="@+id/texto"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Seleccione una opción"
-        android:textSize="24sp"
+        android:layout_marginBottom="10dp"
+        android:text="Seleccione una opción:"
+        android:textAlignment="center"
+        android:textSize="20sp"
         android:visibility="visible" />
 
     <Spinner
         android:id="@+id/spReportes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/modulo_reportes" />
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:entries="@array/modulo_reportes"
+        android:textAlignment="center" />
 
     <Spinner
         android:id="@+id/spVentas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
         android:entries="@array/ventas_reportes"
         android:visibility="gone" />
 
     <Spinner
         android:id="@+id/spProductos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
         android:entries="@array/productos_reportes"
         android:visibility="gone" />
 
     <Spinner
         android:id="@+id/spCompras"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
         android:entries="@array/compras_reportes"
         android:visibility="gone" />
 
     <EditText
         android:id="@+id/tvFechaInicio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_margin="8dp"
         android:background="@drawable/borde_curveado"
         android:gravity="center"
@@ -56,8 +64,8 @@
 
     <EditText
         android:id="@+id/tvFechaFin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_margin="8dp"
         android:background="@drawable/borde_curveado"
         android:gravity="center"
@@ -67,9 +75,12 @@
 
     <Button
         android:id="@+id/btnGenerarReporte"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_primary"
         android:text="Generar Reporte"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
 </LinearLayout>
