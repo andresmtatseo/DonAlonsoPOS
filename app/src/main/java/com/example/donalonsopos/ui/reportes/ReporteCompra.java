@@ -46,7 +46,7 @@ public class ReporteCompra {
             Image logo;
             try {
 
-                Image logo = Image.getInstance(context.getResources().openRawResource(R.drawable.LogoDonAlonso));
+                logo = Image.getInstance(getClass().getResource("/LogoDonAlonso.png"));
                 logo.scaleToFit(200, 95);
 
                 PdfPTable headerTable = new PdfPTable(1);
