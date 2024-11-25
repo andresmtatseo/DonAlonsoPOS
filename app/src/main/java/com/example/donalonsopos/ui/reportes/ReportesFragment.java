@@ -13,7 +13,7 @@ import com.example.donalonsopos.R;
 
 public class ReportesFragment extends Fragment {
 
-    private Spinner spinner;
+    private Spinner spReportes;
 
     public ReportesFragment() {
         // Constructor vacío requerido
@@ -25,16 +25,16 @@ public class ReportesFragment extends Fragment {
         // Inflar el diseño para este fragmento
         View view = inflater.inflate(R.layout.fragment_reportes, container, false);
 
-        spinner = view.findViewById(R.id.spinner_r);
+        spReportes = view.findViewById(R.id.spReportes);
 
         // Configurar el Spinner con opciones
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.modulo_reportes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spReportes.setAdapter(adapter);
 
         // Configurar el comportamiento del Spinner
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spReportes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = parent.getItemAtPosition(position).toString();

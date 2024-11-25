@@ -4,27 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     tools:context=".ui.reportes.ReportesFragment">
 
     <TextView
         android:id="@+id/texto"
-        android:layout_width="406dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="96dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Seleccione una opción"
         android:textSize="24sp"
         android:visibility="visible" />
 
     <Spinner
-        android:id="@+id/spinner_r"
-        android:layout_width="1063dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="160dp"
+        android:id="@+id/spReportes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:entries="@array/modulo_reportes" />
+
+    <Spinner
+        android:id="@+id/spVentas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/ventas_reportes"
+        android:visibility="gone" />
+
+    <Spinner
+        android:id="@+id/spProductos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/productos_reportes"
+        android:visibility="gone" />
+
+    <Spinner
+        android:id="@+id/spCompras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/compras_reportes"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvFechaInicio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/borde_curveado"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Desde"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvFechaFin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/borde_curveado"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Hasta"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btnGenerarReporte"
-        android:layout_width="733dp"
+        android:layout_width="match_parent"
         android:layout_height="56dp"
         android:text="Generar Reporte"
         android:textSize="20sp" />
