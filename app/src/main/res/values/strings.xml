@@ -63,7 +63,7 @@
         <item>Compras</item>
         <item>Clientes</item>
         <item>Productos</item>
-        <item>Ventas</item>
+        <item>Proveedores</item>
     </string-array>
 
     <string-array name="motivos">
