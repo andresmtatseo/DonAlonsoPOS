@@ -1,6 +1,7 @@
 package com.example.donalonsopos.ui.proveedores;
 
 import static com.example.donalonsopos.ui.proveedores.ProveedoresFragment.KEY_PROVEEDOR;
+import static com.example.donalonsopos.util.Utils.setSpinnerSelection;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -21,6 +23,7 @@ public class EditarProveedor extends Fragment {
 
     private Proveedor proveedorSeleccionado;
     private EditText etCedula, etNombre, etTelefono, etDireccion, etEmail;
+    private Spinner spTipoCedula;
     private Button btnActualizar;
 
     public EditarProveedor() {
@@ -42,15 +45,22 @@ public class EditarProveedor extends Fragment {
 
         // Inicialización de vistas
         etCedula = view.findViewById(R.id.etCedulaCliente);
+        spTipoCedula = view.findViewById(R.id.spTipoCedula);
         etNombre = view.findViewById(R.id.etNombre);
         etTelefono = view.findViewById(R.id.etTelefono);
         etDireccion = view.findViewById(R.id.etDireccion);
         etEmail = view.findViewById(R.id.etEmail);
         btnActualizar = view.findViewById(R.id.btnGuardar);
 
-        // Cargar datos del proveedor
         if (proveedorSeleccionado != null) {
-            etCedula.setText(String.valueOf(proveedorSeleccionado.getCedula()));
+            // Dividir la cédula en tipo y número
+            String[] cedulaPartes = proveedorSeleccionado.getCedula().split("-", 2);
+            if (cedulaPartes.length == 2) {
+                String tipoCedula = cedulaPartes[0];
+                String numeroCedula = cedulaPartes[1];
+                setSpinnerSelection(requireContext(), spTipoCedula, tipoCedula, R.array.tipo_cedula);
+                etCedula.setText(numeroCedula);
+            }
             etNombre.setText(proveedorSeleccionado.getNombre());
             etTelefono.setText(proveedorSeleccionado.getTelefono());
             etDireccion.setText(proveedorSeleccionado.getDireccion());
@@ -73,6 +83,7 @@ public class EditarProveedor extends Fragment {
 
     private void validarYActualizarProveedor() {
         String cedula = etCedula.getText().toString().trim();
+        String tipoCedula = String.valueOf(spTipoCedula.getSelectedItem());
         String nombre = etNombre.getText().toString().trim();
         String telefono = etTelefono.getText().toString().trim();
         String direccion = etDireccion.getText().toString().trim();
@@ -105,7 +116,8 @@ public class EditarProveedor extends Fragment {
         }
 
         // Si no hay errores, actualizamos el proveedor
-        proveedorSeleccionado.setCedula(cedula);
+        String cedulaCompleta = tipoCedula + "-" + cedula;
+        proveedorSeleccionado.setCedula(cedulaCompleta);
         proveedorSeleccionado.setNombre(nombre);
 
         // Actualizar teléfono, dirección y email solo si están presentes

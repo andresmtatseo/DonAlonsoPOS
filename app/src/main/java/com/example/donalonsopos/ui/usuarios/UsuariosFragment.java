@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.UsuarioDaoImpl;
 import com.example.donalonsopos.data.DTO.Usuario;
 import com.example.donalonsopos.util.OnItemClickListener;
 import com.example.donalonsopos.util.OnItemLongClickListener;
@@ -140,8 +141,8 @@ public class UsuariosFragment extends Fragment {
 
             ArrayList<String> roles = new ArrayList<>();
             roles.add("Administrador");
-            roles.add("Encargado");
-            roles.add("Vendedor");
+            roles.add("Encargado/a");
+            roles.add("Cajero/a");
 
             ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, roles);
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -218,29 +219,9 @@ public class UsuariosFragment extends Fragment {
 
     private void cargarUsuarios() {
         usuarios.clear();
-        usuarios.add(new Usuario(1, "admin", "1234", 1, "V-11112222", "Andres", "Moreno", true));
-        usuarios.add(new Usuario(2, "jane", "5678", 2, "V-33334444", "Jane", "Doe", true));
-        usuarios.add(new Usuario(3, "amendez", "abcd", 1, "V-55556666", "Ana", "Mendez", true));
-        usuarios.add(new Usuario(4, "rgomez", "qwerty", 2, "V-77778888", "Roberto", "Gomez", true));
-        usuarios.add(new Usuario(5, "cgarcia", "pass123", 1, "V-99990000", "Carlos", "Garcia", true));
-        usuarios.add(new Usuario(6, "mlopez", "letmein", 1, "V-22223333", "Maria", "Lopez", true));
-        usuarios.add(new Usuario(7, "aperez", "secure!", 2, "V-44445555", "Alejandro", "Perez", true));
-        usuarios.add(new Usuario(8, "mgonzalez", "hunter2", 1, "V-66667777", "Miguel", "Gonzalez", true));
-        usuarios.add(new Usuario(9, "fhernandez", "admin", 2, "V-88889999", "Felipe", "Hernandez", true));
-        usuarios.add(new Usuario(10, "lsanchez", "pass4321", 1, "V-10111213", "Laura", "Sanchez", true));
-        usuarios.add(new Usuario(11, "dvasquez", "mypassword", 2, "V-12131415", "Daniel", "Vasquez", true));
-        usuarios.add(new Usuario(12, "jguzman", "abc123", 1, "V-14151617", "Juan", "Guzman", true));
-        usuarios.add(new Usuario(13, "vbustamante", "password1", 2, "V-16171819", "Valeria", "Bustamante", true));
-        usuarios.add(new Usuario(14, "ocardenas", "changeme", 1, "V-18192021", "Oscar", "Cardenas", true));
-        usuarios.add(new Usuario(15, "lmontes", "pass789", 2, "V-20212223", "Luis", "Montes", true));
-        usuarios.add(new Usuario(16, "tfernandez", "login123", 1, "V-23242526", "Tania", "Fernandez", true));
-        usuarios.add(new Usuario(17, "rperez", "test456", 2, "V-26272829", "Rosa", "Perez", true));
-        usuarios.add(new Usuario(18, "gcabrera", "safepass", 1, "V-29303132", "Gabriel", "Cabrera", true));
-        usuarios.add(new Usuario(19, "mfuentes", "topsecret", 2, "V-32333435", "Monica", "Fuentes", true));
-        usuarios.add(new Usuario(20, "jmartinez", "access123", 1, "V-35363738", "Julio", "Martinez", true));
-        usuarios.add(new Usuario(21, "eramirez", "xyz123", 2, "V-38394041", "Elena", "Ramirez", true));
-        usuarios.add(new Usuario(22, "agomez", "welcome", 1, "V-41424344", "Andres", "Gomez", true));
-        usuarios.add(new Usuario(23, "lruiz", "p4ssword", 2, "V-45464748", "Lucia", "Ruiz", true));
+        UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(requireContext());
+        usuarios.addAll(usuarioDao.select());
+        usuarioDao.close();
         usuariosFiltrados.clear();
         usuariosFiltrados.addAll(usuarios);
     }

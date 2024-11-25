@@ -78,7 +78,7 @@ public class AdaptadorViewUsuario extends RecyclerView.Adapter<AdaptadorViewUsua
             nombre.setText("Nombre: " + usuario.getNombre());
             apellido.setText("Apellido: " + usuario.getApellido());
             rol.setText("Rol: " + usuario.getRol());
-            estado.setText("Estado: " + (usuario.getIsActive() ? "Activo" : "Inactivo"));
+            estado.setText("Estado: " + (usuario.getIsActive() ? "Inactivo" : "Activo"));
         }
 
         @Override

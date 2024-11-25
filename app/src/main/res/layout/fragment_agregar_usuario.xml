@@ -68,6 +68,23 @@
 
             <!-- Cédula -->
             <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Contraseña:"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/etContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Ingrese una contraseña"
+                android:inputType="text"
+                android:textSize="20sp" />
+
+            <TextView
                 android:id="@+id/tvCedula"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

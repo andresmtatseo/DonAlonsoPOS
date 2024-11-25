@@ -10,7 +10,7 @@ public class InicioViewModel extends ViewModel {
 
     public InicioViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Pagina Inicio");
+        mText.setValue("¡Bienvenido/a al Sistema de Gestión!");
     }
 
     public LiveData<String> getText() {

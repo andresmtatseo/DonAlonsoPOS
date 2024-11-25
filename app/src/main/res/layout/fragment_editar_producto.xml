@@ -19,9 +19,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="EDITAR PRODUCTO"
+            android:text="Editar Producto"
             android:textAlignment="center"
-            android:textSize="34sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -35,7 +35,7 @@
 
         <!-- Atributos del Producto -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -45,14 +45,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre:"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/etNombreProducto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvCategoria"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Categoria:"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/spCategoria"
@@ -73,14 +73,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Precio:"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/etPrecio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,19 +99,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Cantidad Minima:"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/etCantidadMinima"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnHabilitarCantidadActual"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Cambiar Cantidad Actual" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -121,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Cantidad Actual:"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/etCantidadActual"
@@ -129,29 +145,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:enabled="false"
                         android:inputType="number"
-                        android:textSize="24sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/btnHabilitarCantidadActual"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Cambiar Cantidad Actual" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -164,9 +160,8 @@
                         android:id="@+id/tvMotivo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Motivo:"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
 
                     <Spinner
                         android:id="@+id/spMotivo"
@@ -185,30 +180,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Descripcion:"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/etDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <!-- Imagen del Producto y Botones de Imagen -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/ivFotoProducto"
-                android:layout_width="400dp"
+                android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:src="@drawable/icono_camara"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/icono_camara" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -220,15 +215,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tomar Foto"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btnSeleccionarImagen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:text="Seleccionar Imagen"
-                    android:textSize="20sp"
-                    android:layout_marginStart="8dp" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -247,6 +242,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_primary"
             android:text="Actualizar"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

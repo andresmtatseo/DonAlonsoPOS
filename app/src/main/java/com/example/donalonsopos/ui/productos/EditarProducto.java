@@ -62,6 +62,9 @@ public class EditarProducto extends Fragment {
         btnActualizar = view.findViewById(R.id.btnActualizarProducto);
         btnHabilitarCantidadActual = view.findViewById(R.id.btnHabilitarCantidadActual);
 
+        etCantidadActual.setEnabled(false);
+        spMotivo.setEnabled(false);
+
         // Cargar categorías desde la base de datos
         ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, cargarCategorias());

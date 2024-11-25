@@ -14,7 +14,35 @@ public class Usuario implements Serializable {
     private boolean isActive;
 
     // Constructores
-    public Usuario(int anInt, String string, String cursorString, int cursorInt, String s, String string1, String cursorString1) {
+
+
+    public Usuario(int idUsuario, String username, String password, int rol, String cedula, String nombre, String apellido) {
+        this.idUsuario = idUsuario;
+        this.username = username;
+        this.password = password;
+        this.rol = rol;
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+    public Usuario(String username, String password, int rol, String cedula, String nombre, String apellido, boolean isActive) {
+        this.username = username;
+        this.password = password;
+        this.rol = rol;
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.isActive = isActive;
+    }
+
+    public Usuario(String username, String password, int rol, String cedula, String nombre, String apellido) {
+        this.username = username;
+        this.password = password;
+        this.rol = rol;
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
     }
 
     public Usuario(int idUsuario) {

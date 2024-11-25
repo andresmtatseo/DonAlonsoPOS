@@ -20,11 +20,10 @@
             android:id="@+id/tvTitulo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:text="EDITAR PROVEEDOR"
+            android:text="Editar Proveedor"
             android:textAlignment="center"
-            android:textSize="34sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <!-- Botón de cerrar en la esquina superior derecha -->
@@ -40,82 +39,98 @@
         <!-- Cédula -->
         <TextView
             android:id="@+id/tvCedula"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Cédula/RIF:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/etCedulaCliente"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese cédula"
-            android:textSize="24sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spTipoCedula"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:entries="@array/tipo_cedula" />
+
+            <EditText
+                android:id="@+id/etCedulaCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Ingrese cédula"
+                android:inputType="number"
+                android:textSize="20sp" />
+        </LinearLayout>
 
         <!-- Nombre -->
         <TextView
             android:id="@+id/tvNombre"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Nombre:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese nombre"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <!-- Teléfono -->
         <TextView
             android:id="@+id/tvTelefono"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Teléfono:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese teléfono"
-            android:textSize="24sp" />
+            android:inputType="phone"
+            android:textSize="20sp" />
 
         <!-- Dirección -->
         <TextView
             android:id="@+id/tvDireccion"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Dirección:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese dirección"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <!-- Email -->
         <TextView
             android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Email:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese email"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <!-- Contenedor de botones -->
@@ -134,6 +149,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_primary"
             android:text="Actualizar"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

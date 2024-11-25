@@ -18,13 +18,12 @@
         <!-- Título del usuario -->
         <TextView
             android:id="@+id/tvTitulo"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginTop="8dp"
             android:text="EDITAR USUARIO"
             android:textAlignment="center"
-            android:textSize="34sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <!-- Botón de cerrar en la esquina superior derecha -->
@@ -40,81 +39,114 @@
         <!-- Nombre de Usuario -->
         <TextView
             android:id="@+id/tvNombreUsuario"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Nombre de Usuario:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etNombreUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:hint="Ingrese nombre de usuario"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <!-- Cédula -->
         <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Constraseña:"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/etContrasena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Ingrese una contraseña"
+            android:inputType="text"
+            android:textSize="20sp" />
+
+        <TextView
             android:id="@+id/tvCedula"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Cédula:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/etCedulaCliente"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese cédula"
-            android:textSize="24sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spTipoCedula4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:entries="@array/tipo_cedula" />
+
+            <EditText
+                android:id="@+id/etCedulaCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Ingrese cédula"
+                android:inputType="number"
+                android:textSize="20sp" />
+        </LinearLayout>
 
         <!-- Rol -->
         <TextView
             android:id="@+id/tvRol"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Rol:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <Spinner
             android:id="@+id/spinnerRol"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:entries="@array/roles" />
 
         <!-- Nombre -->
         <TextView
             android:id="@+id/tvNombre"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Nombre:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese nombre"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <!-- Apellido -->
         <TextView
             android:id="@+id/tvApellido"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Apellido:"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etApellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingrese apellido"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <!-- Contenedor de botones -->
@@ -133,6 +165,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_primary"
             android:text="Actualizar"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

@@ -14,6 +14,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.donalonsopos.R;
+import com.example.donalonsopos.data.DAO.UsuarioDaoImpl;
 import com.example.donalonsopos.data.DTO.Usuario;
 import com.example.donalonsopos.util.ConfirmDialog;
 
@@ -97,9 +98,10 @@ public class DetallesUsuario extends Fragment {
 
     private void mostrarDialogoConfirmacionEliminar() {
         confirmDialog.showConfirmationDialog("Eliminar", "¿Estás seguro de eliminar este usuario?", () -> {
+            UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(requireContext());
+            usuarioDao.delete(usuarioSeleccionado.getIdUsuario());
+            usuarioDao.close();
             Toast.makeText(getContext(), "Usuario eliminado con éxito", Toast.LENGTH_SHORT).show();
-
-            // Navegación segura hacia atrás usando NavController después de confirmar la eliminación
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_menu_lateral);
             navController.popBackStack();
         });
