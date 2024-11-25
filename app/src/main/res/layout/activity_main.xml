@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:background="@android:drawable/toast_frame"
+                    android:background="?attr/actionBarItemBackground"
                     android:text="¿Olvidó su Contraseña?"
                     android:textSize="14sp" />
 

@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enviarSolicitudRecuperacion(String usuario) {
-        // Lógica para obtener el usuario
         UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl(this);
         Usuario user = null;
 
@@ -118,27 +117,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (user != null) {
-            // Crear un correo para notificar al administrador
             String subject = "Solicitud de recuperación de contraseña";
             String body = "Se ha solicitado la recuperación de contraseña para el usuario: " + user.getUsername() + ".\n\n" +
                     "Por favor, tome las acciones necesarias para restablecer la contraseña de este usuario.";
 
-            // Crear la intención de enviar un correo
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
             emailIntent.setData(Uri.parse("mailto:andresmoreno2001@gmail.com")); // Dirección del administrador
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
             emailIntent.putExtra(Intent.EXTRA_TEXT, body);
 
-            // Verificar si hay una aplicación para manejar el correo y lanzarla
-            if (emailIntent.resolveActivity(getPackageManager()) != null) {
+            try {
                 startActivity(Intent.createChooser(emailIntent, "Enviar correo al administrador"));
-            } else {
-                Toast.makeText(this, "No se encontró una aplicación de correo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "El administrador ha sido notificado para el usuario: " + user.getNombre(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "No se pudo abrir la aplicación de correo. Verifique que tenga una instalada.", Toast.LENGTH_SHORT).show();
             }
-
-            Toast.makeText(this, "El administrador ha sido notificado para el usuario: " + user.getNombre(), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Usuario no encontrado en el sistema", Toast.LENGTH_SHORT).show();
         }
     }
+
 }
