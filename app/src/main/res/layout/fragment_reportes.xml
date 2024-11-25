@@ -43,7 +43,7 @@
         android:entries="@array/compras_reportes"
         android:visibility="gone" />
 
-    <TextView
+    <EditText
         android:id="@+id/tvFechaInicio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         android:text="Desde"
         android:visibility="gone" />
 
-    <TextView
+    <EditText
         android:id="@+id/tvFechaFin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
