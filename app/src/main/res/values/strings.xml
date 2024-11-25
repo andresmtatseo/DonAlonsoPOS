@@ -66,7 +66,7 @@
 
     <string-array name="ventas_reportes">
         <item>Seleccione una opción</item>
-        <item>Ventas por fecha</item>
+        <item>Ventas por fecha (Por favor ingrese el codigo</item>
         <item>Ventas por Clientes</item>
     </string-array>
 
