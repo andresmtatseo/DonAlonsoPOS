@@ -1,8 +1,10 @@
 package com.example.donalonsopos.ui.reportes;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Environment;
 
+import com.example.donalonsopos.R;
 import com.example.donalonsopos.data.DTO.Compra;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
@@ -46,7 +48,7 @@ public class ReporteCompra {
             Image logo;
             try {
 
-                logo = Image.getInstance(getClass().getResource("/logodonalonso.png"));
+                Image logo = Image.getInstance(context.getResources().openRawResource(R.drawable.logodonalonso));
                 logo.scaleToFit(200, 95);
 
                 PdfPTable headerTable = new PdfPTable(1);
